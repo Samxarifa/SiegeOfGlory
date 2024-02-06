@@ -2,9 +2,19 @@
     import { SignedIn, SignedOut } from 'sveltefire';
     import {auth, googleProvider} from "$lib/firebase";
 	import { signInWithPopup } from 'firebase/auth';
+	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 
     function handleGoogleSignIn() {
-        signInWithPopup(auth,googleProvider)
+        signInWithPopup(auth,googleProvider).then(async (user) => {
+            const token = await user.user.getIdToken();
+            await fetch("api/auth", {
+                method: "POST",
+                body:JSON.stringify({"token":token})
+            })
+            
+            browser && goto('/dashboard');
+        })
     }
 </script>
 
