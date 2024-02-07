@@ -1,15 +1,19 @@
 <script>
-	import { auth } from "$lib/firebase";
+	import { browser } from "$app/environment";
+	import { goto, invalidateAll } from "$app/navigation";
+	import { auth } from "$lib/firebase/firebase";
 	import { signOut } from "firebase/auth";
+
 	import { userStore } from "sveltefire";
 
-    const user = userStore(auth);
-
+	const user = userStore(auth);
+	async function handleSignOut() {
+		signOut(auth);
+		await invalidateAll();
+		browser && await goto('/');
+	}
 </script>
-<h1>Welcome to SvelteKit {$user?.displayName}</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
+<span>Hello {$user?.displayName}</span>
 
-<button on:click={() => {
-    signOut(auth);
-}}>Sign Out</button>
+<button on:click={handleSignOut}>Sign Out</button>

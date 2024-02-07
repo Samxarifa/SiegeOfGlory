@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../globals.css';
     
-    import { auth } from "$lib/firebase";
+    import { auth } from "$lib/firebase/firebase";
 	import { FirebaseApp } from "sveltefire";
 	import { onMount } from 'svelte';
 

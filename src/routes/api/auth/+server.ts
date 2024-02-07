@@ -1,4 +1,4 @@
-import { adminAuth } from '$lib/firebase-admin.server';
+import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import type { RequestEvent } from '@sveltejs/kit';
 
 export async function POST(request: RequestEvent) {

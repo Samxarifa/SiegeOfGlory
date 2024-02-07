@@ -1,12 +1,18 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import { adminAuth } from '$lib/firebase-admin.server';
+import { adminAuth } from '$lib/firebase/firebase-admin.server';
+import { checkIfUserExists } from '$lib/dbHandler.server';
 
 export const load = (async (request: RequestEvent) => {
 	const token = request.cookies.get('token');
-	if (!token || !(await adminAuth.verifyIdToken(token))) {
+	let decodedToken;
+	if (token) {
+		decodedToken = await adminAuth.verifyIdToken(token);
+	}
+
+	if (!decodedToken) {
 		redirect(303, '/');
-	} else {
-		return {};
+	} else if (!(await checkIfUserExists(decodedToken.uid))) {
+		redirect(303, '/new-user');
 	}
 }) satisfies LayoutServerLoad;

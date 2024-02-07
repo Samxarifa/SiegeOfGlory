@@ -1,26 +1,22 @@
 <script lang="ts">
     import { SignedIn, SignedOut } from 'sveltefire';
-    import {auth, googleProvider} from "$lib/firebase";
+    import {auth, googleProvider} from "$lib/firebase/firebase";
 	import { signInWithPopup } from 'firebase/auth';
-	import { goto } from '$app/navigation';
+	import { invalidateAll, goto } from '$app/navigation';
 	import { browser } from '$app/environment';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
     function handleGoogleSignIn() {
         signInWithPopup(auth,googleProvider).then(async (user) => {
-            const token = await user.user.getIdToken();
-            await fetch("api/auth", {
-                method: "POST",
-                body:JSON.stringify({"token":token})
-            })
-            
-            browser && goto('/dashboard');
+            await invalidateAll();
+            browser && await goto('/dashboard');
         })
     }
 </script>
 
 
 <SignedOut>
-    <div>
+    <div class='signIn'>
         <header>
             <span class='welcome'>Welcome to</span>
             <h1>Siege of Glory</h1>
@@ -32,11 +28,21 @@
 </SignedOut>
 
 <SignedIn>
-    <slot />
+    <div class="spinner-parent">
+        <LoadingSpinner />
+    </div>
 </SignedIn>
 
 
 <style>
+    .spinner-parent {
+        width: 100%;
+        height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
     @keyframes slide-in {
         0% {
             transform-origin: bottom left;
@@ -60,7 +66,7 @@
         }
     }
     
-    div {
+    .signIn {
         width: 100%;
         height: 100dvh;
         display: flex;
