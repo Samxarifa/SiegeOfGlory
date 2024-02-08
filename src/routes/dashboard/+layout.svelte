@@ -1,7 +1,20 @@
 <script lang="ts">
+	import { goto, invalidateAll } from "$app/navigation";
 	import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
 	import Nav from "$lib/components/Nav.svelte";
-	import { SignedIn, SignedOut } from "sveltefire";
+	import { auth } from "$lib/firebase/firebase";
+	import { SignedIn, SignedOut, userStore } from "sveltefire";
+
+    const user = userStore(auth);
+
+    $: {
+		if (!$user) {
+			invalidateAll().then(() => {
+				goto("/");
+			})
+		}
+	}
+
 </script>
 
 <SignedIn>
@@ -14,13 +27,3 @@
         <LoadingSpinner />
     </div>
 </SignedOut>
-
-<style>
-    .spinner-parent {
-        width: 100%;
-        height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-</style>

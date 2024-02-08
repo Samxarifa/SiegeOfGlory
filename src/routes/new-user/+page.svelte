@@ -1,47 +1,22 @@
-<script lang="ts">
-	import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
-
-
-	import { SignedIn, SignedOut } from "sveltefire";
-
-</script>
-
-<SignedIn>
-    <div class='linkAccount'>
-        <header>
-            <h1>Link Account</h1>
-            <span class='caption'>Enter Your Rainbow Details</span>
-        </header>
-        <main>
-            <form action="?/register" method="POST">
-                <input name='username' id='username' type="text" placeholder="username"/>
-                <select name="platform" id="platform">
-                    <option value="psn">PSN</option>
-                    <option value="xbl">Xbox</option>
-                    <option value="ubi">PC</option>
-                </select>
-                <button type="submit">Link Account</button>
-            </form>
-        <main>
-    </div>
-</SignedIn>
-
-<SignedOut>
-    <div class="spinner-parent">
-        <LoadingSpinner />
-    </div>
-</SignedOut>
-
+<div class='linkAccount'>
+    <header>
+        <h1>Link Account</h1>
+        <span class='caption'>Enter Your Rainbow Details</span>
+    </header>
+    <main>
+        <form action="?/register" method="POST">
+            <input name='username' id='username' type="text" placeholder="username"/>
+            <select name="platform" id="platform">
+                <option value="psn">PSN</option>
+                <option value="xbl">Xbox</option>
+                <option value="ubi">PC</option>
+            </select>
+            <button type="submit">Link Account</button>
+        </form>
+    <main>
+</div>
 
 <style>
-    .spinner-parent {
-        width: 100%;
-        height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
     @keyframes slide-in {
         0% {
             transform-origin: bottom left;

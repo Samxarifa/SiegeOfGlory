@@ -7,7 +7,12 @@ export const load = (async (request: RequestEvent) => {
 	const token = request.cookies.get('token');
 	let decodedToken;
 	if (token) {
-		decodedToken = await adminAuth.verifyIdToken(token);
+		try {
+			decodedToken = await adminAuth.verifyIdToken(token);
+		} catch {
+			console.log('Old Token');
+			redirect(303, '/');
+		}
 	}
 
 	if (!decodedToken) {

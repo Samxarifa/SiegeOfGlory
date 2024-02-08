@@ -7,7 +7,11 @@ export const load = (async (request: RequestEvent) => {
 	const token = request.cookies.get('token');
 	let decodedToken;
 	if (token) {
-		decodedToken = await adminAuth.verifyIdToken(token);
+		try {
+			decodedToken = await adminAuth.verifyIdToken(token);
+		} catch {
+			redirect(303, '/');
+		}
 	}
 
 	if (!decodedToken) {
@@ -26,12 +30,14 @@ export const actions = {
 		const token = cookies.get('token');
 		let decodedToken;
 		if (token) {
-			decodedToken = await adminAuth.verifyIdToken(token);
+			try {
+				decodedToken = await adminAuth.verifyIdToken(token);
+			} catch {
+				redirect(303, '/');
+			}
 		}
 
-		if (!decodedToken) {
-			redirect(303, '/');
-		} else if (username && platform) {
+		if (decodedToken && username && platform) {
 			await createUser(decodedToken.uid, username, platform);
 			adminAuth.updateUser(decodedToken.uid, {
 				displayName: username + platform.toUpperCase()

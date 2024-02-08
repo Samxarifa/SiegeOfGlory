@@ -4,6 +4,10 @@
     import { auth } from "$lib/firebase/firebase";
 	import { FirebaseApp } from "sveltefire";
 	import { onMount } from 'svelte';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { goto, invalidateAll } from '$app/navigation';
+
+    let loading = true;
 
     onMount(() => {
         auth.onIdTokenChanged(async (user) => {
@@ -18,6 +22,7 @@
                 method: "POST",
                 body:JSON.stringify({"token":token})
             })
+            loading = false;
         })
     })
 
@@ -25,5 +30,11 @@
 
 
 <FirebaseApp {auth}>
-    <slot />
+    {#if loading}
+        <div class="spinner-parent">
+            <LoadingSpinner />
+        </div>
+    {:else}
+        <slot />
+    {/if}
 </FirebaseApp>

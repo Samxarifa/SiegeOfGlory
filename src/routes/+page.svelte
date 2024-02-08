@@ -1,17 +1,24 @@
 <script lang="ts">
-    import { SignedIn, SignedOut } from 'sveltefire';
+    import { SignedIn, SignedOut, userStore} from 'sveltefire';
     import {auth, googleProvider} from "$lib/firebase/firebase";
 	import { signInWithPopup } from 'firebase/auth';
-	import { invalidateAll, goto } from '$app/navigation';
-	import { browser } from '$app/environment';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { goto, invalidateAll } from '$app/navigation';
 
     function handleGoogleSignIn() {
-        signInWithPopup(auth,googleProvider).then(async (user) => {
-            await invalidateAll();
-            browser && await goto('/dashboard');
-        })
+        signInWithPopup(auth,googleProvider);
     }
+
+    const user = userStore(auth);
+
+    $: {
+        if ($user) {
+            invalidateAll().then(() => {
+                goto("/dashboard");
+            })
+        }
+    }
+
 </script>
 
 
@@ -34,15 +41,7 @@
 </SignedIn>
 
 
-<style>
-    .spinner-parent {
-        width: 100%;
-        height: 100dvh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
+<style>    
     @keyframes slide-in {
         0% {
             transform-origin: bottom left;

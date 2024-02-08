@@ -4,7 +4,12 @@ import { adminAuth } from '$lib/firebase/firebase-admin.server';
 
 export const load = (async (request: RequestEvent) => {
 	const token = request.cookies.get('token');
-	if (token && (await adminAuth.verifyIdToken(token))) {
+	if (token) {
+		try {
+			await adminAuth.verifyIdToken(token);
+		} catch {
+			return {};
+		}
 		redirect(303, '/dashboard');
 	} else {
 		return {};
