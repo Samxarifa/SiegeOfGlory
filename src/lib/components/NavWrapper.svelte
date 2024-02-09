@@ -1,13 +1,21 @@
+<div class="content">
+    <slot />
+</div>
 <nav>
     <ul>
-        <li><a href="/dashboard">Home</a></li>
-        <li><a href="/dashboard">Battles</a></li>
-        <li><a href="/dashboard">Friends</a></li>
-        <li><a href="/dashboard">LB</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/home.svg" alt="Home Icon"/>Home</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/battle.svg" alt="Battle Icon"/>Battles</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/friends.svg" alt="Friends Icon"/>Friends</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/list.svg" alt="List Icon"/>LB</a></li>
     </ul>
 </nav>
 
 <style>
+    .content {
+        margin: 1rem;
+        margin-bottom: 8rem;
+    }
+    
     nav {
         width: 100%;
         height: 7rem;
@@ -40,5 +48,6 @@
         height: 100%;
         color: inherit;
         text-decoration: none;
+        flex-direction: column;
     }
 </style>

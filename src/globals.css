@@ -27,3 +27,9 @@ body {
 	align-items: center;
 	justify-content: center;
 }
+
+.svg_icon {
+	filter: invert(1);
+	width: 2.4rem;
+	height: 2.4rem;
+}

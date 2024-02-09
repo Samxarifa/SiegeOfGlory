@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from "$app/navigation";
 	import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
-	import Nav from "$lib/components/Nav.svelte";
+	import NavWrapper from "$lib/components/NavWrapper.svelte";
 	import { auth } from "$lib/firebase/firebase";
 	import { SignedIn, SignedOut, userStore } from "sveltefire";
 
@@ -18,8 +18,9 @@
 </script>
 
 <SignedIn>
-    <slot />
-    <Nav />
+    <NavWrapper>
+		<slot />
+	</NavWrapper>
 </SignedIn>
 
 <SignedOut>

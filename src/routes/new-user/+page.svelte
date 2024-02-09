@@ -5,13 +5,15 @@
     </header>
     <main>
         <form action="?/register" method="POST">
-            <input name='username' id='username' type="text" placeholder="username"/>
-            <select name="platform" id="platform">
-                <option value="psn">PSN</option>
-                <option value="xbl">Xbox</option>
-                <option value="ubi">PC</option>
-            </select>
-            <button type="submit">Link Account</button>
+            <div class="div_username">
+                <input name='username' id='username' type="text" placeholder="username"/>
+                <select name="platform" id="platform">
+                    <option value="psn">PSN</option>
+                    <option value="xbl">Xbox</option>
+                    <option value="ubi">PC</option>
+                </select>
+            </div>
+            <div class="submit"><button type="submit">Link Account</button></div>
         </form>
     <main>
 </div>
@@ -91,5 +93,66 @@
     main {
         flex: 1;
         width: 100%;
+    }
+
+    .div_username {
+        background-color: var(--foreground);
+        display: flex;
+        justify-content: space-between;
+        border-radius: 1rem;
+        height: 5rem;
+        margin-bottom: 2rem;
+    }
+
+    input {
+        padding: 1rem;
+        height: 100%;
+        background-color: var(--foreground);
+        border: none;
+        color: var(--white);
+        flex: 1;
+        border-radius: 1rem;
+        font-size: 2rem;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .div_username:has(input:focus) {
+        outline: solid 0.2rem var(--blue);
+    }
+
+    select {
+        width: 10rem;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        background-color: var(--foreground);
+        color: var(--text);
+        border-radius: 1rem;
+        font-size: 2rem;
+    }
+
+    .submit {
+        width: 100%;
+        display: flex;
+    }
+
+    button {
+        padding: 1rem;
+        background-color: var(--foreground);
+        color: var(--text);
+        border: solid 0.2rem var(--text);
+        border-radius: 1rem;
+        margin: 0 auto;
+    }
+
+    @media screen and (max-width: 370px) {
+        :root {
+            font-size: 50%;
+        }
     }
 </style>
