@@ -23,17 +23,31 @@ export async function checkIfUserExists(uid: string) {
 	return check;
 }
 
-export async function createUser(uid: string, username: string, platform: string) {
-	const query =
-		'INSERT INTO sog_users (userId, rainbowUsername, rainbowPlatform, wins) VALUES (?,?,?,0)';
+export async function createUser(uid: string, username: string, rainbowId: string) {
+	interface Return extends mysql.RowDataPacket {
+		rainbowId: string;
+	}
+
+	const insertQuery =
+		'INSERT INTO sog_users (userId, username, rainbowId, wins, losses) VALUES (?,?,?,0,0)';
+
+	const selectQuery = 'SELECT rainbowId FROM sog_users WHERE rainbowId = ?';
 
 	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
 
-	try {
-		await conn.execute(query, [uid, username, platform]);
-	} catch (e) {
-		console.log(e);
-	} finally {
+	const [results] = await conn.execute<Return[]>(selectQuery, [rainbowId]);
+
+	if (!results || results.length == 0) {
+		try {
+			await conn.execute(insertQuery, [uid, username, rainbowId]);
+		} catch (e) {
+			console.log(e);
+		} finally {
+			await conn.end();
+		}
+		return true;
+	} else {
 		await conn.end();
+		return false;
 	}
 }

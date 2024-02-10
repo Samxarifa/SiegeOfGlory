@@ -2,6 +2,7 @@ import { checkIfUserExists, createUser } from '$lib/dbHandler.server';
 import type { PageServerLoad } from './$types';
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import { redirect, type RequestEvent } from '@sveltejs/kit';
+import { getPlayerIdByUsername } from '$lib/statHandler.server';
 
 export const load = (async (request: RequestEvent) => {
 	const token = request.cookies.get('token');
@@ -38,11 +39,26 @@ export const actions = {
 		}
 
 		if (decodedToken && username && platform) {
-			await createUser(decodedToken.uid, username, platform);
-			adminAuth.updateUser(decodedToken.uid, {
-				displayName: username + platform.toUpperCase()
-			});
-			redirect(303, '/dashboard');
+			let rainbowPlatform = platform;
+			if (platform === 'ubi') {
+				rainbowPlatform = 'uplay';
+			}
+
+			const rainbowId = await getPlayerIdByUsername(username, rainbowPlatform);
+			if (rainbowId) {
+				if (
+					await createUser(decodedToken.uid, username + '#' + platform.toUpperCase(), rainbowId)
+				) {
+					adminAuth.updateUser(decodedToken.uid, {
+						displayName: username + '#' + platform.toUpperCase()
+					});
+					redirect(303, '/dashboard');
+				} else {
+					return { success: false, message: 'Rainbow Account Already Linked to SOG Account' };
+				}
+			} else {
+				return { success: false, message: "Rainbow Account Doesn't Exist" };
+			}
 		}
 	}
 };

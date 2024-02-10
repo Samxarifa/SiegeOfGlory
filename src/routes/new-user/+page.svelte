@@ -1,12 +1,24 @@
+<script lang="ts">
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+
+    export let form;
+
+    let submitted = false;
+</script>
+
+
 <div class='linkAccount'>
     <header>
         <h1>Link Account</h1>
         <span class='caption'>Enter Your Rainbow Details</span>
     </header>
     <main>
-        <form action="?/register" method="POST">
+        {#if form && !form?.success}
+            <span class="error">Error: {form.message}</span>
+        {/if}
+        <form action="?/register" method="POST" on:submit={() => submitted = true}>
             <div class="div_username">
-                <input name='username' id='username' type="text" placeholder="Username"/>
+                <input on:focus={() => form = null} name='username' id='username' type="text" placeholder="Username"/>
                 <select name="platform" id="platform">
                     <option value="psn">PSN</option>
                     <option value="xbl">Xbox</option>
@@ -15,10 +27,23 @@
             </div>
             <div class="submit"><button type="submit">Link Account</button></div>
         </form>
-    <main>
+    </main>
 </div>
+{#if submitted}
+    <div class="spinner-parent spinner-infront">
+        <LoadingSpinner />
+    </div>
+{/if}
 
 <style>
+    .spinner-infront {
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: var(--background);
+    }
+    
     @keyframes slide-in {
         0% {
             transform-origin: bottom left;
@@ -42,6 +67,13 @@
         }
     }
     
+    .error {
+        text-align: center;
+        width: 100%;
+        display: block;
+        color: red;
+    }
+
     .linkAccount {
         width: 100%;
         height: 100dvh;
@@ -101,8 +133,7 @@
         justify-content: space-between;
         border-radius: 1rem;
         height: 5rem;
-        margin: 0 auto;
-        margin-bottom: 2rem;
+        margin: 2rem auto;
         max-width: 60rem;
     }
 

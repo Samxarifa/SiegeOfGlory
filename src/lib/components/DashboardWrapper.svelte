@@ -13,9 +13,9 @@
 <nav>
     <ul>
         <li><a href="/dashboard"><img  class="svg_icon" src="icons/home.svg" alt="Home Icon"/>Home</a></li>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/battle.svg" alt="Battle Icon"/>Battles</a></li>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/friends.svg" alt="Friends Icon"/>Friends</a></li>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/list.svg" alt="List Icon"/>LB</a></li>
+        <li><a href="/dashboard/friends"><img  class="svg_icon" src="icons/friends.svg" alt="Friends Icon"/>Friends</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/list.svg" alt="List Icon"/>Lineup</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="icons/profile.svg" alt="Battle Icon"/>Profile</a></li>
     </ul>
 </nav>
 
