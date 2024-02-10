@@ -6,7 +6,7 @@
     <main>
         <form action="?/register" method="POST">
             <div class="div_username">
-                <input name='username' id='username' type="text" placeholder="username"/>
+                <input name='username' id='username' type="text" placeholder="Username"/>
                 <select name="platform" id="platform">
                     <option value="psn">PSN</option>
                     <option value="xbl">Xbox</option>
@@ -101,7 +101,9 @@
         justify-content: space-between;
         border-radius: 1rem;
         height: 5rem;
+        margin: 0 auto;
         margin-bottom: 2rem;
+        max-width: 60rem;
     }
 
     input {

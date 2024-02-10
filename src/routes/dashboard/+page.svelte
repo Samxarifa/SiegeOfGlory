@@ -123,4 +123,19 @@
 		color: white;
 		margin: 2rem 0;
 	}
+
+	@media screen and (min-width: 900px) {
+		.btn_signout {
+			display: none;
+		}
+
+		table {
+			margin-bottom: 1rem;
+		}
+
+		th div{
+			flex-direction: row;
+			gap: 1rem;
+		}
+	}
 </style>
