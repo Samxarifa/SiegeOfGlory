@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
 
@@ -11,6 +11,27 @@ const firebaseConfig = {
 	appId: '1:517665636783:web:c146cf3ad694b77456ef5a'
 };
 
-const app = initializeApp(firebaseConfig);
+let app: FirebaseApp;
+
+if (getApps().length === 0) {
+	app = initializeApp(firebaseConfig);
+
+	setInterval(
+		async () => {
+			if (auth.currentUser) {
+				console.log('Token Refresh');
+				const token = await auth.currentUser.getIdToken(true);
+				await fetch('/api/auth', {
+					method: 'POST',
+					body: JSON.stringify({ token: token })
+				});
+			}
+		},
+		5 * 60 * 1000
+	);
+} else {
+	app = getApp();
+}
+
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();

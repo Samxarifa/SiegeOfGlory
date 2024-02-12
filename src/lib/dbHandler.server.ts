@@ -51,3 +51,31 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 		return false;
 	}
 }
+
+export async function getHomePageStats(uid: string) {
+	interface Return extends mysql.RowDataPacket {
+		wins: number;
+		ongoing: number;
+		losses: number;
+	}
+
+	const query =
+		"SELECT wins,losses, COUNT(*) as 'ongoing' " +
+		'FROM sog_users, sog_battles ' +
+		'WHERE completed = 1 ' +
+		'AND (sog_users.userId = sog_battles.user1 OR sog_users.userId = sog_battles.user2) ' +
+		'AND userId = ?;';
+
+	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<Return[]>(query, [uid]);
+		if (results) {
+			return results[0];
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.end();
+	}
+}

@@ -5,17 +5,17 @@
 
 <header>
     <h1>Siege Of Glory</h1>
-    <button on:click={() => signOut(auth)}>Sign Out <img class="svg_icon" src="icons/logout.svg" alt="Logout Icon"></button>
+    <button on:click={() => signOut(auth)}>Sign Out <img class="svg_icon" src="/icons/logout.svg" alt="Logout Icon"></button>
 </header>
 <div class="content">
     <slot />
 </div>
 <nav>
     <ul>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/home.svg" alt="Home Icon"/>Home</a></li>
-        <li><a href="/dashboard/friends"><img  class="svg_icon" src="icons/friends.svg" alt="Friends Icon"/>Friends</a></li>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/list.svg" alt="List Icon"/>Lineup</a></li>
-        <li><a href="/dashboard"><img  class="svg_icon" src="icons/profile.svg" alt="Battle Icon"/>Profile</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="/icons/home.svg" alt="Home Icon"/>Home</a></li>
+        <li><a href="/dashboard/friends"><img  class="svg_icon" src="/icons/friends.svg" alt="Friends Icon"/>Friends</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="/icons/list.svg" alt="List Icon"/>Lineup</a></li>
+        <li><a href="/dashboard"><img  class="svg_icon" src="/icons/profile.svg" alt="Battle Icon"/>Profile</a></li>
     </ul>
 </nav>
 
@@ -55,7 +55,7 @@
         margin: 0 auto;
         padding: 1rem;
         padding-bottom: 7rem;
-        max-width: 192rem;
+        max-width: 150rem;
     }
     
     nav {

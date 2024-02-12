@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
 	import BattleCard from "$lib/components/BattleCard.svelte";
 	import { auth } from "$lib/firebase/firebase";
 	import { signOut } from "firebase/auth";
 
 	import { userStore } from "sveltefire";
+
+	export let data;
 
 	const user = userStore(auth);
 </script>
@@ -18,9 +20,9 @@
 		<th><div><img class="svg_icon" src="icons/battle.svg" alt="Trophy Icon">Ongoing</div></th>
 		<th><div><img class="svg_icon" src="icons/skull.svg" alt="List Icon">Losses</div></th>
 		<tr>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td>{data.stats?.wins}</td>
+			<td>{data.stats?.ongoing}</td>
+			<td>{data.stats?.losses}</td>
 		</tr>
 	</table>
 	<button class='btn_signout' on:click={() => signOut(auth)}>Sign Out <img class="svg_icon" src="icons/logout.svg" alt="Logout Icon"></button>

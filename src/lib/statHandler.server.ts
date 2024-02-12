@@ -9,7 +9,7 @@ let expire: string;
 
 let nextTokenRefresh: number;
 
-async function getAuth() {
+async function updateAuth() {
 	if (!ticket || nextTokenRefresh <= new Date().getTime()) {
 		console.log('Requesting New Token');
 		const out = await fetch('https://public-ubiservices.ubi.com/v3/profiles/sessions', {
@@ -18,10 +18,7 @@ async function getAuth() {
 				'Content-Type': 'application/json',
 				'Ubi-AppId': appId,
 				Authorization: `Basic ${btoa(R6CREDENTAILS)}`
-			},
-			body: JSON.stringify({
-				rememberMe: false
-			})
+			}
 		});
 		const obj = await out.json();
 		// sessionId = obj.sessionId;
@@ -32,7 +29,7 @@ async function getAuth() {
 }
 
 export async function getPlayerIdByUsername(username: string, platform: string) {
-	await getAuth();
+	await updateAuth();
 
 	const out = await fetch(
 		`https://public-ubiservices.ubi.com/v2/profiles?platformType=${platform}&nameOnPlatform=${username}`,

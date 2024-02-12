@@ -5,20 +5,18 @@
 	import { FirebaseApp } from "sveltefire";
 	import { onMount } from 'svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
-	import { goto, invalidateAll } from '$app/navigation';
 
     let loading = true;
 
     onMount(() => {
-        auth.onIdTokenChanged(async (user) => {
+        auth.onAuthStateChanged(async (user) => {
             let token;
             if (user) {
                 token = await user.getIdToken();
-                
             } else {
                 token = '';
             }
-            await fetch("api/auth", {
+            await fetch("/api/auth", {
                 method: "POST",
                 body:JSON.stringify({"token":token})
             })
