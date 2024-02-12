@@ -1,66 +1,70 @@
 <script lang="ts">
-
-	import FriendCard from "$lib/components/FriendCard.svelte";
-
+	import { goto } from '$app/navigation';
+	import FriendCard from '$lib/components/FriendCard.svelte';
 </script>
+
 <div class="top">
-    <h1>Friends</h1>
-    <a href="./friends"><img class="svg_icon" src="/icons/personAdd.svg" alt=""></a>
+	<h1>Friends</h1>
+	<a href="./friends">Add<img class="svg_icon" src="/icons/personAdd.svg" alt="" /></a>
 </div>
 
 <main>
-    <div class="requests">
-        <span>Friend Requests (1)</span>
-        <img src="/icons/arrowRight.svg" alt="Arrow Right" />
-    </div>
-    <FriendCard username="ScottTizzle"/>
+	<button class="requests" on:click={() => goto('./friends/requests')}>
+		<span>Friend Requests (1)</span>
+		<img src="/icons/arrowRight.svg" alt="Arrow Right" />
+	</button>
+	<FriendCard username="ScottTizzle" />
 </main>
 
 <style>
-    .top {
-        display: flex;
-        gap: 1rem;
-        margin: 2rem 0;
-    }
+	.top {
+		display: flex;
+		gap: 1rem;
+		margin: 2rem 0;
+	}
 
-    .top a {
-        border: solid 0.2rem var(--text);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 4rem;
-        height: 4rem;
-        background-color: var(--foreground);
-    }
-    
-    h1 {
-        color: var(--text);
-        margin-right: auto;
-    }
+	.top a {
+		border: solid 0.2rem var(--text);
+		border-radius: 1rem;
+		color: white;
+		text-decoration: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		padding: 0 1rem;
+		height: 4rem;
+		background-color: var(--foreground);
+	}
 
-    main {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
+	h1 {
+		color: var(--text);
+		margin-right: auto;
+	}
 
-    .requests {
-        width: 100%;
-        height: 7rem;
-        background-color: var(--foreground);
-        border-radius: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-        padding: 1rem;
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        cursor: pointer;
-    }
+	main {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 
-    .requests img {
-        filter: invert(1);
-    }
+	.requests {
+		width: 100%;
+		height: 7rem;
+		background-color: var(--foreground);
+		border-radius: 1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: white;
+		padding: 1rem;
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		cursor: pointer;
+		border: none;
+	}
+
+	.requests img {
+		filter: invert(1);
+	}
 </style>
