@@ -5,21 +5,27 @@
 	import { FirebaseApp } from "sveltefire";
 	import { onMount } from 'svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { goto } from '$app/navigation';
 
     let loading = true;
 
     onMount(() => {
         auth.onAuthStateChanged(async (user) => {
             let token;
+            let location;
             if (user) {
                 token = await user.getIdToken();
+                location = "/dashboard";
             } else {
                 token = '';
+                location = "/";
             }
             await fetch("/api/auth", {
                 method: "POST",
                 body:JSON.stringify({"token":token})
             })
+
+            goto(location);
             loading = false;
         })
     })

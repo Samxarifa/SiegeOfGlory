@@ -3,20 +3,9 @@
     import {auth, googleProvider} from "$lib/firebase/firebase";
 	import { signInWithPopup } from 'firebase/auth';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
-	import { goto, invalidateAll } from '$app/navigation';
 
     function handleGoogleSignIn() {
         signInWithPopup(auth,googleProvider);
-    }
-
-    const user = userStore(auth);
-
-    $: {
-        if ($user) {
-            invalidateAll().then(() => {
-                goto("/dashboard");
-            })
-        }
     }
 
 </script>
