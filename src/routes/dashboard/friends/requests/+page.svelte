@@ -6,7 +6,7 @@
 <h1>Requests</h1>
 
 <main in:fly={{ x: 100 }}>
-	<FriendCard username="ScottTizzle" showStartButton={false} showRequestButtons />
+	<FriendCard username="ScottTizzle" showRequestButtons />
 </main>
 
 <style>

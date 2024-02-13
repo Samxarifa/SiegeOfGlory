@@ -1,22 +1,22 @@
 <script lang="ts">
 	// Get Props Passed in from component decleration
 	export let username: string;
-	export let showStartButton = true;
 	export let showRequestButtons = false;
+	export let showAddButton = false;
+	export let showBattleButton = false;
 </script>
 
 <div class="card">
 	<span>{username}</span>
-	{#if showStartButton}
-		<button class="start">Start Battle</button>
+	{#if showAddButton}
+		<button class="textButton">Add Friend</button>
 	{:else if showRequestButtons}
 		<div class="requestButtons">
-			<button class="request"><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button
-			>
-			<button class="request"
-				><img class="svg_icon" src="/icons/cross.svg" alt="Tick Icon" /></button
-			>
+			<button class="request"><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button>
+			<button class="request"><img class="svg_icon" src="/icons/cross.svg" alt="Tick Icon" /></button>
 		</div>
+	{:else if showBattleButton}
+		<button class="textButton">Start Battle</button>
 	{/if}
 </div>
 
@@ -32,7 +32,7 @@
 		color: var(--text);
 	}
 
-	.start {
+	.textButton {
 		background-color: transparent;
 		border: solid 0.2rem var(--text);
 		padding: 1rem;

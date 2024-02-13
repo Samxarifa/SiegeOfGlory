@@ -5,7 +5,7 @@
 
 <div class="top">
 	<h1>Friends</h1>
-	<a href="./friends">Add<img class="svg_icon" src="/icons/personAdd.svg" alt="" /></a>
+	<a href="./friends/add-friend">Add<img class="svg_icon" src="/icons/personAdd.svg" alt="" /></a>
 </div>
 
 <main>
@@ -13,7 +13,7 @@
 		<span>Friend Requests (1)</span>
 		<img src="/icons/arrowRight.svg" alt="Arrow Right" />
 	</button>
-	<FriendCard username="ScottTizzle" />
+	<FriendCard username="ScottTizzle" showBattleButton/>
 </main>
 
 <style>
