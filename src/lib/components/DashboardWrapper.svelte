@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { auth } from "$lib/firebase/firebase";
+	// Component Used to show header and nav on all dashboard pages, also is content wrapped
+    
+    import { auth } from "$lib/firebase/firebase";
 	import { signOut } from "firebase/auth";
 </script>
 
@@ -56,6 +58,7 @@
         padding: 1rem;
         padding-bottom: 7rem;
         max-width: 150rem;
+        overflow: hidden;
     }
     
     nav {

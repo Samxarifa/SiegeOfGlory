@@ -1,4 +1,5 @@
 <script lang="ts">
+	// Get Props Passed in from component decleration
 	export let username: string;
 	export let showStartButton = true;
 	export let showRequestButtons = false;

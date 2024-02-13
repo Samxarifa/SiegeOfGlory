@@ -1,12 +1,14 @@
 <script lang="ts">
-    import { SignedIn, SignedOut, userStore} from 'sveltefire';
+    import { SignedIn, SignedOut } from 'sveltefire';
     import {auth, googleProvider} from "$lib/firebase/firebase";
 	import { signInWithPopup } from 'firebase/auth';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
     function handleGoogleSignIn() {
+        // Shows Google Sign In Page
         signInWithPopup(auth,googleProvider);
     }
+
 
 </script>
 

@@ -1,8 +1,10 @@
 <script lang="ts">
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
+    // Gets Return Errors (If any)
     export let form;
 
+    // Shows Loading Spinner when form is submitted
     let submitted = false;
 </script>
 
@@ -19,6 +21,7 @@
         <form action="?/register" method="POST" on:submit={() => submitted = true}>
             <div class="div_username">
                 <input on:focus={() => form = null} name='username' id='username' type="text" placeholder="Username"/>
+                <span>#</span>
                 <select name="platform" id="platform">
                     <option value="psn">PSN</option>
                     <option value="xbl">Xbox</option>
@@ -131,10 +134,16 @@
         background-color: var(--foreground);
         display: flex;
         justify-content: space-between;
+        align-items: center;
         border-radius: 1rem;
         height: 5rem;
         margin: 2rem auto;
         max-width: 60rem;
+        font-size: 2rem;
+    }
+
+    .div_username span {
+        color: grey;
     }
 
     input {
@@ -146,6 +155,7 @@
         flex: 1;
         border-radius: 1rem;
         font-size: 2rem;
+        width: 100%;
     }
 
     input:focus {
@@ -157,7 +167,7 @@
     }
 
     select {
-        width: 10rem;
+        min-width: 10rem;
         height: 100%;
         display: flex;
         justify-content: center;

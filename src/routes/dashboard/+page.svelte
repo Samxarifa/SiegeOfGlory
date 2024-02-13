@@ -2,11 +2,12 @@
 	import BattleCard from "$lib/components/BattleCard.svelte";
 	import { auth } from "$lib/firebase/firebase";
 	import { signOut } from "firebase/auth";
-
 	import { userStore } from "sveltefire";
 
+	// Gets Data from server function (+page.server.ts)
 	export let data;
 
+	// Gets Firebase User in form of SvelteKit Store
 	const user = userStore(auth);
 </script>
 

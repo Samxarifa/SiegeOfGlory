@@ -1,7 +1,9 @@
 import mysql from 'mysql2/promise';
 import { DATABASE_CREDENTAILS } from '$env/static/private';
 
+// Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
+	// Structure of data to be returned by query
 	interface Return extends mysql.RowDataPacket {
 		uid: string;
 	}
@@ -13,6 +15,7 @@ export async function checkIfUserExists(uid: string) {
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
 		if (results) {
+			// Sets check to true is data returned (Meaning that user does exist)
 			check = results.length > 0;
 		}
 	} catch (e) {
@@ -23,6 +26,7 @@ export async function checkIfUserExists(uid: string) {
 	return check;
 }
 
+// Checks if rainbow account not already in use and adds user is not
 export async function createUser(uid: string, username: string, rainbowId: string) {
 	interface Return extends mysql.RowDataPacket {
 		rainbowId: string;
@@ -35,9 +39,11 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 
 	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
 
+	// Query db to see if r6 account in use
 	const [results] = await conn.execute<Return[]>(selectQuery, [rainbowId]);
 
 	if (!results || results.length == 0) {
+		// If r6 account not in use, inserts new user
 		try {
 			await conn.execute(insertQuery, [uid, username, rainbowId]);
 		} catch (e) {
@@ -45,13 +51,16 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 		} finally {
 			await conn.end();
 		}
+		// Returns true if user was added (r6 account NOT in db already)
 		return true;
 	} else {
 		await conn.end();
+		// Returns false if user was NOT added (r6 account in db already)
 		return false;
 	}
 }
 
+// Gets Wins,Losses & Current Amount of battles for home page
 export async function getHomePageStats(uid: string) {
 	interface Return extends mysql.RowDataPacket {
 		wins: number;

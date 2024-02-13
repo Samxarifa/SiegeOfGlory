@@ -1,4 +1,5 @@
 <script lang="ts">
+    // Get Props Passed in from component decleration
     export let opponent: string;
     export let stat: string;
     export let time: string;
