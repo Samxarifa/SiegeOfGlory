@@ -17,10 +17,9 @@
 			<h1>Siege of Glory</h1>
 		</header>
 		<main>
-			<button on:click={handleGoogleSignIn}
-				><img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span></button
-			>
-			<main></main>
+			<button on:click={handleGoogleSignIn}>
+				<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
+			</button>
 		</main>
 	</div>
 </SignedOut>
