@@ -1,20 +1,19 @@
 <script lang="ts">
-	import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
-	import DashboardWrapper from "$lib/components/DashboardWrapper.svelte";
-	import { SignedIn, SignedOut, userStore } from "sveltefire";
-
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import DashboardWrapper from '$lib/components/DashboardWrapper.svelte';
+	import { SignedIn, SignedOut } from 'sveltefire';
 </script>
 
 <SignedIn>
-    <DashboardWrapper>
+	<DashboardWrapper>
 		<slot />
 	</DashboardWrapper>
 </SignedIn>
 
 <SignedOut>
-    <div class="spinner-parent">
-        <LoadingSpinner />
-    </div>
+	<div class="spinner-parent">
+		<LoadingSpinner />
+	</div>
 </SignedOut>
 
 <style>

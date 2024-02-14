@@ -12,8 +12,11 @@
 		<button class="textButton">Add Friend</button>
 	{:else if showRequestButtons}
 		<div class="requestButtons">
-			<button class="request"><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button>
-			<button class="request"><img class="svg_icon" src="/icons/cross.svg" alt="Tick Icon" /></button>
+			<button class="request"><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button
+			>
+			<button class="request"
+				><img class="svg_icon" src="/icons/cross.svg" alt="Tick Icon" /></button
+			>
 		</div>
 	{:else if showBattleButton}
 		<button class="textButton">Start Battle</button>

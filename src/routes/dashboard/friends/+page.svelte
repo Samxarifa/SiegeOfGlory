@@ -13,7 +13,7 @@
 		<span>Friend Requests (1)</span>
 		<img src="/icons/arrowRight.svg" alt="Arrow Right" />
 	</button>
-	<FriendCard username="ScottTizzle" showBattleButton/>
+	<FriendCard username="ScottTizzle" showBattleButton />
 </main>
 
 <style>

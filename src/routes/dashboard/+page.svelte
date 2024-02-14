@@ -1,8 +1,8 @@
 <script lang="ts">
-	import BattleCard from "$lib/components/BattleCard.svelte";
-	import { auth } from "$lib/firebase/firebase";
-	import { signOut } from "firebase/auth";
-	import { userStore } from "sveltefire";
+	import BattleCard from '$lib/components/BattleCard.svelte';
+	import { auth } from '$lib/firebase/firebase';
+	import { signOut } from 'firebase/auth';
+	import { userStore } from 'sveltefire';
 
 	// Gets Data from server function (+page.server.ts)
 	export let data;
@@ -17,22 +17,24 @@
 		<span class="username">{$user?.displayName}</span>
 	</div>
 	<table>
-		<th><div><img class="svg_icon" src="icons/trophy.svg" alt="Trophy Icon">Wins</div></th>
-		<th><div><img class="svg_icon" src="icons/battle.svg" alt="Trophy Icon">Ongoing</div></th>
-		<th><div><img class="svg_icon" src="icons/skull.svg" alt="List Icon">Losses</div></th>
+		<th><div><img class="svg_icon" src="icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
+		<th><div><img class="svg_icon" src="icons/battle.svg" alt="Trophy Icon" />Ongoing</div></th>
+		<th><div><img class="svg_icon" src="icons/skull.svg" alt="List Icon" />Losses</div></th>
 		<tr>
 			<td>{data.stats?.wins}</td>
 			<td>{data.stats?.ongoing}</td>
 			<td>{data.stats?.losses}</td>
 		</tr>
 	</table>
-	<button class='btn_signout' on:click={() => signOut(auth)}>Sign Out <img class="svg_icon" src="icons/logout.svg" alt="Logout Icon"></button>
+	<button class="btn_signout" on:click={() => signOut(auth)}
+		>Sign Out <img class="svg_icon" src="icons/logout.svg" alt="Logout Icon" /></button
+	>
 </header>
 
 <h1>Ongoing Battles</h1>
 
 <section class="battles">
-	<BattleCard opponent="Test" stat="Most Kills" time="5 Hours Left"/>
+	<BattleCard opponent="Test" stat="Most Kills" time="5 Hours Left" />
 	<button class="btn_more">Show More</button>
 </section>
 
@@ -62,13 +64,15 @@
 	.username {
 		font-size: 2.4rem;
 		width: fit-content;
-		background: linear-gradient(to right, var(--blue), var(--text) , var(--orange));
+		background: linear-gradient(to right, var(--blue), var(--text), var(--orange));
 		background-clip: text;
 		color: transparent;
 		font-weight: bold;
 	}
 
-	table, th, td {
+	table,
+	th,
+	td {
 		text-align: center;
 	}
 
@@ -77,7 +81,8 @@
 		table-layout: fixed;
 	}
 
-	th, td {
+	th,
+	td {
 		height: 3rem;
 	}
 
@@ -100,7 +105,8 @@
 		margin-top: 0.3rem;
 	}
 
-	.btn_more, .btn_signout {
+	.btn_more,
+	.btn_signout {
 		width: fit-content;
 		padding: 1rem;
 		background-color: var(--foreground);
@@ -116,7 +122,7 @@
 	.btn_signout {
 		margin-left: auto;
 	}
-	
+
 	.btn_more {
 		margin: 1rem auto;
 		margin-top: 2rem;
@@ -136,7 +142,7 @@
 			margin-bottom: 1rem;
 		}
 
-		th div{
+		th div {
 			flex-direction: row;
 			gap: 1rem;
 		}
