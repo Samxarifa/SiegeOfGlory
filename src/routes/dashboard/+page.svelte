@@ -34,8 +34,15 @@
 <h1>Ongoing Battles</h1>
 
 <section class="battles">
-	<BattleCard opponent="Test" stat="Most Kills" time="5 Hours Left" />
-	<button class="btn_more">Show More</button>
+	{#if data.battles && data.battles?.length > 0}
+		{#each data.battles as battle}
+			<BattleCard opponent={battle.opponentName} stat={battle.statType} time="5" />
+		{/each}
+	{:else}
+		<span class="noBattles">
+			No Ongoing Battles <br />(To start a battle, go to the friends tab)
+		</span>
+	{/if}
 </section>
 
 <style>
@@ -105,7 +112,6 @@
 		margin-top: 0.3rem;
 	}
 
-	.btn_more,
 	.btn_signout {
 		width: fit-content;
 		padding: 1rem;
@@ -123,9 +129,10 @@
 		margin-left: auto;
 	}
 
-	.btn_more {
-		margin: 1rem auto;
-		margin-top: 2rem;
+	.noBattles {
+		color: var(--text);
+		text-align: center;
+		display: block;
 	}
 
 	h1 {

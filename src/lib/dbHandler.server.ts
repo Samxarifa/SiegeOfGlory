@@ -88,3 +88,33 @@ export async function getHomePageStats(uid: string) {
 		await conn.end();
 	}
 }
+
+export async function getCurrentBattles(uid: string) {
+	interface Return extends mysql.RowDataPacket {
+		opponentName: string;
+		statType: string;
+		timeStarted: string;
+	}
+
+	const query =
+		"SELECT (SELECT username \
+			FROM sog_users \
+			WHERE userId = IF(user1 = ?, user2, user1)) \
+		AS 'opponentName', statType, timeStarted \
+		FROM sog_battles \
+		WHERE user1 = ? \
+		OR user2 = ?;";
+
+	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<Return[]>(query, [uid, uid, uid]);
+		if (results) {
+			return results;
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.end();
+	}
+}

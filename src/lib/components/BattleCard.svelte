@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { auth } from '$lib/firebase/firebase';
+	import { userStore } from 'sveltefire';
+
 	// Get Props Passed in from component decleration
 	export let opponent: string;
 	export let stat: string;
 	export let time: string;
+
+	const user = userStore(auth);
 </script>
 
 <div class="card">
-	<span class="you">You</span>
+	<span class="you">{$user?.displayName}</span>
 	<div class="details">
 		<img class="svg_icon" src="icons/battle.svg" alt="Battle Icon" />
 		<span>{time}</span>
