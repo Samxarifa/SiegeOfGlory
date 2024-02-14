@@ -71,7 +71,7 @@ export async function getHomePageStats(uid: string) {
 	const query =
 		"SELECT wins,losses, COUNT(*) as 'ongoing' " +
 		'FROM sog_users, sog_battles ' +
-		'WHERE completed = 1 ' +
+		'WHERE completed = 0 ' +
 		'AND (sog_users.userId = sog_battles.user1 OR sog_users.userId = sog_battles.user2) ' +
 		'AND userId = ?;';
 
@@ -93,14 +93,14 @@ export async function getCurrentBattles(uid: string) {
 	interface Return extends mysql.RowDataPacket {
 		opponentName: string;
 		statType: string;
-		timeStarted: string;
+		startTime: string;
 	}
 
 	const query =
 		"SELECT (SELECT username \
 			FROM sog_users \
 			WHERE userId = IF(user1 = ?, user2, user1)) \
-		AS 'opponentName', statType, timeStarted \
+		AS 'opponentName', statType, startTime \
 		FROM sog_battles \
 		WHERE user1 = ? \
 		OR user2 = ?;";

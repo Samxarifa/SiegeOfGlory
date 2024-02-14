@@ -36,7 +36,7 @@
 <section class="battles">
 	{#if data.battles && data.battles?.length > 0}
 		{#each data.battles as battle}
-			<BattleCard opponent={battle.opponentName} stat={battle.statType} time="5" />
+			<BattleCard opponent={battle.opponentName} stat="Most Kills" time="5m" />
 		{/each}
 	{:else}
 		<span class="noBattles">
@@ -71,10 +71,11 @@
 	.username {
 		font-size: 2.4rem;
 		width: fit-content;
-		background: linear-gradient(to right, var(--blue), var(--text), var(--orange));
-		background-clip: text;
-		color: transparent;
 		font-weight: bold;
+		color: var(--blue);
+		text-shadow:
+			0 0 5rem var(--blue),
+			0 0 1rem var(--background);
 	}
 
 	table,
@@ -138,6 +139,12 @@
 	h1 {
 		color: white;
 		margin: 2rem 0;
+	}
+
+	.battles {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
 	}
 
 	@media screen and (min-width: 900px) {
