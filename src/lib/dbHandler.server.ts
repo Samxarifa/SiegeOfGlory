@@ -1,6 +1,11 @@
 import mysql from 'mysql2/promise';
 import { DATABASE_CREDENTAILS } from '$env/static/private';
 
+export interface AllUserReturn extends mysql.RowDataPacket {
+	userId: string;
+	username: string;
+}
+
 // Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
 	// Structure of data to be returned by query
@@ -97,18 +102,86 @@ export async function getCurrentBattles(uid: string) {
 	}
 
 	const query =
-		"SELECT (SELECT username \
-			FROM sog_users \
-			WHERE userId = IF(user1 = ?, user2, user1)) \
-		AS 'opponentName', statType, startTime \
-		FROM sog_battles \
-		WHERE user1 = ? \
-		OR user2 = ?;";
+		'SELECT username AS "opponentName", statType, startTime \
+		FROM sog_users, sog_battles \
+		WHERE userId = IF(user1 = ?, user2, user1)';
 
 	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
 
 	try {
-		const [results] = await conn.execute<Return[]>(query, [uid, uid, uid]);
+		const [results] = await conn.execute<Return[]>(query, [uid]);
+		if (results) {
+			return results;
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.end();
+	}
+}
+
+export async function getAllUsers(uid: string) {
+	const query = 'SELECT userId, username FROM sog_users WHERE userId != ?';
+
+	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<AllUserReturn[]>(query, [uid]);
+		if (results && results.length > 0) {
+			return results;
+		} else {
+			return [];
+		}
+	} catch (e) {
+		console.log(e);
+		return [];
+	} finally {
+		await conn.end();
+	}
+}
+
+export async function getFriends(uid: string) {
+	interface Return extends mysql.RowDataPacket {
+		username: string;
+		userId: string;
+	}
+
+	const query =
+		'SELECT username, userId \
+		FROM sog_users, sog_friendships \
+		WHERE userId = IF(user1 = ?, user2, user1) \
+		AND friendshipType = "F";';
+
+	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<Return[]>(query, [uid]);
+		if (results) {
+			return results;
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.end();
+	}
+}
+
+export async function getRequests(uid: string) {
+	interface Return extends mysql.RowDataPacket {
+		username: string;
+		userId: string;
+	}
+
+	const query =
+		'SELECT username, userId \
+		FROM sog_users, sog_friendships \
+		WHERE userId = IF(user1 = ?, user2, user1) \
+		AND friendshipType = "R";';
+
+	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<Return[]>(query, [uid]);
 		if (results) {
 			return results;
 		}

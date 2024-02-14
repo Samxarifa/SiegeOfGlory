@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import FriendCard from '$lib/components/FriendCard.svelte';
+
+	export let data;
 </script>
 
 <div class="top">
@@ -10,10 +12,18 @@
 
 <main>
 	<button class="requests" on:click={() => goto('./friends/requests')}>
-		<span>Friend Requests (1)</span>
+		<span>Friend Requests</span>
 		<img src="/icons/arrowRight.svg" alt="Arrow Right" />
 	</button>
-	<FriendCard username="ScottTizzle" showBattleButton />
+	{#if data.friends && data.friends.length > 0}
+		<div class="cards">
+			{#each data.friends as friend}
+				<FriendCard username={friend.username} id={friend.userId} showBattleButton />
+			{/each}
+		</div>
+	{:else}
+		<span class="noFriend">Click add to find a new Friend</span>
+	{/if}
 </main>
 
 <style>
@@ -66,5 +76,16 @@
 
 	.requests img {
 		filter: invert(1);
+	}
+
+	.cards {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.noFriend {
+		color: var(--text);
+		display: block;
+		text-align: center;
 	}
 </style>

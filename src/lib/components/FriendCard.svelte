@@ -1,6 +1,7 @@
 <script lang="ts">
 	// Get Props Passed in from component decleration
 	export let username: string;
+	export let id: string;
 	export let showRequestButtons = false;
 	export let showAddButton = false;
 	export let showBattleButton = false;
@@ -33,6 +34,7 @@
 		align-items: center;
 		padding: 1rem;
 		color: var(--text);
+		flex: 1;
 	}
 
 	.textButton {
@@ -58,5 +60,17 @@
 	.request img {
 		width: 4rem;
 		height: 4rem;
+	}
+
+	@media screen and (min-width: 450px) {
+		.card {
+			min-width: 40rem;
+		}
+	}
+
+	@media screen and (min-width: 1400px) {
+		.card {
+			max-width: 50%;
+		}
 	}
 </style>
