@@ -3,10 +3,12 @@
 	import type { AllUserReturn } from '$lib/dbHandler.server';
 	import type { FuseResult } from 'fuse.js';
 	import { fly } from 'svelte/transition';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
 	let results: FuseResult<AllUserReturn>[] = [];
 	let input: string = '';
 	let noFound = false;
+	let loading = false;
 
 	function debounce(func: Function, delay = 1000) {
 		let timer: NodeJS.Timeout;
@@ -17,6 +19,7 @@
 			timer = setTimeout(() => {
 				func(...args);
 			}, delay);
+			loading = true;
 		};
 	}
 
@@ -34,6 +37,7 @@
 			results = [];
 			noFound = false;
 		}
+		loading = false;
 	}
 
 	const debounceChange = debounce(handleChange);
@@ -50,13 +54,19 @@
 			</button>
 		</form>
 	</div>
-	<div class="cards">
-		{#each results as user}
-			<FriendCard username={user.item.username} id={user.item.userId} showAddButton />
-		{/each}
-	</div>
-	{#if noFound}
-		<span class="noFound">No Users Found</span>
+	{#if !loading}
+		<div class="cards">
+			{#each results as user}
+				<FriendCard username={user.item.username} id={user.item.userId} showAddButton />
+			{/each}
+		</div>
+		{#if noFound}
+			<span class="noFound">No Users Found</span>
+		{/if}
+	{:else}
+		<div class="loadingSpinner">
+			<LoadingSpinner />
+		</div>
 	{/if}
 </main>
 
@@ -119,5 +129,13 @@
 		color: var(--text);
 		display: block;
 		text-align: center;
+	}
+
+	.loadingSpinner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		margin-top: 5rem;
 	}
 </style>
