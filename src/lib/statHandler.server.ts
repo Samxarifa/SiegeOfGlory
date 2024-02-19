@@ -1,4 +1,4 @@
-import { R6CREDENTAILS } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 // Details Needed for R6 API (I don't know what they are but I need them so...)
 const appId = '3587dcbb-7f81-457c-9781-0e3f29f6f56a';
@@ -22,7 +22,7 @@ async function updateAuth() {
 			headers: {
 				'Content-Type': 'application/json',
 				'Ubi-AppId': appId,
-				Authorization: `Basic ${btoa(R6CREDENTAILS)}`
+				Authorization: `Basic ${btoa(env.R6CREDENTAILS)}`
 			}
 		});
 		const obj = await out.json();

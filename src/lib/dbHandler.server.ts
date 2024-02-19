@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { DATABASE_CREDENTAILS } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export interface AllUserReturn extends mysql.RowDataPacket {
 	userId: string;
@@ -15,7 +15,7 @@ export async function checkIfUserExists(uid: string) {
 
 	const query = 'SELECT userId FROM sog_users WHERE userId = ?';
 	let check = false;
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
@@ -42,7 +42,7 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 
 	const selectQuery = 'SELECT rainbowId FROM sog_users WHERE rainbowId = ?';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	// Query db to see if r6 account in use
 	const [results] = await conn.execute<Return[]>(selectQuery, [rainbowId]);
@@ -80,7 +80,7 @@ export async function getHomePageStats(uid: string) {
 		'AND (sog_users.userId = sog_battles.user1 OR sog_users.userId = sog_battles.user2) ' +
 		'AND userId = ?;';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
@@ -106,7 +106,7 @@ export async function getCurrentBattles(uid: string) {
 		FROM sog_users, sog_battles \
 		WHERE userId = IF(user1 = ?, user2, user1)';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
@@ -123,7 +123,7 @@ export async function getCurrentBattles(uid: string) {
 export async function getAllUsers(uid: string) {
 	const query = 'SELECT userId, username FROM sog_users WHERE userId != ?';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<AllUserReturn[]>(query, [uid]);
@@ -152,7 +152,7 @@ export async function getFriends(uid: string) {
 		WHERE userId = IF(user1 = ?, user2, user1) \
 		AND friendshipType = "F";';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
@@ -178,7 +178,7 @@ export async function getRequests(uid: string) {
 		WHERE userId = IF(user1 = ?, user2, user1) \
 		AND friendshipType = "R";';
 
-	const conn = await mysql.createConnection(JSON.parse(DATABASE_CREDENTAILS));
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
