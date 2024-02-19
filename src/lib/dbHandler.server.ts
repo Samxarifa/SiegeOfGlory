@@ -29,34 +29,20 @@ export async function checkIfUserExists(uid: string) {
 // Checks if rainbow account not already in use and adds user is not
 export async function createUser(uid: string, username: string, rainbowId: string) {
 	interface Return extends mysql.RowDataPacket {
-		rainbowId: string;
+		inserted: number;
 	}
 
-	const insertQuery =
-		'INSERT INTO sog_users (userId, username, rainbowId, wins, losses) VALUES (?,?,?,0,0)';
-
-	const selectQuery = 'SELECT rainbowId FROM sog_users WHERE rainbowId = ?';
+	const query = 'CALL sog_createUser(?,?,?)';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
-	// Query db to see if r6 account in use
-	const [results] = await conn.execute<Return[]>(selectQuery, [rainbowId]);
-
-	if (!results || results.length == 0) {
-		// If r6 account not in use, inserts new user
-		try {
-			await conn.execute(insertQuery, [uid, username, rainbowId]);
-		} catch (e) {
-			console.log(e);
-		} finally {
-			await conn.end();
-		}
-		// Returns true if user was added (r6 account NOT in db already)
-		return true;
-	} else {
+	try {
+		const [[results]] = await conn.execute<Return[][]>(query, [uid, username, rainbowId]);
+		return !!results[0].inserted;
+	} catch (e) {
+		console.log(e);
+	} finally {
 		await conn.end();
-		// Returns false if user was NOT added (r6 account in db already)
-		return false;
 	}
 }
 

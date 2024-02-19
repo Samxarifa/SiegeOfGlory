@@ -1,7 +1,7 @@
 import { checkIfUserExists, createUser } from '$lib/dbHandler.server';
 import type { PageServerLoad } from './$types';
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
-import { redirect, type RequestEvent } from '@sveltejs/kit';
+import { redirect, type Actions, type RequestEvent } from '@sveltejs/kit';
 import { getPlayerIdByUsername } from '$lib/statHandler.server';
 
 export const load = (async (request: RequestEvent) => {
@@ -78,4 +78,4 @@ export const actions = {
 			}
 		}
 	}
-};
+} satisfies Actions;

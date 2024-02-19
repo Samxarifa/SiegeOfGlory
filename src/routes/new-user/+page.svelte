@@ -5,7 +5,6 @@
 
 	// Gets Return Errors (If any)
 	export let form;
-
 	// Shows Loading Spinner when form is submitted
 	let submitted = false;
 </script>
