@@ -6,3 +6,4 @@ services:
       - 8080:3000/tcp
     env_file:
       - '.env'
+    container_name: application
