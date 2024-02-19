@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { auth } from '$lib/firebase/firebase.js';
 	import { signOut } from 'firebase/auth';
@@ -7,6 +8,12 @@
 	export let form;
 	// Shows Loading Spinner when form is submitted
 	let submitted = false;
+
+	$: {
+		if (form && !form.success) {
+			submitted = false;
+		}
+	}
 </script>
 
 <div class="linkAccount">
@@ -18,7 +25,7 @@
 		{#if form && !form?.success}
 			<span class="error">Error: {form.message}</span>
 		{/if}
-		<form action="?/register" method="POST" on:submit={() => (submitted = true)}>
+		<form action="?/register" method="POST" on:submit={() => (submitted = true)} use:enhance>
 			<div class="div_username">
 				<input
 					on:focus={() => (form = null)}
