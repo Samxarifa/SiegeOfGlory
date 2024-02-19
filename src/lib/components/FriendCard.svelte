@@ -6,9 +6,10 @@
 	export let showAddButton = false;
 	export let showBattleButton = false;
 
+	let showCard = true;
+
 	async function sendFriendRequest() {
-		showAddButton = false;
-		showRequestButtons = false;
+		showCard = false;
 		await fetch('/api/friends/add', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -18,7 +19,7 @@
 	}
 
 	async function denyFriendRequest() {
-		showRequestButtons = false;
+		showCard = false;
 		await fetch('/api/friends/deny', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -28,23 +29,25 @@
 	}
 </script>
 
-<div class="card">
-	<span>{username}</span>
-	{#if showAddButton}
-		<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
-	{:else if showRequestButtons}
-		<div class="requestButtons">
-			<button class="request" on:click={sendFriendRequest}
-				><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button
-			>
-			<button class="request" on:click={denyFriendRequest}
-				><img class="svg_icon" src="/icons/cross.svg" alt="Cross Icon" /></button
-			>
-		</div>
-	{:else if showBattleButton}
-		<button class="textButton">Start Battle</button>
-	{/if}
-</div>
+{#if showCard}
+	<div class="card">
+		<span>{username}</span>
+		{#if showAddButton}
+			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
+		{:else if showRequestButtons}
+			<div class="requestButtons">
+				<button class="request" on:click={sendFriendRequest}
+					><img class="svg_icon" src="/icons/tick.svg" alt="Tick Icon" /></button
+				>
+				<button class="request" on:click={denyFriendRequest}
+					><img class="svg_icon" src="/icons/cross.svg" alt="Cross Icon" /></button
+				>
+			</div>
+		{:else if showBattleButton}
+			<button class="textButton">Start Battle</button>
+		{/if}
+	</div>
+{/if}
 
 <style>
 	.card {
