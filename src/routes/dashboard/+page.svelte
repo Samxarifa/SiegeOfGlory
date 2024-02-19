@@ -134,6 +134,7 @@
 		color: var(--text);
 		text-align: center;
 		display: block;
+		width: 100%;
 	}
 
 	h1 {

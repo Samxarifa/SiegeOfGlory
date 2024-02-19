@@ -1,11 +1,6 @@
 import mysql from 'mysql2/promise';
 import { env } from '$env/dynamic/private';
 
-export interface AllUserReturn extends mysql.RowDataPacket {
-	userId: string;
-	username: string;
-}
-
 // Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
 	// Structure of data to be returned by query
@@ -121,12 +116,18 @@ export async function getCurrentBattles(uid: string) {
 }
 
 export async function getAllUsers(uid: string) {
-	const query = 'SELECT userId, username FROM sog_users WHERE userId != ?';
+	interface Return extends mysql.RowDataPacket {
+		userId: string;
+		username: string;
+	}
+
+	// const query = 'SELECT userId, username FROM sog_users;';
+	const query = 'CALL sog_userSearch(?);';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [results] = await conn.execute<AllUserReturn[]>(query, [uid]);
+		const [[results]] = await conn.execute<Return[][]>(query, [uid]);
 		if (results && results.length > 0) {
 			return results;
 		} else {
@@ -148,14 +149,15 @@ export async function getFriends(uid: string) {
 
 	const query =
 		'SELECT username, userId \
-		FROM sog_users, sog_friendships \
-		WHERE userId = IF(user1 = ?, user2, user1) \
-		AND friendshipType = "F";';
+		FROM sog_friendships f, sog_users u \
+		WHERE (user1 = ? OR user2 = ?) \
+		AND userId = IF(user1 = ?, user2,user1) \
+		AND friendshipType = "F"';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [results] = await conn.execute<Return[]>(query, [uid]);
+		const [results] = await conn.execute<Return[]>(query, [uid, uid, uid]);
 		if (results) {
 			return results;
 		}
@@ -174,9 +176,9 @@ export async function getRequests(uid: string) {
 
 	const query =
 		'SELECT username, userId \
-		FROM sog_users, sog_friendships \
-		WHERE userId = IF(user1 = ?, user2, user1) \
-		AND friendshipType = "R";';
+		FROM sog_friendships f, sog_users u \
+		WHERE userId = user1 AND user2 = ? \
+		AND friendshipType = "R"';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
@@ -189,5 +191,45 @@ export async function getRequests(uid: string) {
 		console.log(e);
 	} finally {
 		await conn.end();
+	}
+}
+
+export async function sendFriendRequest(uid: string, friendId: string) {
+	interface Return extends mysql.RowDataPacket {
+		friendType?: string;
+	}
+
+	const query = 'CALL sog_friendships_requests(?,?)';
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+
+	try {
+		const [[results]] = await conn.execute<Return[][]>(query, [uid, friendId]);
+
+		if (results && results.length > 0) {
+			if (results[0].friendType == 'R' || results[0].friendType == 'F') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		conn.end();
+	}
+}
+
+export async function denyFriendRequest(uid: string, friendId: string) {
+	const query = 'DELETE FROM sog_friendships WHERE user1 = ? AND user2 = ?';
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+
+	try {
+		await conn.execute(query, [friendId, uid]);
+	} catch (e) {
+		console.log(e);
+	} finally {
+		conn.end();
 	}
 }

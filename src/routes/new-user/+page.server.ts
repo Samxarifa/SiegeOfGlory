@@ -56,11 +56,15 @@ export const actions = {
 			if (rainbowId) {
 				if (
 					// Creates DB entry for new account
-					await createUser(decodedToken.uid, username + '#' + platform.toUpperCase(), rainbowId)
+					await createUser(
+						decodedToken.uid,
+						username.toUpperCase() + '#' + platform.toUpperCase(),
+						rainbowId
+					)
 				) {
 					// Changes Firebase username to r6 username + platform
 					adminAuth.updateUser(decodedToken.uid, {
-						displayName: username + '#' + platform.toUpperCase()
+						displayName: username.toUpperCase() + '#' + platform.toUpperCase()
 					});
 					// Redirects to dashboard when new user set up
 					redirect(303, '/dashboard');
