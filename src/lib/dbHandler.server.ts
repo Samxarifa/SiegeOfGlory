@@ -48,51 +48,26 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 
 // Gets Wins,Losses & Current Amount of battles for home page
 export async function getHomePageStats(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return1 extends mysql.RowDataPacket {
 		wins: number;
-		ongoing: number;
 		losses: number;
+		ongoing: number;
 	}
 
-	const query =
-		"SELECT wins,losses, COUNT(*) as 'ongoing' " +
-		'FROM sog_users, sog_battles ' +
-		'WHERE completed = 0 ' +
-		'AND (sog_users.userId = sog_battles.user1 OR sog_users.userId = sog_battles.user2) ' +
-		'AND userId = ?;';
-
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
-
-	try {
-		const [results] = await conn.execute<Return[]>(query, [uid]);
-		if (results) {
-			return results[0];
-		}
-	} catch (e) {
-		console.log(e);
-	} finally {
-		await conn.end();
-	}
-}
-
-export async function getCurrentBattles(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return2 extends mysql.RowDataPacket {
 		opponentName: string;
 		statType: string;
 		startTime: string;
 	}
 
-	const query =
-		'SELECT username AS "opponentName", statType, startTime \
-		FROM sog_users, sog_battles \
-		WHERE userId = IF(user1 = ?, user2, user1)';
+	const query = 'CALL sog_homePage(?)';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [results] = await conn.execute<Return[]>(query, [uid]);
+		const [results] = await conn.execute<[Return1[], Return2[]]>(query, [uid]);
 		if (results) {
-			return results;
+			return { stats: results[0][0], battles: results[1] };
 		}
 	} catch (e) {
 		console.log(e);
