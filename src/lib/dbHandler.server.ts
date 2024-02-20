@@ -49,6 +49,7 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 // Gets Wins,Losses & Current Amount of battles for home page
 export async function getHomePageStats(uid: string) {
 	interface Return1 extends mysql.RowDataPacket {
+		username: string;
 		wins: number;
 		losses: number;
 		ongoing: number;
