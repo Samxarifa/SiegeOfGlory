@@ -65,7 +65,7 @@ export const actions = {
 					)
 				) {
 					// Changes Firebase username to r6 username + platform
-					adminAuth.updateUser(decodedToken.uid, {
+					await adminAuth.updateUser(decodedToken.uid, {
 						displayName: username.toUpperCase() + '#' + platform.toUpperCase()
 					});
 					// Redirects to dashboard when new user set up
