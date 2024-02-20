@@ -160,18 +160,14 @@ export async function getRequests(uid: string) {
 		userId: string;
 	}
 
-	const query =
-		'SELECT username, userId \
-		FROM sog_friendships f, sog_users u \
-		WHERE userId = user1 AND user2 = ? \
-		AND friendshipType = "R"';
+	const query = 'CALL sog_friends_getRequests(?)';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [results] = await conn.execute<Return[]>(query, [uid]);
+		const [results] = await conn.execute<[Return[], Return[]]>(query, [uid]);
 		if (results) {
-			return results;
+			return { requests: results[0], sent: results[1] };
 		}
 	} catch (e) {
 		console.log(e);

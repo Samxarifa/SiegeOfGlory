@@ -8,8 +8,8 @@ export const load = (async (request) => {
 	if (token) {
 		try {
 			const decodedToken = await adminAuth.verifyIdToken(token);
-			const requests = await getRequests(decodedToken.uid);
-			return { requests };
+			const users = await getRequests(decodedToken.uid);
+			return { users };
 		} catch {
 			redirect(303, '/');
 		}
