@@ -1,22 +1,13 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
-
-// Config details for firebase module to connect to cloud
-const firebaseConfig = {
-	apiKey: 'AIzaSyDQsHQ-uzIHYI5Y19pqQ-gZby6NZJQ_D54',
-	authDomain: 'siegeofglory.firebaseapp.com',
-	projectId: 'siegeofglory',
-	storageBucket: 'siegeofglory.appspot.com',
-	messagingSenderId: '517665636783',
-	appId: '1:517665636783:web:c146cf3ad694b77456ef5a'
-};
+import { env } from '$env/dynamic/public';
 
 let app: FirebaseApp;
 
 // Declares new app if no app already used
 if (getApps().length === 0) {
-	app = initializeApp(firebaseConfig);
+	app = initializeApp(JSON.parse(env.PUBLIC_FIREBASE_CONFIG));
 
 	// Refreshes firebase token and sends it to auth endpoint every 10 mins (stop it expiring)
 	setInterval(

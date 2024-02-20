@@ -37,7 +37,7 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [[results]] = await conn.execute<Return[][]>(query, [uid, username, rainbowId]);
+		const [[results]] = await conn.execute<[Return[]]>(query, [uid, username, rainbowId]);
 		return !!results[0].inserted;
 	} catch (e) {
 		console.log(e);
@@ -113,7 +113,7 @@ export async function getAllUsers(uid: string) {
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [[results]] = await conn.execute<Return[][]>(query, [uid]);
+		const [[results]] = await conn.execute<[Return[]]>(query, [uid]);
 		if (results && results.length > 0) {
 			return results;
 		} else {
@@ -185,7 +185,7 @@ export async function sendFriendRequest(uid: string, friendId: string) {
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
 
 	try {
-		const [[results]] = await conn.execute<Return[][]>(query, [uid, friendId]);
+		const [[results]] = await conn.execute<[Return[]]>(query, [uid, friendId]);
 
 		if (results && results.length > 0) {
 			if (results[0].friendType == 'R' || results[0].friendType == 'F') {
