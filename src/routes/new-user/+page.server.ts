@@ -16,6 +16,8 @@ export const load = (async (request: RequestEvent) => {
 			// Redirects to Login page if failed
 			redirect(303, '/');
 		}
+	} else {
+		redirect(303, '/');
 	}
 
 	if (!decodedToken) {
