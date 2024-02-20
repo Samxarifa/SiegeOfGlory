@@ -1,11 +1,10 @@
 <script lang="ts">
 	import FriendCard from '$lib/components/FriendCard.svelte';
-	import type { AllUserReturn } from '$lib/dbHandler.server';
 	import type { FuseResult } from 'fuse.js';
 	import { fly } from 'svelte/transition';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
-	let results: FuseResult<AllUserReturn>[] = [];
+	let results: FuseResult<{ userId: string; username: string }>[] = [];
 	let input: string = '';
 	let noFound = false;
 	let loading = false;

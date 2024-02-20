@@ -12,8 +12,7 @@ export async function GET(request: RequestEvent) {
 			const decodedToken = await adminAuth.verifyIdToken(token);
 			const dbData = await getAllUsers(decodedToken.uid);
 			const fuse = new Fuse(dbData, {
-				keys: ['username'],
-				isCaseSensitive: false
+				keys: ['username']
 			});
 
 			const results = fuse.search(searchQ.toLowerCase());

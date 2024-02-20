@@ -82,7 +82,6 @@ export async function getAllUsers(uid: string) {
 		username: string;
 	}
 
-	// const query = 'SELECT userId, username FROM sog_users;';
 	const query = 'CALL sog_userSearch(?);';
 
 	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
