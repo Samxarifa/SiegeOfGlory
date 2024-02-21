@@ -1,50 +1,76 @@
 <script lang="ts">
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
+	import { onMount } from 'svelte';
+
 	export let data;
+	let r6Data: ProfilePageReturn;
+	let fetching = true;
+
+	onMount(async () => {
+		if (data.rainbowId) {
+			r6Data = await fetch(
+				'/api/getProfileStats?' +
+					new URLSearchParams({
+						r6Id: data.rainbowId
+					})
+			).then(async (val) => {
+				return await val.json();
+			});
+			fetching = false;
+		}
+	});
 </script>
 
 <h1>Profile</h1>
 
 <header>
-	<span class="username">{data.sogData?.username}</span>
+	<span class="username">{data.username}</span>
 	<table>
 		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
 		<th><div><img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />Losses</div></th>
 		<th><div><img class="svg_icon" src="/icons/friends.svg" alt="Friends Icon" />Friends</div></th>
 		<tr>
-			<td>{data.sogData?.wins}</td>
-			<td>{data.sogData?.losses}</td>
-			<td>{data.sogData?.friendCount}</td>
+			<td>{data.wins}</td>
+			<td>{data.losses}</td>
+			<td>{data.friendCount}</td>
 		</tr>
 	</table>
 </header>
 
 <h2>Rainbow Stats</h2>
-<main>
-	<div class="stat">
-		<span>K/D</span>
-		<span class="value">{data.r6Data?.kd.toFixed(1)}</span>
+{#if fetching}
+	<div class="spinner">
+		<LoadingSpinner />
 	</div>
-	<div class="stat">
-		<span>Win%</span>
-		<span class="value">{data.r6Data?.wl.toFixed(1)}</span>
-	</div>
-	<div class="stat">
-		<span>Kills</span>
-		<span class="value">{data.r6Data?.kills}</span>
-	</div>
-	<div class="stat">
-		<span>Deaths</span>
-		<span class="value">{data.r6Data?.deaths}</span>
-	</div>
-	<div class="stat">
-		<span>Wins</span>
-		<span class="value">{data.r6Data?.wins}</span>
-	</div>
-	<div class="stat">
-		<span>Losses</span>
-		<span class="value">{data.r6Data?.losses}</span>
-	</div>
-</main>
+{:else}
+	<main>
+		<div class="stat">
+			<span>K/D</span>
+			<span class="value">{r6Data?.kd.toFixed(1)}</span>
+		</div>
+		<div class="stat">
+			<span>Win%</span>
+			<span class="value">{r6Data?.wl.toFixed(1)}</span>
+		</div>
+		<div class="stat">
+			<span>Kills</span>
+			<span class="value">{r6Data?.kills}</span>
+		</div>
+		<div class="stat">
+			<span>Deaths</span>
+			<span class="value">{r6Data?.deaths}</span>
+		</div>
+		<div class="stat">
+			<span>Wins</span>
+			<span class="value">{r6Data?.wins}</span>
+		</div>
+		<div class="stat">
+			<span>Losses</span>
+			<span class="value">{r6Data?.losses}</span>
+		</div>
+	</main>
+{/if}
 
 <style>
 	h1 {
@@ -142,6 +168,11 @@
 		width: 5rem;
 		height: 5rem;
 		overflow: hidden;
+	}
+
+	.spinner {
+		display: flex;
+		justify-content: center;
 	}
 
 	@media screen and (min-width: 375px) {

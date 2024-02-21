@@ -1,5 +1,14 @@
 import { env } from '$env/dynamic/private';
 
+export interface ProfilePageReturn {
+	wins: number;
+	losses: number;
+	kills: number;
+	deaths: number;
+	kd: number;
+	wl: number;
+}
+
 // Details Needed for R6 API (I don't know what they are but I need them so...)
 const appId = '3587dcbb-7f81-457c-9781-0e3f29f6f56a';
 const spaceId = '05bfb3f7-6c21-4c42-be1f-97a33fb5cf66';
@@ -59,15 +68,6 @@ export async function getPlayerIdByUsername(username: string, platform: string) 
 }
 
 export async function getProfilePageStats(playerId: string) {
-	interface Return {
-		wins: number;
-		losses: number;
-		kills: number;
-		deaths: number;
-		kd: number;
-		wl: number;
-	}
-
 	await updateAuth();
 	const out = await fetch(
 		'https://prod.datadev.ubisoft.com/v1/users/' +
@@ -86,7 +86,7 @@ export async function getProfilePageStats(playerId: string) {
 	);
 	const jsonOut = await out.json();
 	const stats = jsonOut.profileData[playerId].platforms.all.gameModes.ranked.teamRoles.all[0];
-	const toBeReturned: Return = {
+	const toBeReturned: ProfilePageReturn = {
 		wins: stats.matchesWon,
 		losses: stats.matchesLost,
 		kills: stats.kills,
