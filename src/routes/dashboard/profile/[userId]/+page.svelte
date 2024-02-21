@@ -1,11 +1,16 @@
 <script lang="ts">
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { auth } from '$lib/firebase/firebase.js';
 	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import { userStore } from 'sveltefire';
 
 	export let data;
 	let r6Data: ProfilePageReturn;
 	let fetching = true;
+
+	const user = userStore(auth);
 
 	onMount(async () => {
 		if (data.rainbowId) {
@@ -23,7 +28,11 @@
 </script>
 
 <div class="username_parent">
-	<h1 class="username">{data.username}</h1>
+	{#if data.userId != $user?.uid}
+		<h1 class="username opponent">{data.username}</h1>
+	{:else}
+		<h1 class="username">{data.username}</h1>
+	{/if}
 </div>
 
 <header>
@@ -45,13 +54,13 @@
 		<LoadingSpinner />
 	</div>
 {:else}
-	<main>
+	<main in:fly={{ x: 100 }}>
 		<div class="stat">
 			<span>K/D</span>
 			<span class="value">{r6Data?.kd.toFixed(1)}</span>
 		</div>
 		<div class="stat">
-			<span>Win%</span>
+			<span>Win/Loss</span>
 			<span class="value">{r6Data?.wl.toFixed(1)}</span>
 		</div>
 		<div class="stat">
@@ -100,6 +109,13 @@
 		color: var(--blue);
 		text-shadow:
 			0 0 5rem var(--blue),
+			0 0 1rem var(--background);
+	}
+
+	.opponent {
+		color: var(--orange);
+		text-shadow:
+			0 0 5rem var(--orange),
 			0 0 1rem var(--background);
 	}
 

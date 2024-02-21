@@ -193,6 +193,7 @@ export async function denyFriendRequest(uid: string, friendId: string) {
 
 export async function getProfilePageStats(uid: string) {
 	interface Return extends mysql.RowDataPacket {
+		userId: string;
 		username: string;
 		rainbowId: string;
 		wins: number;

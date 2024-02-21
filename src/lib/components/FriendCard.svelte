@@ -31,7 +31,7 @@
 
 {#if showCard}
 	<div class="card">
-		<span>{username}</span>
+		<a href="/dashboard/profile/{id}">{username}</a>
 		{#if showAddButton}
 			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
 		{:else if showRequestButtons}
@@ -57,9 +57,19 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem;
 		color: var(--text);
 		flex: 1;
+	}
+
+	a {
+		flex: 1;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding: 1rem;
+		color: var(--text);
+		text-decoration: none;
+		border-radius: 1rem;
 	}
 
 	.textButton {
@@ -69,11 +79,13 @@
 		border-radius: 1rem;
 		color: var(--text);
 		cursor: pointer;
+		margin: 1rem;
 	}
 
 	.requestButtons {
 		display: flex;
 		gap: 2rem;
+		margin: 1rem;
 	}
 
 	.request {
