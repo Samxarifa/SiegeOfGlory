@@ -2,7 +2,6 @@
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { auth } from '$lib/firebase/firebase.js';
 	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
-	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { userStore } from 'sveltefire';
 
@@ -12,19 +11,24 @@
 
 	const user = userStore(auth);
 
-	onMount(async () => {
+	async function getR6Data() {
+		fetching = true;
+		r6Data = await fetch(
+			'/api/getProfileStats?' +
+				new URLSearchParams({
+					r6Id: data.rainbowId
+				})
+		).then(async (val) => {
+			return await val.json();
+		});
+		fetching = false;
+	}
+
+	$: {
 		if (data.rainbowId) {
-			r6Data = await fetch(
-				'/api/getProfileStats?' +
-					new URLSearchParams({
-						r6Id: data.rainbowId
-					})
-			).then(async (val) => {
-				return await val.json();
-			});
-			fetching = false;
+			getR6Data();
 		}
-	});
+	}
 </script>
 
 <div class="username_parent">
