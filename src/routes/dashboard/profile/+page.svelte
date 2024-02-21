@@ -1,15 +1,19 @@
+<script lang="ts">
+	export let data;
+</script>
+
 <h1>Profile</h1>
 
 <header>
-	<span class="username">SAMXARIFA#PSN</span>
+	<span class="username">{data.sogData?.username}</span>
 	<table>
 		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
 		<th><div><img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />Losses</div></th>
 		<th><div><img class="svg_icon" src="/icons/friends.svg" alt="Friends Icon" />Friends</div></th>
 		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
+			<td>{data.sogData?.wins}</td>
+			<td>{data.sogData?.losses}</td>
+			<td>{data.sogData?.friendCount}</td>
 		</tr>
 	</table>
 </header>
@@ -18,27 +22,27 @@
 <main>
 	<div class="stat">
 		<span>K/D</span>
-		<span class="value">1.3</span>
+		<span class="value">{data.r6Data?.kd.toFixed(1)}</span>
 	</div>
 	<div class="stat">
 		<span>Win%</span>
-		<span class="value">55%</span>
+		<span class="value">{data.r6Data?.wl.toFixed(1)}</span>
 	</div>
 	<div class="stat">
 		<span>Kills</span>
-		<span class="value">1</span>
+		<span class="value">{data.r6Data?.kills}</span>
 	</div>
 	<div class="stat">
 		<span>Deaths</span>
-		<span class="value">1</span>
+		<span class="value">{data.r6Data?.deaths}</span>
 	</div>
 	<div class="stat">
 		<span>Wins</span>
-		<span class="value">1</span>
+		<span class="value">{data.r6Data?.wins}</span>
 	</div>
 	<div class="stat">
 		<span>Losses</span>
-		<span class="value">1</span>
+		<span class="value">{data.r6Data?.losses}</span>
 	</div>
 </main>
 

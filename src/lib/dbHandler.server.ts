@@ -190,3 +190,28 @@ export async function denyFriendRequest(uid: string, friendId: string) {
 		conn.end();
 	}
 }
+
+export async function getProfilePageStats(uid: string) {
+	interface Return extends mysql.RowDataPacket {
+		username: string;
+		rainbowId: string;
+		wins: number;
+		losses: number;
+		friendCount: number;
+	}
+
+	const query = 'CALL sog_profilePage(?)';
+
+	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+
+	try {
+		const [results] = await conn.execute<[Return[]]>(query, [uid]);
+		if (results) {
+			return results[0][0];
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.end();
+	}
+}
