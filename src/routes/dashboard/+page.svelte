@@ -13,9 +13,9 @@
 		<span class="username">{data.stats?.username}</span>
 	</div>
 	<table>
-		<th><div><img class="svg_icon" src="icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
-		<th><div><img class="svg_icon" src="icons/battle.svg" alt="Trophy Icon" />Ongoing</div></th>
-		<th><div><img class="svg_icon" src="icons/skull.svg" alt="List Icon" />Losses</div></th>
+		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
+		<th><div><img class="svg_icon" src="/icons/battle.svg" alt="Trophy Icon" />Ongoing</div></th>
+		<th><div><img class="svg_icon" src="/icons/skull.svg" alt="List Icon" />Losses</div></th>
 		<tr>
 			<td>{data.stats?.wins}</td>
 			<td>{data.stats?.ongoing}</td>
@@ -23,7 +23,7 @@
 		</tr>
 	</table>
 	<button class="btn_signout" on:click={() => signOut(auth)}
-		>Sign Out <img class="svg_icon" src="icons/logout.svg" alt="Logout Icon" /></button
+		>Sign Out <img class="svg_icon" src="/icons/logout.svg" alt="Logout Icon" /></button
 	>
 </header>
 
@@ -120,9 +120,6 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-	}
-
-	.btn_signout {
 		margin-left: auto;
 	}
 

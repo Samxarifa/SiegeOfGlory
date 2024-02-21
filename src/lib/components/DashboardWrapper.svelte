@@ -28,7 +28,7 @@
 			<a href="/dashboard"><img class="svg_icon" src="/icons/list.svg" alt="List Icon" />Lineup</a>
 		</li>
 		<li>
-			<a href="/dashboard"
+			<a href="/dashboard/profile"
 				><img class="svg_icon" src="/icons/profile.svg" alt="Battle Icon" />Profile</a
 			>
 		</li>
