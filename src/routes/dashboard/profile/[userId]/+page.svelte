@@ -22,10 +22,11 @@
 	});
 </script>
 
-<h1>Profile</h1>
+<div class="username_parent">
+	<h1 class="username">{data.username}</h1>
+</div>
 
 <header>
-	<span class="username">{data.username}</span>
 	<table>
 		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
 		<th><div><img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />Losses</div></th>
@@ -73,9 +74,11 @@
 {/if}
 
 <style>
-	h1 {
-		margin: 2rem 0;
-		color: var(--text);
+	.username_parent {
+		background-color: var(--foreground);
+		border-radius: 1rem;
+		margin: 1rem 0;
+		padding: 1rem;
 	}
 
 	header {
@@ -85,7 +88,6 @@
 		display: flex;
 		flex-direction: column;
 		padding: 1rem;
-		padding-bottom: 2rem;
 		gap: 2rem;
 		justify-content: center;
 		margin-bottom: 1rem;
@@ -93,7 +95,7 @@
 
 	.username {
 		font-size: 2.4rem;
-		width: fit-content;
+		text-align: center;
 		font-weight: bold;
 		color: var(--blue);
 		text-shadow:

@@ -3,6 +3,9 @@
 
 	import { auth } from '$lib/firebase/firebase';
 	import { signOut } from 'firebase/auth';
+	import { userStore } from 'sveltefire';
+
+	const user = userStore(auth);
 </script>
 
 <header>
@@ -28,7 +31,7 @@
 			<a href="/dashboard"><img class="svg_icon" src="/icons/list.svg" alt="List Icon" />Lineup</a>
 		</li>
 		<li>
-			<a href="/dashboard/profile"
+			<a href="/dashboard/profile/{$user?.uid}"
 				><img class="svg_icon" src="/icons/profile.svg" alt="Battle Icon" />Profile</a
 			>
 		</li>
