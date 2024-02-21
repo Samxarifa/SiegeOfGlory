@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
+
 	// Get Props Passed in from component decleration
 	export let username: string;
 	export let id: string;
@@ -30,7 +32,7 @@
 </script>
 
 {#if showCard}
-	<div class="card">
+	<div class="card" out:fly={{ x: 100 }}>
 		<a href="/dashboard/profile/{id}">{username}</a>
 		{#if showAddButton}
 			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
