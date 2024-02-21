@@ -8,46 +8,37 @@
 	let input: string = '';
 	let noFound = false;
 	let loading = false;
-
-	function debounce(func: Function, delay = 1000) {
-		let timer: NodeJS.Timeout;
-
-		return function (...args: any) {
-			clearTimeout(timer);
-
-			timer = setTimeout(() => {
-				func(...args);
-			}, delay);
-			loading = true;
-		};
-	}
+	let timer: NodeJS.Timeout;
 
 	async function handleChange() {
-		if (input) {
-			let data = await fetch(
-				'/api/searchUsers?' +
-					new URLSearchParams({
-						searchQ: input
-					})
-			);
-			results = await data.json();
-			results.length > 0 ? (noFound = false) : (noFound = true);
-		} else {
-			results = [];
-			noFound = false;
-		}
-		loading = false;
-	}
+		clearTimeout(timer);
 
-	const debounceChange = debounce(handleChange);
+		timer = setTimeout(async () => {
+			if (input) {
+				let data = await fetch(
+					'/api/searchUsers?' +
+						new URLSearchParams({
+							searchQ: input
+						})
+				);
+				results = await data.json();
+				results.length > 0 ? (noFound = false) : (noFound = true);
+			} else {
+				results = [];
+				noFound = false;
+			}
+			loading = false;
+		}, 1000);
+		loading = true;
+	}
 </script>
 
 <h1>Add Friend</h1>
 
 <main in:fly={{ x: 100 }}>
 	<div class="search">
-		<form on:submit|preventDefault={debounceChange}>
-			<input type="text" placeholder="Search" on:input={debounceChange} bind:value={input} />
+		<form on:submit|preventDefault={handleChange}>
+			<input type="text" placeholder="Search" on:input={handleChange} bind:value={input} />
 			<button type="submit">
 				<img class="svg_icon" src="/icons/search.svg" alt="Search Icon" />
 			</button>
@@ -122,6 +113,7 @@
 	.cards {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 1rem;
 	}
 
 	.noFound {
