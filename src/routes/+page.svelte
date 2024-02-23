@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { SignedIn, SignedOut } from 'sveltefire';
 	import { auth, googleProvider } from '$lib/firebase/firebase';
 	import { signInWithPopup } from 'firebase/auth';
-	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 
 	function handleGoogleSignIn() {
 		// Shows Google Sign In Page
@@ -10,25 +8,17 @@
 	}
 </script>
 
-<SignedOut>
-	<div class="signIn">
-		<header>
-			<span class="welcome">Welcome to</span>
-			<h1>Siege of Glory</h1>
-		</header>
-		<main>
-			<button on:click={handleGoogleSignIn}>
-				<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
-			</button>
-		</main>
-	</div>
-</SignedOut>
-
-<SignedIn>
-	<div class="spinner-parent">
-		<LoadingSpinner />
-	</div>
-</SignedIn>
+<div class="signIn">
+	<header>
+		<span class="welcome">Welcome to</span>
+		<h1>Siege of Glory</h1>
+	</header>
+	<main>
+		<button on:click={handleGoogleSignIn}>
+			<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
+		</button>
+	</main>
+</div>
 
 <style>
 	@keyframes slide-in {

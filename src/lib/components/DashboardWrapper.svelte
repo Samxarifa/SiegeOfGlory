@@ -3,7 +3,10 @@
 
 	import { auth } from '$lib/firebase/firebase';
 	import { signOut } from 'firebase/auth';
+	import { fade } from 'svelte/transition';
 	import { userStore } from 'sveltefire';
+
+	export let url: string;
 
 	const user = userStore(auth);
 </script>
@@ -14,9 +17,11 @@
 		>Sign Out <img class="svg_icon" src="/icons/logout.svg" alt="Logout Icon" /></button
 	>
 </header>
-<div class="content">
-	<slot />
-</div>
+{#key url}
+	<div class="content" in:fade>
+		<slot />
+	</div>
+{/key}
 <nav>
 	<ul>
 		<li>

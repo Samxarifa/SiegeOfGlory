@@ -14,11 +14,12 @@
 	onMount(() => {
 		// Checks if logged in when first loaded and whenever auth status changes after
 		auth.onAuthStateChanged(async (user) => {
+			loading = true;
 			let token;
 			let location;
 			// If logged in, send the jwt to server api endpoint and navigate from login page
 			if (user) {
-				token = await user.getIdToken(true);
+				token = await user.getIdToken();
 				if ($page.url.pathname !== '/') {
 					location = $page.url.pathname;
 				} else {
@@ -34,7 +35,7 @@
 				body: JSON.stringify({ token: token })
 			});
 
-			goto(location);
+			await goto(location);
 			// Hide Loading Spinner
 			loading = false;
 		});

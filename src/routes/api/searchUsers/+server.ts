@@ -1,26 +1,20 @@
 import { getAllUsers } from '$lib/dbHandler.server';
-import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import { error, json, type RequestEvent } from '@sveltejs/kit';
 import Fuse from 'fuse.js';
 
 export async function GET(request: RequestEvent) {
 	const searchQ = request.url.searchParams.get('searchQ');
-	const token = request.cookies.get('token');
+	const uid = request.locals.userSession?.uid;
 
-	if (token && searchQ) {
-		try {
-			const decodedToken = await adminAuth.verifyIdToken(token);
-			const dbData = await getAllUsers(decodedToken.uid);
-			const fuse = new Fuse(dbData, {
-				keys: ['username']
-			});
+	if (uid && searchQ) {
+		const dbData = await getAllUsers(uid);
+		const fuse = new Fuse(dbData, {
+			keys: ['username']
+		});
 
-			const results = fuse.search(searchQ.toLowerCase());
+		const results = fuse.search(searchQ.toLowerCase());
 
-			return json(results);
-		} catch {
-			return error(403, 'Forbidden');
-		}
+		return json(results);
 	} else {
 		return error(403, 'Forbidden');
 	}

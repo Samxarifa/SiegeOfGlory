@@ -6,12 +6,14 @@ export async function POST(request: RequestEvent) {
 	// Gets Token from request header
 	const { token } = await request.request.json();
 
-	// Deletes the previous token set
-	request.cookies.delete('token', { path: '/' });
+	if (token && token !== '') {
+		const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
-	if (token && (await adminAuth.verifyIdToken(token))) {
-		// Sets new token if exists and is valid
-		request.cookies.set('token', token, { path: '/' });
+		const sessionCookie = await adminAuth.createSessionCookie(token, { expiresIn });
+
+		request.cookies.set('session', sessionCookie, { path: '/', maxAge: expiresIn });
+	} else {
+		request.cookies.delete('session', { path: '/' });
 	}
 	return new Response();
 }

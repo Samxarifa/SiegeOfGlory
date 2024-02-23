@@ -8,21 +8,6 @@ let app: FirebaseApp;
 // Declares new app if no app already used
 if (getApps().length === 0) {
 	app = initializeApp(JSON.parse(env.PUBLIC_FIREBASE_CONFIG));
-
-	// Refreshes firebase token and sends it to auth endpoint every 10 mins (stop it expiring)
-	setInterval(
-		async () => {
-			if (auth.currentUser) {
-				// console.log('Token Refresh');
-				const token = await auth.currentUser.getIdToken(true);
-				await fetch('/api/auth', {
-					method: 'POST',
-					body: JSON.stringify({ token: token })
-				});
-			}
-		},
-		10 * 60 * 1000
-	);
 } else {
 	// Gets app, if already exists
 	app = getApp();

@@ -2,10 +2,12 @@
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import DashboardWrapper from '$lib/components/DashboardWrapper.svelte';
 	import { SignedIn, SignedOut } from 'sveltefire';
+
+	export let data;
 </script>
 
 <SignedIn>
-	<DashboardWrapper>
+	<DashboardWrapper url={data.url}>
 		<slot />
 	</DashboardWrapper>
 </SignedIn>
