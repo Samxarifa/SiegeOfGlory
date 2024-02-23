@@ -11,7 +11,7 @@ export async function POST(request: RequestEvent) {
 
 		const sessionCookie = await adminAuth.createSessionCookie(token, { expiresIn });
 
-		request.cookies.set('session', sessionCookie, { path: '/', maxAge: expiresIn });
+		request.cookies.set('session', sessionCookie, { path: '/', maxAge: expiresIn / 1000 });
 	} else {
 		request.cookies.delete('session', { path: '/' });
 	}
