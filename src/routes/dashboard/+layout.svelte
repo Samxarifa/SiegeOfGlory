@@ -2,8 +2,28 @@
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import DashboardWrapper from '$lib/components/DashboardWrapper.svelte';
 	import { SignedIn, SignedOut } from 'sveltefire';
+	import NProgress from 'nprogress';
+	import { navigating } from '$app/stores';
+
+	// NProgress css
+	import 'nprogress/nprogress.css';
 
 	export let data;
+
+	NProgress.configure({
+		// Full list: https://github.com/rstacruz/nprogress#configuration
+		minimum: 0.16,
+		showSpinner: false
+	});
+
+	$: {
+		if ($navigating) {
+			NProgress.start();
+		}
+		if (!$navigating) {
+			NProgress.done();
+		}
+	}
 </script>
 
 <SignedIn>
