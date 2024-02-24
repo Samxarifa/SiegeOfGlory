@@ -8,6 +8,7 @@ export const load = (async (request: RequestEvent) => {
 		// If validated (Logged In), redirect to dashboard
 		redirect(303, '/dashboard');
 	} else {
+		// Else, do nothing
 		return {};
 	}
 }) satisfies PageServerLoad;

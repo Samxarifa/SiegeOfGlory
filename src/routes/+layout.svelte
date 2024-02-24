@@ -14,6 +14,7 @@
 	onMount(() => {
 		// Checks if logged in when first loaded and whenever auth status changes after
 		auth.onAuthStateChanged(async (user) => {
+			// Shows Loading Spinner
 			loading = true;
 			let token;
 			let location;

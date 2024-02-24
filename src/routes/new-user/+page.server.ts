@@ -23,7 +23,7 @@ export const actions = {
 		const username = data.get('username')?.toString();
 		const platform = data.get('platform')?.toString();
 
-		// Validates firebase auth
+		// Gets user Uid
 		const uid = locals.userSession?.uid;
 
 		if (uid && username && platform) {
