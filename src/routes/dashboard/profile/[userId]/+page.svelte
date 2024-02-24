@@ -90,7 +90,6 @@
 	.username_parent {
 		background-color: var(--foreground);
 		border-radius: 1rem;
-		margin: 1rem 0;
 		padding: 1rem;
 	}
 
@@ -103,7 +102,7 @@
 		padding: 1rem;
 		gap: 2rem;
 		justify-content: center;
-		margin-bottom: 1rem;
+		margin: 1rem 0;
 	}
 
 	.username {
