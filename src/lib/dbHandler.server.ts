@@ -1,6 +1,17 @@
 import mysql from 'mysql2/promise';
 import { env } from '$env/dynamic/private';
 
+let pool: mysql.Pool;
+
+async function getConnection() {
+	if (!pool) {
+		pool = mysql.createPool(env.DATABASE_CREDENTAILS);
+	}
+
+	const conn = await pool.getConnection();
+	return conn;
+}
+
 // Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
 	// Structure of data to be returned by query
@@ -10,7 +21,7 @@ export async function checkIfUserExists(uid: string) {
 
 	const query = 'SELECT userId FROM sog_users WHERE userId = ?';
 	let check = false;
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid]);
@@ -21,7 +32,7 @@ export async function checkIfUserExists(uid: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 	return check;
 }
@@ -34,7 +45,7 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 
 	const query = 'CALL sog_createUser(?,?,?)';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [[results]] = await conn.execute<[Return[]]>(query, [uid, username, rainbowId]);
@@ -42,7 +53,7 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
 
@@ -63,7 +74,7 @@ export async function getHomePageStats(uid: string) {
 
 	const query = 'CALL sog_homePage(?)';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [results] = await conn.execute<[Return1[], Return2[]]>(query, [uid]);
@@ -73,7 +84,7 @@ export async function getHomePageStats(uid: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
 
@@ -85,7 +96,7 @@ export async function getAllUsers(uid: string) {
 
 	const query = 'CALL sog_userSearch(?);';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [[results]] = await conn.execute<[Return[]]>(query, [uid]);
@@ -98,7 +109,7 @@ export async function getAllUsers(uid: string) {
 		console.log(e);
 		return [];
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
 
@@ -115,7 +126,7 @@ export async function getFriends(uid: string) {
 		AND userId = IF(user1 = ?, user2,user1) \
 		AND friendshipType = "F"';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [results] = await conn.execute<Return[]>(query, [uid, uid, uid]);
@@ -125,7 +136,7 @@ export async function getFriends(uid: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
 
@@ -137,7 +148,7 @@ export async function getRequests(uid: string) {
 
 	const query = 'CALL sog_friends_getRequests(?)';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [results] = await conn.execute<[Return[], Return[]]>(query, [uid]);
@@ -147,7 +158,7 @@ export async function getRequests(uid: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
 
@@ -157,7 +168,7 @@ export async function sendFriendRequest(uid: string, friendId: string) {
 	}
 
 	const query = 'CALL sog_friendships_requests(?,?)';
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [[results]] = await conn.execute<[Return[]]>(query, [uid, friendId]);
@@ -180,7 +191,7 @@ export async function sendFriendRequest(uid: string, friendId: string) {
 
 export async function denyFriendRequest(uid: string, friendId: string) {
 	const query = 'DELETE FROM sog_friendships WHERE user1 = ? AND user2 = ?';
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		await conn.execute(query, [friendId, uid]);
@@ -203,7 +214,7 @@ export async function getProfilePageStats(uid: string) {
 
 	const query = 'CALL sog_profilePage(?)';
 
-	const conn = await mysql.createConnection(JSON.parse(env.DATABASE_CREDENTAILS));
+	const conn = await getConnection();
 
 	try {
 		const [results] = await conn.execute<[Return[]]>(query, [uid]);
@@ -213,6 +224,6 @@ export async function getProfilePageStats(uid: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		await conn.end();
+		await conn.release();
 	}
 }
