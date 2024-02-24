@@ -17,6 +17,9 @@ dependencies:
   mysql2:
     specifier: ^3.9.1
     version: 3.9.1
+  nprogress:
+    specifier: ^0.2.0
+    version: 0.2.0
   sveltefire:
     specifier: ^0.4.5
     version: 0.4.5(firebase@10.8.0)(svelte@4.2.10)
@@ -55,9 +58,6 @@ devDependencies:
   eslint-plugin-svelte:
     specifier: ^2.35.1
     version: 2.35.1(eslint@8.56.0)(svelte@4.2.10)
-  nprogress:
-    specifier: ^0.2.0
-    version: 0.2.0
   prettier:
     specifier: ^3.1.1
     version: 3.2.5
@@ -2989,7 +2989,7 @@ packages:
 
   /nprogress@0.2.0:
     resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
-    dev: true
+    dev: false
 
   /object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
