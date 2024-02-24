@@ -6,4 +6,18 @@ services:
       - 8080:3000/tcp
     env_file:
       - '.env'
+    environment:
+      - DATABASE_CREDENTAILS={"host":"db","user":"sx","password":"sx","database":"sx"}
     container_name: application
+    depends_on:
+      - db
+  db:
+    image: mariadb
+    ports:
+      - 3306:3306/tcp
+    environment:
+      - MYSQL_USER=sx
+      - MYSQL_PASSWORD=sx
+      - MYSQL_ROOT_PASSWORD=sx
+      - MYSQL_DATABASE=sx
+    container_name: db

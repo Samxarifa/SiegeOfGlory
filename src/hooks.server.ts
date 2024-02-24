@@ -31,9 +31,7 @@ export async function handle({ event, resolve }) {
 		redirect(303, '/');
 	}
 
-	const result = await resolve(event, {
-		transformPageChunk: ({ html }) => html
-	});
+	const result = await resolve(event);
 
 	return result;
 }
