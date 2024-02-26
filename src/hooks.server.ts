@@ -1,5 +1,10 @@
+import { dev } from '$app/environment';
+import { closePool } from '$lib/dbHandler.server';
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import { redirect } from '@sveltejs/kit';
+
+process.on('SIGINT', closePool);
+process.on('SIGTERM', closePool);
 
 export async function handle({ event, resolve }) {
 	// Get session from cookies
@@ -37,7 +42,7 @@ export async function handle({ event, resolve }) {
 		event.url.pathname !== '/api/auth'
 	) {
 		// Delete cookie (potential cleanup)
-		event.cookies.delete('session', { path: '/' });
+		event.cookies.delete('session', { path: '/', secure: !dev });
 		// Redirect to login
 		redirect(303, '/');
 	}

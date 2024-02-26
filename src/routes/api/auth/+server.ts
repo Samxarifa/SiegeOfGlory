@@ -1,5 +1,6 @@
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import type { RequestEvent } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 // Code run when API endpoint hit (/api/auth)
 export async function POST(request: RequestEvent) {
@@ -13,10 +14,14 @@ export async function POST(request: RequestEvent) {
 		// Create session cookie from firebase
 		const sessionCookie = await adminAuth.createSessionCookie(token, { expiresIn });
 		// Set the session cookie at path /
-		request.cookies.set('session', sessionCookie, { path: '/', maxAge: expiresIn / 1000 });
+		request.cookies.set('session', sessionCookie, {
+			path: '/',
+			maxAge: expiresIn / 1000,
+			secure: !dev
+		});
 	} else {
 		// Delete the session cookie at path /
-		request.cookies.delete('session', { path: '/' });
+		request.cookies.delete('session', { path: '/', secure: !dev });
 	}
 	return new Response();
 }

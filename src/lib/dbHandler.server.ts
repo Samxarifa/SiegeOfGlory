@@ -12,6 +12,24 @@ async function getConnection() {
 	return conn;
 }
 
+export function closePool() {
+	if (pool) {
+		console.log('Closing DB Pool');
+		pool
+			.end()
+			.then(() => {
+				console.log('DB Pool Closed');
+				process.exit(0);
+			})
+			.catch(() => {
+				console.error('Pool did not Close');
+				process.exit(1);
+			});
+	} else {
+		process.exit(0);
+	}
+}
+
 // Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
 	// Structure of data to be returned by query
