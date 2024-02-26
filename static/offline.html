@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="/favicon.svg" />
+		<title>Siege Of Glory</title>
+		<script>
+			window.addEventListener('online', () => {
+				window.location.reload();
+			});
+		</script>
+		<style>
+			* {
+				font-family: sans-serif;
+			}
+
+			body {
+				background-color: #121212;
+				color: white;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			img {
+				filter: invert(1);
+				width: 100px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<img src="/icons/trophy.svg" alt="Trophy Icon" />
+		<h1>You Are Currently Offline</h1>
+		<h2>Please Reconnect Internet</h2>
+	</body>
+</html>

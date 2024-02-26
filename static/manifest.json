@@ -1,0 +1,26 @@
+{
+	"name": "Siege Of Glory",
+	"short_name": "SOG",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#121212",
+	"theme_color": "#2A2A2A",
+	"description": "Stat Battle app for Rainbow Six",
+	"icons": [
+		{
+			"src": "/PWA/pwa-64x64.png",
+			"type": "image/png",
+			"sizes": "64x64"
+		},
+		{
+			"src": "/PWA/pwa-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "/PWA/pwa-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	]
+}

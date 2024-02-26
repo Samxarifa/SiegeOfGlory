@@ -12,6 +12,12 @@
 	let loading = true;
 
 	onMount(() => {
+		detectSWUpdate();
+
+		window.addEventListener('offline', () => {
+			window.location.reload();
+		});
+
 		// Checks if logged in when first loaded and whenever auth status changes after
 		auth.onAuthStateChanged(async (user) => {
 			// Shows Loading Spinner
@@ -41,6 +47,22 @@
 			loading = false;
 		});
 	});
+
+	async function detectSWUpdate() {
+		const registration = await navigator.serviceWorker.ready;
+
+		registration.addEventListener('updatefound', () => {
+			const newSW = registration.installing;
+			newSW?.addEventListener('statechange', () => {
+				if (newSW.state === 'installed') {
+					if (confirm('New Update Available! Reload to update?')) {
+						newSW.postMessage({ type: 'SKIP_WAITING' });
+						window.location.reload();
+					}
+				}
+			});
+		});
+	}
 </script>
 
 <FirebaseApp {auth}>
