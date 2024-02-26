@@ -120,8 +120,14 @@
 
 	@media screen and (min-width: 900px) {
 		header {
+			margin-top: 0;
+			height: 7rem;
 			justify-content: space-between;
 			padding: 0 2rem;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			background-color: var(--background);
 		}
 
 		header button {
@@ -131,6 +137,7 @@
 		.content {
 			padding-bottom: 1rem;
 			padding-left: 32rem;
+			padding-top: 7rem;
 		}
 
 		nav {
