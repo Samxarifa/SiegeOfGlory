@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import FriendCard from '$lib/components/FriendCard.svelte';
 
@@ -54,10 +55,10 @@
 					<b>{new Date(Date.now() + 1000 * 60 * 60 * 48).toLocaleDateString('en-GB')}</b>
 				</span>
 			</div>
-			<form action="#" method="POST">
+			<form action="#" method="POST" use:enhance on:submit={() => (modalData.confirm = true)}>
 				<div class="select">
 					<label for="statType">Stat Type: </label>
-					<select name="statType" id="statType">
+					<select name="statType" id="statType" bind:value={modalData.statType}>
 						<option value="k">Most Kills</option>
 						<option value="d">Least Deaths</option>
 						<option value="w%">Win%</option>
