@@ -3,6 +3,20 @@
 	import FriendCard from '$lib/components/FriendCard.svelte';
 
 	export let data;
+
+	let modalData: {
+		modal: HTMLDialogElement | undefined;
+		id: string;
+		name: string;
+		statType: string;
+		confirm: boolean;
+	} = {
+		modal: undefined,
+		id: '',
+		name: '',
+		statType: '',
+		confirm: false
+	};
 </script>
 
 <div class="top">
@@ -18,12 +32,41 @@
 	{#if data.friends && data.friends.length > 0}
 		<div class="cards">
 			{#each data.friends as friend}
-				<FriendCard username={friend.username} id={friend.userId} showBattleButton />
+				<FriendCard username={friend.username} id={friend.userId} bind:modalData showBattleButton />
 			{/each}
 		</div>
 	{:else}
 		<span class="noFriend">Click add to find a new Friend</span>
 	{/if}
+	<dialog bind:this={modalData.modal}>
+		<button class="dialog_close" on:click={() => modalData.modal?.close()}>
+			<img class="svg_icon" src="/icons/cross.svg" alt="Cross Icon" />
+		</button>
+		<div class="dialog_inner">
+			<h2>Start Battle With:</h2>
+			<span class="dialog_username">{modalData.name}</span>
+			<div class="dates">
+				<span>
+					<b>{new Date(Date.now() + 1000 * 60 * 60 * 24).toLocaleDateString('en-GB')}</b>
+				</span>
+				<span>-</span>
+				<span>
+					<b>{new Date(Date.now() + 1000 * 60 * 60 * 48).toLocaleDateString('en-GB')}</b>
+				</span>
+			</div>
+			<form action="#" method="POST">
+				<div class="select">
+					<label for="statType">Stat Type: </label>
+					<select name="statType" id="statType">
+						<option value="k">Most Kills</option>
+						<option value="d">Least Deaths</option>
+						<option value="w%">Win%</option>
+					</select>
+				</div>
+				<button type="submit">Start</button>
+			</form>
+		</div>
+	</dialog>
 </main>
 
 <style>
@@ -88,5 +131,86 @@
 		color: var(--text);
 		display: block;
 		text-align: center;
+	}
+
+	dialog {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: var(--foreground);
+		color: var(--text);
+		width: 40rem;
+		height: 40rem;
+		border: solid 0.2rem var(--text);
+		border-radius: 1rem;
+		padding: 1rem;
+		overflow: visible;
+	}
+
+	.dialog_close {
+		position: absolute;
+		background-color: var(--orange);
+		right: 0;
+		top: 0;
+		transform: translate(+50%, -50%);
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.dialog_close img {
+		width: 5rem;
+		height: 5rem;
+		border-radius: 50%;
+	}
+
+	.dialog_inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		height: 100%;
+	}
+
+	.dialog_username {
+		color: var(--orange);
+		font-size: 3rem;
+		margin-top: 1rem;
+	}
+
+	dialog form {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	dialog form .select {
+		display: flex;
+		gap: 1rem;
+		font-size: 2.4rem;
+		margin-top: 2rem;
+	}
+
+	dialog form select {
+		background-color: var(--foreground);
+		border: none;
+		color: inherit;
+		font-size: 2.4rem;
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	dialog form button {
+		margin-top: auto;
+		padding: 1rem 2rem;
+		background-color: var(--foreground);
+		border: solid 0.2rem var(--text);
+		color: inherit;
+		border-radius: 1rem;
+		font-size: 2.4rem;
 	}
 </style>

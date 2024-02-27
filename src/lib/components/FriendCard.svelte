@@ -8,6 +8,16 @@
 	export let showAddButton = false;
 	export let showBattleButton = false;
 
+	export let modalData:
+		| {
+				modal: HTMLDialogElement | undefined;
+				id: string;
+				name: string;
+				statType: string;
+				confirm: boolean;
+		  }
+		| undefined = undefined;
+
 	let showCard = true;
 
 	async function sendFriendRequest() {
@@ -29,6 +39,14 @@
 			})
 		});
 	}
+
+	async function startBattle() {
+		if (modalData) {
+			modalData.id = id;
+			modalData.name = username;
+			modalData.modal?.showModal();
+		}
+	}
 </script>
 
 {#if showCard}
@@ -46,7 +64,7 @@
 				>
 			</div>
 		{:else if showBattleButton}
-			<button class="textButton">Start Battle</button>
+			<button class="textButton" on:click={startBattle}>Start Battle</button>
 		{/if}
 	</div>
 {/if}
