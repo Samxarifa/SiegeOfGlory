@@ -44,7 +44,7 @@
 		{#if data.userId != $user?.uid}
 			<h1 class="username opponent" bind:this={usernameSpan}>{data.username}</h1>
 		{:else}
-			<h1 class="username" bind:this={usernameSpan}>{data.username}adkajshdkaJDH</h1>
+			<h1 class="username" bind:this={usernameSpan}>{data.username}</h1>
 		{/if}
 	</div>
 </div>
