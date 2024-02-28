@@ -51,7 +51,7 @@
 
 {#if showCard}
 	<div class="card" out:fly={{ x: 100 }}>
-		<a href="/dashboard/profile/{id}">{username}</a>
+		<a href="/dashboard/profile/{id}"><span>{username}</span></a>
 		{#if showAddButton}
 			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
 		{:else if showRequestButtons}
@@ -72,13 +72,14 @@
 <style>
 	.card {
 		background-color: var(--foreground);
-		height: 7rem;
+		min-height: 7rem;
 		border-radius: 1rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		color: var(--text);
 		flex: 1;
+		max-width: 100%;
 	}
 
 	a {
@@ -90,6 +91,12 @@
 		color: var(--text);
 		text-decoration: none;
 		border-radius: 1rem;
+		overflow: hidden;
+	}
+
+	span {
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.textButton {

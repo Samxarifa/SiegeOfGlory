@@ -59,6 +59,7 @@
 				<div class="select">
 					<label for="statType">Stat Type: </label>
 					<select name="statType" id="statType" bind:value={modalData.statType}>
+						<option value="" disabled selected>Select Stat</option>
 						<option value="k">Most Kills</option>
 						<option value="d">Least Deaths</option>
 						<option value="w%">Win%</option>
@@ -140,7 +141,9 @@
 		transform: translate(-50%, -50%);
 		background-color: var(--foreground);
 		color: var(--text);
-		width: 40rem;
+		/* width: 40rem; */
+		width: calc(100vw - 6rem);
+		max-width: 40rem;
 		height: 40rem;
 		border: solid 0.2rem var(--text);
 		border-radius: 1rem;
@@ -174,12 +177,17 @@
 		align-items: center;
 		gap: 1rem;
 		height: 100%;
+		overflow: hidden;
 	}
 
 	.dialog_username {
 		color: var(--orange);
 		font-size: 3rem;
 		margin-top: 1rem;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: center;
 	}
 
 	dialog form {
@@ -191,6 +199,8 @@
 
 	dialog form .select {
 		display: flex;
+		flex-direction: column;
+		align-items: center;
 		gap: 1rem;
 		font-size: 2.4rem;
 		margin-top: 2rem;
@@ -198,7 +208,9 @@
 
 	dialog form select {
 		background-color: var(--foreground);
-		border: none;
+		border: solid 0.2rem var(--text);
+		border-radius: 1rem;
+		padding: 1rem;
 		color: inherit;
 		font-size: 2.4rem;
 		font-weight: bold;
@@ -213,5 +225,11 @@
 		color: inherit;
 		border-radius: 1rem;
 		font-size: 2.4rem;
+	}
+
+	@media screen and (min-width: 450px) {
+		dialog form .select {
+			flex-direction: row;
+		}
 	}
 </style>
