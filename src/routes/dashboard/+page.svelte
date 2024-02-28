@@ -2,15 +2,24 @@
 	import BattleCard from '$lib/components/BattleCard.svelte';
 	import { auth } from '$lib/firebase/firebase';
 	import { signOut } from 'firebase/auth';
+	import fitty from 'fitty';
+	import { onMount } from 'svelte';
 
 	// Gets Data from server function (+page.server.ts)
 	export let data;
+
+	let usernameSpan: HTMLSpanElement;
+
+	onMount(() => {
+		fitty(usernameSpan, { maxSize: 24 });
+	});
 </script>
 
 <header>
 	<div class="div_hello">
 		<span class="hello">Hello,</span>
-		<span class="username">{data.stats?.username}</span>
+		<br />
+		<span class="username" bind:this={usernameSpan}>{data.stats?.username}</span>
 	</div>
 	<table>
 		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
@@ -55,8 +64,6 @@
 	}
 
 	.div_hello {
-		display: flex;
-		flex-direction: column;
 		width: 100%;
 	}
 
@@ -66,7 +73,6 @@
 
 	.username {
 		font-size: 2.4rem;
-		width: fit-content;
 		font-weight: bold;
 		color: var(--blue);
 		text-shadow:

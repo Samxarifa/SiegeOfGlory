@@ -11,6 +11,9 @@ dependencies:
   firebase-admin:
     specifier: ^12.0.0
     version: 12.0.0
+  fitty:
+    specifier: ^2.4.2
+    version: 2.4.2
   fuse.js:
     specifier: ^7.0.0
     version: 7.0.0
@@ -2233,6 +2236,10 @@ packages:
       '@firebase/util': 1.9.4
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
+    dev: false
+
+  /fitty@2.4.2:
+    resolution: {integrity: sha512-GNhWgImK4+wEkgEZjBkQMyu5NLSmmryg/CaRP7zYby+TWzCrUou6BHL+iqbjKzJRXMyzuJkH+LBB1+lh4oO77g==}
     dev: false
 
   /flat-cache@3.2.0:

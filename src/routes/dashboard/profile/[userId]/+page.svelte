@@ -2,6 +2,8 @@
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { auth } from '$lib/firebase/firebase.js';
 	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
+	import fitty from 'fitty';
+	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { userStore } from 'sveltefire';
 
@@ -10,6 +12,12 @@
 	let fetching = true;
 
 	const user = userStore(auth);
+
+	let usernameSpan: HTMLSpanElement;
+
+	onMount(() => {
+		fitty(usernameSpan, { maxSize: 24 });
+	});
 
 	async function getR6Data() {
 		fetching = true;
@@ -32,11 +40,13 @@
 </script>
 
 <div class="username_parent">
-	{#if data.userId != $user?.uid}
-		<h1 class="username opponent">{data.username}</h1>
-	{:else}
-		<h1 class="username">{data.username}</h1>
-	{/if}
+	<div>
+		{#if data.userId != $user?.uid}
+			<h1 class="username opponent" bind:this={usernameSpan}>{data.username}</h1>
+		{:else}
+			<h1 class="username" bind:this={usernameSpan}>{data.username}adkajshdkaJDH</h1>
+		{/if}
+	</div>
 </div>
 
 <header>
@@ -91,6 +101,7 @@
 		background-color: var(--foreground);
 		border-radius: 1rem;
 		padding: 1rem;
+		text-align: center;
 	}
 
 	header {
@@ -107,7 +118,6 @@
 
 	.username {
 		font-size: 2.4rem;
-		text-align: center;
 		font-weight: bold;
 		color: var(--blue);
 		text-shadow:
