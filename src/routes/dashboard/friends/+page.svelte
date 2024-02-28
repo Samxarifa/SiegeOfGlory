@@ -225,6 +225,7 @@
 		color: inherit;
 		border-radius: 1rem;
 		font-size: 2.4rem;
+		cursor: pointer;
 	}
 
 	@media screen and (min-width: 450px) {
