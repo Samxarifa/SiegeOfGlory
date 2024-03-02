@@ -1,8 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	// Get Props Passed in from component decleration
 	export let opponent: string;
 	export let stat: string;
 	export let time: string;
+
+	let timeLeft: number;
+	let timeMetric: string;
+	let now = Date.now();
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			now = Date.now();
+		}, 1000 * 60);
+
+		return () => clearInterval(interval);
+	});
+
+	$: {
+		timeLeft = (new Date(time).getTime() + 1000 * 60 * 60 * 24 - now) / 1000 / 60 / 60;
+		if (Math.floor(timeLeft) < 1) {
+			timeLeft = Math.floor(timeLeft * 60);
+			timeMetric = 'Minutes';
+		} else {
+			timeLeft = Math.floor(timeLeft);
+			timeMetric = 'Hours';
+		}
+	}
 </script>
 
 <div class="card">
@@ -19,12 +44,12 @@
 			{/if}
 		</span>
 		<span>
-			{#if new Date(time).getTime() > Date.now()}
-				Starts In: {Math.floor((new Date(time).getTime() - Date.now()) / 1000 / 60 / 60)} Hours
+			{#if new Date(time).getTime() > now}
+				Starts <b>Tommorow...</b>
+			{:else if new Date(time).getTime() + 1000 * 60 * 60 * 24 - now < 1}
+				Completed: Waiting to be Counted
 			{:else}
-				Ends In: {Math.floor(
-					(Date.now() + 1000 * 60 * 60 * 24 - new Date(time).getTime()) / 1000 / 60 / 60
-				)} Hours
+				Ends In: <b>{timeLeft} {timeMetric}</b>
 			{/if}
 		</span>
 	</div>

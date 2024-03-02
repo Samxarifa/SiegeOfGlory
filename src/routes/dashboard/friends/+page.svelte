@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import FriendCard from '$lib/components/FriendCard.svelte';
 
 	export let data;
@@ -35,6 +35,7 @@
 			})
 		}).then(async (res) => await res.json());
 		if (res.success) {
+			await invalidate('get:friends');
 			closeModal();
 		} else {
 			alert(res.message);
