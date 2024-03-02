@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import FriendCard from '$lib/components/FriendCard.svelte';
 
@@ -10,19 +9,44 @@
 		id: string;
 		name: string;
 		statType: string;
-		confirm: boolean;
 	} = {
 		modal: undefined,
 		id: '',
 		name: '',
-		statType: '',
-		confirm: false
+		statType: ''
 	};
+
+	function closeModal() {
+		modalData.modal?.close();
+		modalData = {
+			...modalData,
+			id: '',
+			name: '',
+			statType: ''
+		};
+	}
+
+	async function handleSubmit() {
+		const res = await fetch('/api/startBattle', {
+			method: 'POST',
+			body: JSON.stringify({
+				friendId: modalData.id,
+				statType: modalData.statType
+			})
+		}).then(async (res) => await res.json());
+		if (res.success) {
+			closeModal();
+		} else {
+			alert(res.message);
+		}
+	}
 </script>
 
 <div class="top">
 	<h1>Friends</h1>
-	<a href="./friends/add-friend">Add<img class="svg_icon" src="/icons/personAdd.svg" alt="" /></a>
+	<a href="./friends/add-friend"
+		>Add<img class="svg_icon" src="/icons/personAdd.svg" alt="Add Friend Icon" /></a
+	>
 </div>
 
 <main>
@@ -33,14 +57,19 @@
 	{#if data.friends && data.friends.length > 0}
 		<div class="cards">
 			{#each data.friends as friend}
-				<FriendCard username={friend.username} id={friend.userId} bind:modalData showBattleButton />
+				<FriendCard
+					username={friend.username}
+					id={friend.userId}
+					bind:modalData
+					showBattleButton={Boolean(!friend.battle)}
+				/>
 			{/each}
 		</div>
 	{:else}
 		<span class="noFriend">Click add to find a new Friend</span>
 	{/if}
 	<dialog bind:this={modalData.modal}>
-		<button class="dialog_close" on:click={() => modalData.modal?.close()}>
+		<button class="dialog_close" on:click={closeModal}>
 			<img class="svg_icon" src="/icons/cross.svg" alt="Cross Icon" />
 		</button>
 		<div class="dialog_inner">
@@ -55,14 +84,14 @@
 					<b>{new Date(Date.now() + 1000 * 60 * 60 * 48).toLocaleDateString('en-GB')}</b>
 				</span>
 			</div>
-			<form action="#" method="POST" use:enhance on:submit={() => (modalData.confirm = true)}>
+			<form method="POST" on:submit|preventDefault={handleSubmit}>
 				<div class="select">
 					<label for="statType">Stat Type: </label>
 					<select name="statType" id="statType" bind:value={modalData.statType}>
 						<option value="" disabled selected>Select Stat</option>
 						<option value="k">Most Kills</option>
 						<option value="d">Least Deaths</option>
-						<option value="w%">Win%</option>
+						<option value="w">Win%</option>
 					</select>
 				</div>
 				<button type="submit">Start</button>

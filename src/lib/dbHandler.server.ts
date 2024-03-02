@@ -87,7 +87,7 @@ export async function getHomePageStats(uid: string) {
 	interface Return2 extends mysql.RowDataPacket {
 		opponentName: string;
 		statType: string;
-		startTime: string;
+		startDate: string;
 	}
 
 	const query = 'CALL sog_homePage(?)';
@@ -135,21 +135,17 @@ export async function getFriends(uid: string) {
 	interface Return extends mysql.RowDataPacket {
 		username: string;
 		userId: string;
+		battle: number;
 	}
 
-	const query =
-		'SELECT username, userId \
-		FROM sog_friendships f, sog_users u \
-		WHERE (user1 = ? OR user2 = ?) \
-		AND userId = IF(user1 = ?, user2,user1) \
-		AND friendshipType = "F"';
+	const query = 'CALL sog_getFriends(?)';
 
 	const conn = await getConnection();
 
 	try {
-		const [results] = await conn.execute<Return[]>(query, [uid, uid, uid]);
+		const [results] = await conn.execute<[Return[]]>(query, [uid]);
 		if (results) {
-			return results;
+			return results[0];
 		}
 	} catch (e) {
 		console.log(e);
@@ -238,6 +234,29 @@ export async function getProfilePageStats(uid: string) {
 		const [results] = await conn.execute<[Return[]]>(query, [uid]);
 		if (results) {
 			return results[0][0];
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.release();
+	}
+}
+
+export async function startBattle(uid: string, friendId: string, statType: string) {
+	interface Return extends mysql.RowDataPacket {
+		inserted: number;
+	}
+
+	const startDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+	const query = 'CALL sog_startBattle(?,?,?,?)';
+
+	const conn = await getConnection();
+
+	try {
+		const [results] = await conn.execute<[Return[]]>(query, [uid, friendId, startDate, statType]);
+		if (results) {
+			return results[0][0].inserted;
 		}
 	} catch (e) {
 		console.log(e);

@@ -41,7 +41,7 @@
 <section class="battles">
 	{#if data.battles && data.battles?.length > 0}
 		{#each data.battles as battle}
-			<BattleCard opponent={battle.opponentName} stat="Most Kills" time="5m" />
+			<BattleCard opponent={battle.opponentName} stat={battle.statType} time={battle.startDate} />
 		{/each}
 	{:else}
 		<span class="noBattles">

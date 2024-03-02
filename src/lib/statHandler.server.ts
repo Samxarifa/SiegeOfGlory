@@ -69,12 +69,22 @@ export async function getPlayerIdByUsername(username: string, platform: string) 
 
 export async function getProfilePageStats(playerId: string) {
 	await updateAuth();
+
+	const endDate = new Date();
+	const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+	const start = startDate.toISOString().split('T')[0].replaceAll('-', '');
+	const end = endDate.toISOString().split('T')[0].replaceAll('-', '');
+
 	const out = await fetch(
 		'https://prod.datadev.ubisoft.com/v1/users/' +
 			playerId +
 			'/playerstats?spaceId=' +
 			spaceId +
-			'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all',
+			'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all&startDate=' +
+			start +
+			'&endDate=' +
+			end,
 		{
 			headers: {
 				'Ubi-SessionId': sessionId,

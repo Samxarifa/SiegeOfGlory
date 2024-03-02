@@ -9,8 +9,24 @@
 	<img class="svg_icon" src="icons/battle.svg" alt="Battle Icon" />
 	<div class="details">
 		<span class="opponent">{opponent}</span>
-		<span>{stat}</span>
-		<span>{time} Left</span>
+		<span>
+			{#if stat == 'k'}
+				Most Kills
+			{:else if stat == 'd'}
+				Least Deaths
+			{:else if stat == 'w'}
+				Win %
+			{/if}
+		</span>
+		<span>
+			{#if new Date(time).getTime() > Date.now()}
+				Starts In: {Math.floor((new Date(time).getTime() - Date.now()) / 1000 / 60 / 60)} Hours
+			{:else}
+				Ends In: {Math.floor(
+					(Date.now() + 1000 * 60 * 60 * 24 - new Date(time).getTime()) / 1000 / 60 / 60
+				)} Hours
+			{/if}
+		</span>
 	</div>
 </div>
 

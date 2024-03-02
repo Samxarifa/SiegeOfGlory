@@ -63,6 +63,7 @@
 </header>
 
 <h2>Rainbow Stats</h2>
+<span class="days7">(Last 7 Days)</span>
 {#if fetching}
 	<div class="spinner">
 		<LoadingSpinner />
@@ -168,9 +169,15 @@
 	}
 
 	h2 {
-		margin: 2rem 0;
+		margin-top: 2rem;
 		font-size: 3.4rem;
 		color: var(--text);
+	}
+
+	.days7 {
+		color: var(--text);
+		margin-bottom: 2rem;
+		display: block;
 	}
 
 	main {
