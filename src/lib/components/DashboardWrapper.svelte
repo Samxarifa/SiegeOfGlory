@@ -78,7 +78,7 @@
 	.content {
 		margin: 0 auto;
 		padding: 1rem;
-		padding-bottom: 7rem;
+		padding-bottom: 8rem;
 		max-width: 150rem;
 		overflow: hidden;
 	}
