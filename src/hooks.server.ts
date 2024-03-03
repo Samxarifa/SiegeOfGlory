@@ -43,8 +43,11 @@ export async function handle({ event, resolve }) {
 	) {
 		// Delete cookie (potential cleanup)
 		event.cookies.delete('session', { path: '/', secure: !dev });
+
+		const previousUrl = encodeURIComponent(event.url.pathname + event.url.search);
+
 		// Redirect to login
-		redirect(303, '/');
+		redirect(303, '/?redirect=' + previousUrl);
 	}
 
 	// Resolve handle hook

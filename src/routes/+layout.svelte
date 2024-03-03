@@ -23,19 +23,19 @@
 			// Shows Loading Spinner
 			loading = true;
 			let token;
-			let location;
+			let location = $page.url.pathname + $page.url.search;
 			// If logged in, send the jwt to server api endpoint and navigate from login page
 			if (user) {
 				token = await user.getIdToken();
-				if ($page.url.pathname !== '/') {
-					location = $page.url.pathname;
-				} else {
-					location = '/dashboard';
+				if ($page.url.pathname === '/') {
+					location = `/${$page.url.searchParams.get('redirect')?.slice(1) || 'dashboard'}`;
 				}
 			} else {
 				// Else navigate to login page
 				token = '';
-				location = '/';
+				if ($page.url.pathname !== '/') {
+					location = '/';
+				}
 			}
 			await fetch('/api/auth', {
 				method: 'POST',
