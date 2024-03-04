@@ -199,7 +199,7 @@ export async function sendFriendRequest(uid: string, friendId: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		conn.end();
+		await conn.release();
 	}
 }
 
@@ -212,7 +212,7 @@ export async function denyFriendRequest(uid: string, friendId: string) {
 	} catch (e) {
 		console.log(e);
 	} finally {
-		conn.end();
+		await conn.release();
 	}
 }
 
