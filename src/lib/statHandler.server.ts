@@ -94,15 +94,29 @@ export async function getProfilePageStats(playerId: string) {
 			}
 		}
 	);
-	const jsonOut = await out.json();
-	const stats = jsonOut.profileData[playerId].platforms.all.gameModes.ranked.teamRoles.all[0];
-	const toBeReturned: ProfilePageReturn = {
-		wins: stats.matchesWon,
-		losses: stats.matchesLost,
-		kills: stats.kills,
-		deaths: stats.death,
-		kd: stats.killDeathRatio.value,
-		wl: stats.winLossRatio
-	};
+
+	let toBeReturned: ProfilePageReturn;
+
+	if (out.status === 200) {
+		const jsonOut = await out.json();
+		const stats = jsonOut.profileData[playerId].platforms.all.gameModes.ranked.teamRoles.all[0];
+		toBeReturned = {
+			wins: stats.matchesWon,
+			losses: stats.matchesLost,
+			kills: stats.kills,
+			deaths: stats.death,
+			kd: stats.killDeathRatio.value,
+			wl: stats.winLossRatio
+		};
+	} else {
+		toBeReturned = {
+			wins: 0,
+			losses: 0,
+			kills: 0,
+			deaths: 0,
+			kd: 0,
+			wl: 0
+		};
+	}
 	return toBeReturned;
 }
