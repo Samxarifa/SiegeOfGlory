@@ -23,8 +23,6 @@ let nextTokenRefresh: number;
 // Gets new auth ticket from R6 API if don't have one already or current has expired
 async function updateAuth() {
 	if (!ticket || nextTokenRefresh <= new Date().getTime()) {
-		// console.log('Requesting New Token');
-
 		// Gets ticket using login credentials from .env file
 		const out = await fetch('https://public-ubiservices.ubi.com/v3/profiles/sessions', {
 			method: 'POST',
@@ -69,7 +67,6 @@ export async function getPlayerIdByUsername(username: string, platform: string) 
 
 export async function getProfilePageStats(playerId: string) {
 	await updateAuth();
-
 	const endDate = new Date();
 	const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
 
