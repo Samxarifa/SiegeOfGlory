@@ -8,12 +8,14 @@
 
 	export let data;
 
+	// Sets config for NProgress (Navigation Progress Bar at Top of Page)
 	NProgress.configure({
 		// https://github.com/rstacruz/nprogress#configuration
 		minimum: 0.2,
 		showSpinner: false
 	});
 
+	// Watches for navigating changes and starts/stops NProgress
 	$: {
 		if ($navigating) {
 			NProgress.start();

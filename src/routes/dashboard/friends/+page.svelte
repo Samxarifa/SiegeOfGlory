@@ -4,29 +4,38 @@
 
 	export let data;
 
+	// Used for data passing between modal and Friend Cards
 	let modalData: {
 		modal: HTMLDialogElement | undefined;
 		id: string;
 		name: string;
 		statType: string;
+		error: string;
 	} = {
 		modal: undefined,
 		id: '',
 		name: '',
-		statType: ''
+		statType: '',
+		error: ''
 	};
 
+	// Closes the modal and resets the modalData
 	function closeModal() {
 		modalData.modal?.close();
 		modalData = {
 			...modalData,
 			id: '',
 			name: '',
-			statType: ''
+			statType: '',
+			error: ''
 		};
 	}
 
+	// Runs when modal form is submitted
 	async function handleSubmit() {
+		// Removes Any Previous Errors
+		modalData.error = '';
+		// Fetches Start Battle and returns the result in json
 		const res = await fetch('/api/startBattle', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -34,11 +43,13 @@
 				statType: modalData.statType
 			})
 		}).then(async (res) => await res.json());
+		// If successful, rerun the get friends load function and close the modal
 		if (res.success) {
 			await invalidate('get:friends');
 			closeModal();
 		} else {
-			alert(res.message);
+			// If not successful, set the error message to the response message
+			modalData.error = res.message;
 		}
 	}
 </script>
@@ -95,6 +106,7 @@
 						<option value="w">Win%</option>
 					</select>
 				</div>
+				<span class="modal_error">{modalData.error}</span>
 				<button type="submit">Start</button>
 			</form>
 		</div>
@@ -248,7 +260,7 @@
 	}
 
 	dialog form button {
-		margin-top: auto;
+		margin-top: 1rem;
 		padding: 1rem 2rem;
 		background-color: var(--foreground);
 		border: solid 0.2rem var(--text);
@@ -256,6 +268,11 @@
 		border-radius: 1rem;
 		font-size: 2.4rem;
 		cursor: pointer;
+	}
+
+	.modal_error {
+		color: red;
+		margin-top: auto;
 	}
 
 	@media screen and (min-width: 450px) {

@@ -1,11 +1,15 @@
+// File runs on server start
+
 import { dev } from '$app/environment';
 import { closePool } from '$lib/dbHandler.server';
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import { redirect } from '@sveltejs/kit';
 
+// Event Listener: Close database pool on server exit
 process.on('SIGINT', closePool);
 process.on('SIGTERM', closePool);
 
+// Function runs with every request to server
 export async function handle({ event, resolve }) {
 	// Get session from cookies
 	const session = event.cookies.get('session');
@@ -44,6 +48,7 @@ export async function handle({ event, resolve }) {
 		// Delete cookie (potential cleanup)
 		event.cookies.delete('session', { path: '/', secure: !dev });
 
+		// Gets the url of the page, and encodes it to be used as a redirect on login page
 		const previousUrl = encodeURIComponent(event.url.pathname + event.url.search);
 
 		// Redirect to login

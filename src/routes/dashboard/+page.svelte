@@ -8,6 +8,7 @@
 	// Gets Data from server function (+page.server.ts)
 	export let data;
 
+	// Gets binded to HTML username span (used to fit text with fitty)
 	let usernameSpan: HTMLSpanElement;
 
 	onMount(() => {

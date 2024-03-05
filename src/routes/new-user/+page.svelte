@@ -9,6 +9,7 @@
 	// Shows Loading Spinner when form is submitted
 	let submitted = false;
 
+	// Reruns whenever form submit has returned from server (Using Sveltekit $: Syntax)
 	$: {
 		if (form && !form.success) {
 			submitted = false;

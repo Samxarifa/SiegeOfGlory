@@ -14,6 +14,7 @@
 	onMount(() => {
 		detectSWUpdate();
 
+		// If internet connection is lost, reload the page to show offline page cached by SW
 		window.addEventListener('offline', () => {
 			window.location.reload();
 		});
@@ -28,6 +29,7 @@
 			if (user) {
 				token = await user.getIdToken();
 				if ($page.url.pathname === '/') {
+					// If page has redirect query, navigate to that page rather than dashboard
 					location = `/${$page.url.searchParams.get('redirect')?.slice(1) || 'dashboard'}`;
 				}
 			} else {
@@ -37,6 +39,7 @@
 					location = '/';
 				}
 			}
+			// Sends token to server to verify and create session, or delete session if token is empty
 			await fetch('/api/auth', {
 				method: 'POST',
 				body: JSON.stringify({ token: token })
@@ -48,14 +51,18 @@
 		});
 	});
 
+	// Function to check if service worker has a new version
 	async function detectSWUpdate() {
 		const registration = await navigator.serviceWorker.ready;
 
 		registration.addEventListener('updatefound', () => {
+			// If update found, install new SW
 			const newSW = registration.installing;
 			newSW?.addEventListener('statechange', () => {
+				// If installed, prompt user to reload to update
 				if (newSW.state === 'installed') {
 					if (confirm('New Update Available! Reload to update?')) {
+						// Send message to SW to skip waiting and activate new SW
 						newSW.postMessage({ type: 'SKIP_WAITING' });
 						window.location.reload();
 					}

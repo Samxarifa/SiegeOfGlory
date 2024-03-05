@@ -6,24 +6,32 @@
 	export let stat: string;
 	export let time: string;
 
+	// Vars for time calculations
 	let timeLeft: number;
 	let timeMetric: string;
 	let now = Date.now();
 
+	// Update current time every minute
 	onMount(() => {
 		const interval = setInterval(() => {
 			now = Date.now();
 		}, 1000 * 60);
 
+		// Stop updating time when component is destroyed
 		return () => clearInterval(interval);
 	});
 
+	// Calculate time left and time metric from new current time
 	$: {
+		// timeLeft = ((time + 1 day) - now) in Hours
 		timeLeft = (new Date(time).getTime() + 1000 * 60 * 60 * 24 - now) / 1000 / 60 / 60;
+		// If less than 1 hour left
 		if (Math.floor(timeLeft) < 1) {
+			// Change time to minutes
 			timeLeft = Math.floor(timeLeft * 60);
 			timeMetric = 'Minutes';
 		} else {
+			// Else, Keep time in hours
 			timeLeft = Math.floor(timeLeft);
 			timeMetric = 'Hours';
 		}

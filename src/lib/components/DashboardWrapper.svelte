@@ -6,8 +6,10 @@
 	import { fade } from 'svelte/transition';
 	import { userStore } from 'sveltefire';
 
+	// Gets url from parent component (Used to cause fade transition on navigation)
 	export let url: string;
 
+	// Gets firebase user
 	const user = userStore(auth);
 </script>
 

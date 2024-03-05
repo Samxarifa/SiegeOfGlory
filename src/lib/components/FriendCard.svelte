@@ -14,6 +14,7 @@
 				id: string;
 				name: string;
 				statType: string;
+				error: string;
 		  }
 		| undefined = undefined;
 

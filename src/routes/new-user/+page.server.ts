@@ -39,7 +39,7 @@ export const actions = {
 					// Creates DB entry for new account
 					await createUser(uid, username.toUpperCase() + '#' + platform.toUpperCase(), rainbowId)
 				) {
-					// Changes Firebase username to r6 username + platform
+					// Changes Firebase username to r6 username + platform (Not Really Required)
 					await adminAuth.updateUser(uid, {
 						displayName: username.toUpperCase() + '#' + platform.toUpperCase()
 					});
