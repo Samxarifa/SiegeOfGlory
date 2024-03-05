@@ -20,7 +20,7 @@
 		});
 
 		// Checks if logged in when first loaded and whenever auth status changes after
-		auth.onAuthStateChanged(async (user) => {
+		const authListener = auth.onAuthStateChanged(async (user) => {
 			// Shows Loading Spinner
 			loading = true;
 			let token;
@@ -49,6 +49,9 @@
 			// Hide Loading Spinner
 			loading = false;
 		});
+
+		// Unsubscribes from auth listener when component is destroyed
+		return () => authListener();
 	});
 
 	// Function to check if service worker has a new version
