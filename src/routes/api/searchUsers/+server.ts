@@ -8,14 +8,20 @@ export async function GET(request: RequestEvent) {
 
 	if (uid && searchQ) {
 		const dbData = await getAllUsers(uid);
+		// Uses fuse.js to search for users in list of users
 		const fuse = new Fuse(dbData, {
 			keys: ['username']
 		});
 
 		const results = fuse.search(searchQ.toLowerCase());
 
+		// Returns the results
 		return json(results);
-	} else {
+	} else if (!uid) {
+		// Returns Forbidden query if user is not logged in
 		return error(403, 'Forbidden');
+	} else {
+		// Returns Bad Request if no search query is provided
+		return error(400, 'Bad Request');
 	}
 }

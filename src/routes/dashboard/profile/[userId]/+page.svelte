@@ -11,14 +11,18 @@
 	let r6Data: ProfilePageReturn;
 	let fetching = true;
 
+	// Get the user from the auth store
 	const user = userStore(auth);
 
+	// Get Username Span for auto text resize
 	let usernameSpan: HTMLSpanElement;
 
+	// Auto resize the username
 	onMount(() => {
 		fitty(usernameSpan, { maxSize: 24 });
 	});
 
+	// Get the rainbow six data
 	async function getR6Data() {
 		fetching = true;
 		r6Data = await fetch(
@@ -32,6 +36,7 @@
 		fetching = false;
 	}
 
+	// Get the rainbow six r6Id change
 	$: {
 		if (data.rainbowId) {
 			getR6Data();

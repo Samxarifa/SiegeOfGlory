@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async (request) => {
-	// Gets User Uid from token
+	// Gets UserId From URL
 	const userId = request.params.userId;
 	if (userId) {
 		// Gets Stats For Profile Page
@@ -11,9 +11,9 @@ export const load = (async (request) => {
 		if (data) {
 			return data;
 		} else {
-			error(404);
+			error(404, 'Not Found');
 		}
 	} else {
-		error(404);
+		error(400, 'Bad Request');
 	}
 }) satisfies PageServerLoad;
