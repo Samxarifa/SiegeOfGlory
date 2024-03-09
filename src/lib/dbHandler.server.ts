@@ -1,11 +1,11 @@
-import mysql from 'mysql2/promise';
+import { createPool, type Pool, type RowDataPacket } from 'mysql2/promise';
 import { env } from '$env/dynamic/private';
 
-let pool: mysql.Pool;
+let pool: Pool;
 
 async function getConnection() {
 	if (!pool) {
-		pool = mysql.createPool(env.DATABASE_CREDENTAILS);
+		pool = createPool(env.DATABASE_CREDENTAILS);
 	}
 
 	const conn = await pool.getConnection();
@@ -33,7 +33,7 @@ export function closePool() {
 // Returns Bool Based on if user is in db
 export async function checkIfUserExists(uid: string) {
 	// Structure of data to be returned by query
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		uid: string;
 	}
 
@@ -57,7 +57,7 @@ export async function checkIfUserExists(uid: string) {
 
 // Checks if rainbow account not already in use and adds user is not
 export async function createUser(uid: string, username: string, rainbowId: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		inserted: number;
 	}
 
@@ -77,14 +77,14 @@ export async function createUser(uid: string, username: string, rainbowId: strin
 
 // Gets Wins,Losses & Current Amount of battles for home page
 export async function getHomePageStats(uid: string) {
-	interface Return1 extends mysql.RowDataPacket {
+	interface Return1 extends RowDataPacket {
 		username: string;
 		wins: number;
 		losses: number;
 		ongoing: number;
 	}
 
-	interface Return2 extends mysql.RowDataPacket {
+	interface Return2 extends RowDataPacket {
 		opponentName: string;
 		statType: string;
 		startDate: string;
@@ -107,7 +107,7 @@ export async function getHomePageStats(uid: string) {
 }
 
 export async function getAllUsers(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		userId: string;
 		username: string;
 	}
@@ -132,7 +132,7 @@ export async function getAllUsers(uid: string) {
 }
 
 export async function getFriends(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		username: string;
 		userId: string;
 		battle: number;
@@ -155,7 +155,7 @@ export async function getFriends(uid: string) {
 }
 
 export async function getRequests(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		username: string;
 		userId: string;
 	}
@@ -177,7 +177,7 @@ export async function getRequests(uid: string) {
 }
 
 export async function sendFriendRequest(uid: string, friendId: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		friendType?: string;
 	}
 
@@ -217,7 +217,7 @@ export async function denyFriendRequest(uid: string, friendId: string) {
 }
 
 export async function getProfilePageStats(uid: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		userId: string;
 		username: string;
 		rainbowId: string;
@@ -243,7 +243,7 @@ export async function getProfilePageStats(uid: string) {
 }
 
 export async function startBattle(uid: string, friendId: string, statType: string) {
-	interface Return extends mysql.RowDataPacket {
+	interface Return extends RowDataPacket {
 		inserted: number;
 	}
 
