@@ -73,28 +73,31 @@ export async function getProfilePageStats(playerId: string) {
 	const start = startDate.toISOString().split('T')[0].replaceAll('-', '');
 	const end = endDate.toISOString().split('T')[0].replaceAll('-', '');
 
-	const out = await fetch(
-		'https://prod.datadev.ubisoft.com/v1/users/' +
-			playerId +
-			'/playerstats?spaceId=' +
-			spaceId +
-			'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all&startDate=' +
-			start +
-			'&endDate=' +
-			end,
-		{
-			headers: {
-				'Ubi-SessionId': sessionId,
-				Authorization: `ubi_v1 t=${ticket}`,
-				expiration: expire,
-				'Ubi-AppId': appId
-			}
-		}
-	);
-
 	let toBeReturned: ProfilePageReturn;
 
-	if (out.status === 200) {
+	try {
+		const out = await fetch(
+			'https://prod.datadev.ubisoft.com/v1/users/' +
+				playerId +
+				'/playerstats?spaceId=' +
+				spaceId +
+				'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all&startDate=' +
+				start +
+				'&endDate=' +
+				end,
+			{
+				headers: {
+					'Ubi-SessionId': sessionId,
+					Authorization: `ubi_v1 t=${ticket}`,
+					expiration: expire,
+					'Ubi-AppId': appId
+				}
+			}
+		);
+
+		if (out.status !== 200) {
+			throw new Error('Invalid Status Code: ' + out.status);
+		}
 		const jsonOut = await out.json();
 		const stats = jsonOut.profileData[playerId].platforms.all.gameModes.ranked.teamRoles.all[0];
 		toBeReturned = {
@@ -105,7 +108,7 @@ export async function getProfilePageStats(playerId: string) {
 			kd: stats.killDeathRatio.value,
 			wl: stats.winLossRatio
 		};
-	} else {
+	} catch {
 		toBeReturned = {
 			wins: 0,
 			losses: 0,
