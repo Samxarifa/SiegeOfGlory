@@ -52,6 +52,14 @@
 			modalData.error = res.message;
 		}
 	}
+
+	$: {
+		if (modalData.error === 'ST') {
+			setTimeout(() => {
+				modalData.error = '';
+			}, 1000);
+		}
+	}
 </script>
 
 <div class="top">
@@ -81,11 +89,13 @@
 		<span class="noFriend">Click add to find a new Friend</span>
 	{/if}
 	<dialog bind:this={modalData.modal}>
-		<button class="dialog_close" on:click={closeModal}>
-			<img class="svg_icon" src="/icons/cross.svg" alt="Cross Icon" />
-		</button>
 		<div class="dialog_inner">
-			<h2>Start Battle With:</h2>
+			<div class="dialog_header">
+				<h2>Start Battle</h2>
+				<button on:click={closeModal}>
+					<img src="/icons/close.svg" alt="Close Icon" class="svg_icon" />
+				</button>
+			</div>
 			<span class="dialog_username">{modalData.name}</span>
 			<div class="dates">
 				<span>
@@ -99,14 +109,18 @@
 			<form method="POST" on:submit|preventDefault={handleSubmit}>
 				<div class="select">
 					<label for="statType">Stat Type: </label>
-					<select name="statType" id="statType" bind:value={modalData.statType}>
+					<select
+						name="statType"
+						id="statType"
+						bind:value={modalData.statType}
+						class={modalData.error === 'ST' ? 'error' : ''}
+					>
 						<option value="" disabled selected>Select Stat</option>
 						<option value="k">Most Kills</option>
 						<option value="d">Least Deaths</option>
 						<option value="w">Win%</option>
 					</select>
 				</div>
-				<span class="modal_error">{modalData.error}</span>
 				<button type="submit">Start</button>
 			</form>
 		</div>
@@ -177,40 +191,23 @@
 		text-align: center;
 	}
 
+	dialog::backdrop {
+		background-color: rgba(0, 0, 0, 0.25);
+	}
+
 	dialog {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background-color: var(--foreground);
+		background-color: var(--background);
 		color: var(--text);
-		/* width: 40rem; */
 		width: calc(100vw - 6rem);
 		max-width: 40rem;
-		height: 40rem;
-		border: solid 0.2rem var(--text);
+		height: 30rem;
+		border: solid 0.2rem var(--foreground);
 		border-radius: 1rem;
-		padding: 1rem;
+		padding: 2rem;
 		overflow: visible;
-	}
-
-	.dialog_close {
-		position: absolute;
-		background-color: var(--orange);
-		right: 0;
-		top: 0;
-		transform: translate(+50%, -50%);
-		border: none;
-		border-radius: 50%;
-		cursor: pointer;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.dialog_close img {
-		width: 5rem;
-		height: 5rem;
-		border-radius: 50%;
 	}
 
 	.dialog_inner {
@@ -220,6 +217,34 @@
 		gap: 1rem;
 		height: 100%;
 		overflow: hidden;
+	}
+
+	.dialog_header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+	}
+
+	.dialog_header button {
+		background-color: transparent;
+		border: none;
+		color: inherit;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+	}
+
+	.dialog_header button img {
+		width: 3rem;
+		height: 3rem;
+	}
+
+	dialog button:hover,
+	dialog button:focus-visible {
+		outline: none;
+		filter: brightness(0.75);
 	}
 
 	.dialog_username {
@@ -237,47 +262,65 @@
 		align-items: center;
 		flex-direction: column;
 		flex: 1;
+		width: 100%;
 	}
 
 	dialog form .select {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		gap: 1rem;
-		font-size: 2.4rem;
+		font-size: 1.6rem;
 		margin-top: 2rem;
 	}
 
+	dialog form .select label {
+		display: none;
+	}
+
 	dialog form select {
-		background-color: var(--foreground);
-		border: solid 0.2rem var(--text);
+		background-color: var(--background);
+		border: solid 0.2rem var(--foreground);
 		border-radius: 1rem;
 		padding: 1rem;
 		color: inherit;
-		font-size: 2.4rem;
+		font-size: 1.6rem;
 		font-weight: bold;
 		cursor: pointer;
 	}
 
 	dialog form button {
-		margin-top: 1rem;
+		margin-top: auto;
+		margin-left: auto;
 		padding: 1rem 2rem;
-		background-color: var(--foreground);
-		border: solid 0.2rem var(--text);
-		color: inherit;
+		background-color: var(--text);
+		border: none;
+		color: var(--background);
 		border-radius: 1rem;
-		font-size: 2.4rem;
+		font-size: 1.6rem;
 		cursor: pointer;
 	}
 
-	.modal_error {
-		color: red;
-		margin-top: auto;
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		25%,
+		75% {
+			transform: translateX(-0.5rem);
+		}
+		50% {
+			transform: translateX(0.5rem);
+		}
 	}
 
-	@media screen and (min-width: 450px) {
-		dialog form .select {
-			flex-direction: row;
+	.error {
+		animation: shake 0.5s;
+	}
+
+	@media screen and (min-width: 330px) {
+		dialog form .select label {
+			display: block;
 		}
 	}
 </style>

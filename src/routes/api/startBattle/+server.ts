@@ -13,7 +13,7 @@ export async function POST({ locals, request }: RequestEvent) {
 			return json({ success: false, message: 'There is already a battle' });
 		}
 	} else if (!statType) {
-		return json({ success: false, message: 'Please Select a Stat Type' });
+		return json({ success: false, message: 'ST' });
 	} else {
 		return json({ success: false, message: 'Forbidden' });
 	}
