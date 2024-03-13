@@ -1,23 +1,29 @@
 version: '3.8'
 services:
-  siege-of-glory:
+  website:
     build: '.'
     ports:
       - 8080:3000/tcp
     env_file:
       - '.env'
     environment:
-      - DATABASE_CREDENTAILS={"host":"db","user":"sx","password":"sx","database":"sx"}
-    container_name: application
+      - DATABASE_CREDENTAILS="mysql://sog:sog@db/sog"
     depends_on:
       - db
+
   db:
     image: mariadb
-    ports:
-      - 3306:3306/tcp
     environment:
-      - MYSQL_USER=sx
-      - MYSQL_PASSWORD=sx
-      - MYSQL_ROOT_PASSWORD=sx
-      - MYSQL_DATABASE=sx
-    container_name: db
+      - MYSQL_USER=sog
+      - MYSQL_PASSWORD=sog
+      - MYSQL_ROOT_PASSWORD=sog
+      - MYSQL_DATABASE=sog
+    volumes:
+      - db_data:/var/lib/mysql
+
+  admin:
+    image: phpmyadmin
+    ports:
+      - 8081:80/tcp
+    depends_on:
+      - db
