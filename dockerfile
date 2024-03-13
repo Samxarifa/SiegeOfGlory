@@ -1,18 +1,21 @@
-FROM node:18.18.2
-
+FROM node:18.18.2 AS build-stage
 WORKDIR /code
+RUN corepack enable pnpm
+COPY package.json .
+COPY pnpm-lock.yaml .
+RUN pnpm install
+COPY . .
+COPY .env .
+RUN pnpm run build
 
-COPY package.json package.json
-COPY pnpm-lock.yaml pnpm-lock.yaml
-
+FROM node:18.18.2
+WORKDIR /app
+COPY package.json .
+COPY pnpm-lock.yaml .
 RUN corepack enable pnpm
 RUN pnpm install -P
 RUN pnpm add dotenv
-
-COPY build build
-
+COPY --from=build-stage /code/build build
 EXPOSE 3000
-
 ENV NODE_ENV=production
-
 CMD [ "node", "-r", "dotenv/config", "build" ]
