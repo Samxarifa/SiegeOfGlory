@@ -7,9 +7,10 @@ services:
     env_file:
       - '.env'
     environment:
-      - DATABASE_CREDENTAILS="mysql://sog:sog@db/sog"
+      - DATABASE_CREDENTAILS=mysql://sog:sog@db/sog
     depends_on:
       - db
+    container_name: website
 
   db:
     image: mariadb
@@ -20,6 +21,7 @@ services:
       - MYSQL_DATABASE=sog
     volumes:
       - db_data:/var/lib/mysql
+    container_name: db
 
   admin:
     image: phpmyadmin
@@ -27,3 +29,7 @@ services:
       - 8081:80/tcp
     depends_on:
       - db
+    container_name: admin
+
+volumes:
+  db_data:

@@ -3,10 +3,11 @@ FROM node:18.18.2
 WORKDIR /code
 
 COPY package.json package.json
-COPY yarn.lock yarn.lock
+COPY pnpm-lock.yaml pnpm-lock.yaml
 
-RUN yarn install --prod
-RUN yarn add dotenv
+RUN corepack enable pnpm
+RUN pnpm install -P
+RUN pnpm add dotenv
 
 COPY build build
 
