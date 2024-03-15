@@ -47,10 +47,11 @@
 <div class="username_parent">
 	<div>
 		{#if data.userId != $user?.uid}
-			<h1 class="username opponent" bind:this={usernameSpan}>{data.username}</h1>
+			<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
 		{:else}
-			<h1 class="username" bind:this={usernameSpan}>{data.username}</h1>
+			<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
 		{/if}
+		<span class="platform">{data.username.slice(-3)}</span>
 	</div>
 </div>
 
@@ -136,6 +137,12 @@
 		text-shadow:
 			0 0 5rem var(--orange),
 			0 0 1rem var(--background);
+	}
+
+	.platform {
+		font-size: 1.2rem;
+		color: gray;
+		font-style: italic;
 	}
 
 	table,

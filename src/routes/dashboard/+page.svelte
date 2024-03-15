@@ -20,7 +20,8 @@
 	<div class="div_hello">
 		<span class="hello">Hello,</span>
 		<br />
-		<span class="username" bind:this={usernameSpan}>{data.stats?.username}</span>
+		<span class="username" bind:this={usernameSpan}>{data.stats?.username.slice(0, -4)}</span>
+		<span class="platform">{data.stats?.username.slice(-3)}</span>
 	</div>
 	<table>
 		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
@@ -79,6 +80,12 @@
 		text-shadow:
 			0 0 5rem var(--blue),
 			0 0 1rem var(--background);
+	}
+
+	.platform {
+		font-size: 1.2rem;
+		color: gray;
+		font-style: italic;
 	}
 
 	table,

@@ -41,7 +41,10 @@
 <div class="card">
 	<img class="svg_icon" src="icons/battle.svg" alt="Battle Icon" />
 	<div class="details">
-		<span class="opponent">{opponent}</span>
+		<div class="username">
+			<span class="opponent">{opponent.slice(0, -4)}</span>
+			<span class="platform">{opponent.slice(-3)}</span>
+		</div>
 		<span>
 			{#if stat == 'k'}
 				Most Kills
@@ -100,6 +103,12 @@
 		text-align: left;
 		color: var(--orange);
 		font-size: 1.6rem;
+	}
+
+	.platform {
+		font-size: 1.2rem;
+		color: gray;
+		font-style: italic;
 	}
 
 	@media screen and (min-width: 450px) {

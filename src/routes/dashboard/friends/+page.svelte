@@ -96,7 +96,8 @@
 					<img src="/icons/close.svg" alt="Close Icon" class="svg_icon" />
 				</button>
 			</div>
-			<span class="dialog_username">{modalData.name}</span>
+			<span class="dialog_username">{modalData.name.slice(0, -4)}</span>
+			<span class="dialog_platform">{modalData.name.slice(-3)}</span>
 			<div class="dates">
 				<span>
 					<b>{new Date(Date.now() + 1000 * 60 * 60 * 24).toLocaleDateString('en-GB')}</b>
@@ -255,6 +256,13 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		text-align: center;
+	}
+
+	.dialog_platform {
+		color: gray;
+		font-size: 1.2rem;
+		font-style: italic;
+		margin-top: -1rem;
 	}
 
 	dialog form {

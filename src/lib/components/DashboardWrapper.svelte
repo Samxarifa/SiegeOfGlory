@@ -35,7 +35,9 @@
 			>
 		</li>
 		<li>
-			<a href="/dashboard"><img class="svg_icon" src="/icons/list.svg" alt="List Icon" />Lineup</a>
+			<a href="/dashboard/leaderboard"
+				><img class="svg_icon" src="/icons/list.svg" alt="List Icon" />Lineup</a
+			>
 		</li>
 		<li>
 			<a href="/dashboard/profile/{$user?.uid}"

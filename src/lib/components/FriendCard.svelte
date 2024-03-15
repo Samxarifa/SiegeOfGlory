@@ -51,7 +51,9 @@
 
 {#if showCard}
 	<div class="card" out:fly={{ x: 100 }}>
-		<a href="/dashboard/profile/{id}"><span>{username}</span></a>
+		<a href="/dashboard/profile/{id}"
+			><span>{username.slice(0, -4)}</span><span class="platform">{username.slice(-3)}</span></a
+		>
 		{#if showAddButton}
 			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
 		{:else if showRequestButtons}
@@ -86,7 +88,8 @@
 		flex: 1;
 		height: 100%;
 		display: flex;
-		align-items: center;
+		flex-direction: column;
+		justify-content: center;
 		padding: 1rem;
 		color: var(--text);
 		text-decoration: none;
@@ -97,6 +100,13 @@
 	span {
 		overflow: hidden;
 		text-overflow: ellipsis;
+		font-size: 2rem;
+	}
+
+	.platform {
+		font-size: 1.2rem;
+		color: gray;
+		font-style: italic;
 	}
 
 	.textButton {
