@@ -7,6 +7,14 @@
 
 <div class="item">
 	<div class="pos">{pos}</div>
+	<img
+		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+			new URLSearchParams({
+				seed: username
+			})}
+		alt="Profile Pic"
+		class="profile_pic"
+	/>
 	<div class="div_username">
 		<div class="username">{username.slice(0, -4)}</div>
 		<div class="platform">{username.slice(-3)}</div>
@@ -70,6 +78,12 @@
 	}
 	.scores img {
 		width: 1.5rem;
+	}
+
+	.profile_pic {
+		width: 4rem;
+		height: 4rem;
+		border-radius: 1rem;
 	}
 
 	@media screen and (min-width: 525px) {

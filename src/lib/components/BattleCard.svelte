@@ -40,6 +40,14 @@
 
 <div class="card">
 	<img class="svg_icon" src="icons/battle.svg" alt="Battle Icon" />
+	<img
+		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+			new URLSearchParams({
+				seed: opponent
+			})}
+		alt="Profile Pic"
+		class="profile_pic"
+	/>
 	<div class="details">
 		<div class="username">
 			<span class="opponent">{opponent.slice(0, -4)}</span>
@@ -81,9 +89,15 @@
 	}
 
 	.svg_icon {
-		height: 5rem;
-		width: 5rem;
+		height: 2rem;
+		width: 2rem;
 		/* margin-left: 1rem; */
+	}
+
+	.profile_pic {
+		height: 6rem;
+		width: 6rem;
+		border-radius: 1rem;
 	}
 
 	.details {

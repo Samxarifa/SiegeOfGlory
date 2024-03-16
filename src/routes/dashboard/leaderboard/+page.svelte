@@ -15,7 +15,9 @@
 <section class="list" in:fade={{ delay: 600 }}>
 	<LI pos={4} username="SCOTBOTS#PSN" wins={1} losses={1} />
 	<LI pos={5} username="TONRAY10#PSN" wins={1} losses={1} />
-	<LI pos={6} username="NIGHTOWL9969#UBI" wins={1} losses={1} />
+	<LI pos={6} username="DREVER82#PSN" wins={1} losses={1} />
+	<LI pos={7} username="ALIMACK_06#PSN" wins={1} losses={1} />
+	<LI pos={8} username="NIGHTOWL9969#UBI" wins={1} losses={1} />
 </section>
 
 <style>

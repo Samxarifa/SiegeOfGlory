@@ -44,28 +44,37 @@
 	}
 </script>
 
-<div class="username_parent">
-	<div>
-		{#if data.userId != $user?.uid}
-			<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-		{:else}
-			<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-		{/if}
-		<span class="platform">{data.username.slice(-3)}</span>
-	</div>
-</div>
-
 <header>
-	<table>
-		<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
-		<th><div><img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />Losses</div></th>
-		<th><div><img class="svg_icon" src="/icons/friends.svg" alt="Friends Icon" />Friends</div></th>
-		<tr>
-			<td>{data.wins}</td>
-			<td>{data.losses}</td>
-			<td>{data.friendCount}</td>
-		</tr>
-	</table>
+	<img
+		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+			new URLSearchParams({
+				seed: data.username
+			})}
+		alt="Profile Pic"
+	/>
+	<div class="username_parent">
+		<div>
+			{#if data.userId != $user?.uid}
+				<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
+			{:else}
+				<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
+			{/if}
+			<span class="platform">{data.username.slice(-3)}</span>
+		</div>
+	</div>
+	<div class="sog_stats">
+		<table>
+			<th><div><img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />Wins</div></th>
+			<th><div><img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />Losses</div></th>
+			<th><div><img class="svg_icon" src="/icons/friends.svg" alt="Friends Icon" />Friends</div></th
+			>
+			<tr>
+				<td>{data.wins}</td>
+				<td>{data.losses}</td>
+				<td>{data.friendCount}</td>
+			</tr>
+		</table>
+	</div>
 </header>
 
 <h2>Rainbow Stats</h2>
@@ -104,14 +113,28 @@
 {/if}
 
 <style>
+	header {
+		display: grid;
+		grid-template-columns: 5rem 1fr;
+		grid-template-rows: 5rem 10rem;
+		gap: 1rem;
+	}
+
+	header img {
+		border-radius: 1rem;
+	}
+
 	.username_parent {
 		background-color: var(--foreground);
 		border-radius: 1rem;
 		padding: 1rem;
 		text-align: center;
+		flex: 1;
 	}
 
-	header {
+	.sog_stats {
+		grid-column: 1/-1;
+		grid-row: 2;
 		background-color: var(--foreground);
 		border-radius: 1rem;
 		color: var(--text);
@@ -120,7 +143,7 @@
 		padding: 1rem;
 		gap: 2rem;
 		justify-content: center;
-		margin: 1rem 0;
+		margin-bottom: 1rem;
 	}
 
 	.username {
@@ -228,6 +251,20 @@
 	@media screen and (min-width: 375px) {
 		main {
 			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media screen and (min-width: 700px) {
+		header {
+			grid-template-columns: 15rem 1fr;
+		}
+
+		header img {
+			grid-row: 1/-1;
+		}
+
+		.sog_stats {
+			grid-column: 2;
 		}
 	}
 

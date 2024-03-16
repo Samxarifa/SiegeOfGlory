@@ -9,6 +9,14 @@
 
 <div class="card {pos === 1 && 'first'}" in:fly={{ y: 100, delay: (3 - pos) * 200 }}>
 	<div class="inner">
+		<img
+			src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+				new URLSearchParams({
+					seed: username
+				})}
+			alt="Profile Pic"
+			class="profile_pic"
+		/>
 		<div class="div_username">
 			<span class="username">{username.slice(0, -4)}</span>
 			<span class="platform">{username.slice(-3)}</span>
@@ -37,7 +45,6 @@
 
 	.inner {
 		width: 100%;
-		aspect-ratio: 1 / 1;
 		background: var(--foreground);
 		border-radius: 1rem;
 		display: flex;
@@ -50,8 +57,16 @@
 		overflow: visible;
 	}
 
+	.first {
+		transform: scale(1.05);
+	}
+
 	.first .inner {
 		border: solid 0.2rem var(--text);
+	}
+
+	.profile_pic {
+		border-radius: 1rem;
 	}
 
 	.pos {

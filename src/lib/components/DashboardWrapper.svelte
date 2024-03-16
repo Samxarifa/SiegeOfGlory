@@ -41,7 +41,14 @@
 		</li>
 		<li>
 			<a href="/dashboard/profile/{$user?.uid}"
-				><img class="svg_icon" src="/icons/profile.svg" alt="Battle Icon" />Profile</a
+				><img
+					src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+						new URLSearchParams({
+							seed: $user?.displayName || ''
+						})}
+					alt="Profile Pic"
+					class="profile_pic"
+				/>Profile</a
 			>
 		</li>
 	</ul>
@@ -120,6 +127,13 @@
 		color: inherit;
 		text-decoration: none;
 		flex-direction: column;
+	}
+
+	.profile_pic {
+		width: 2rem;
+		height: 2rem;
+		margin-block: 0.2rem;
+		border-radius: 20%;
 	}
 
 	@media screen and (min-width: 900px) {

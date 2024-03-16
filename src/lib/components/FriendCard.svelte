@@ -51,9 +51,17 @@
 
 {#if showCard}
 	<div class="card" out:fly={{ x: 100 }}>
-		<a href="/dashboard/profile/{id}"
-			><span>{username.slice(0, -4)}</span><span class="platform">{username.slice(-3)}</span></a
-		>
+		<a href="/dashboard/profile/{id}">
+			<img
+				src={'https://api.dicebear.com/7.x/thumbs/svg?' +
+					new URLSearchParams({
+						seed: username
+					})}
+				alt="Profile Pic"
+			/>
+			<span>{username.slice(0, -4)}</span>
+			<span class="platform">{username.slice(-3)}</span>
+		</a>
 		{#if showAddButton}
 			<button class="textButton" on:click={sendFriendRequest}>Add Friend</button>
 		{:else if showRequestButtons}
@@ -97,10 +105,17 @@
 		overflow: hidden;
 	}
 
+	a img {
+		border-radius: 1rem;
+		width: 5rem;
+		position: absolute;
+	}
+
 	span {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		font-size: 2rem;
+		margin-left: 6rem;
 	}
 
 	.platform {
