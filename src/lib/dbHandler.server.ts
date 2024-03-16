@@ -264,3 +264,27 @@ export async function startBattle(uid: string, friendId: string, statType: strin
 		await conn.release();
 	}
 }
+
+export async function getLeaderboard(uid: string) {
+	interface Return extends RowDataPacket {
+		row: number;
+		username: string;
+		wins: number;
+		losses: number;
+	}
+
+	const query = 'CALL sog_getLeaderboard(?)';
+
+	const conn = await getConnection();
+
+	try {
+		const [results] = await conn.execute<[Return[]]>(query, [uid]);
+		if (results) {
+			return results[0];
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.release();
+	}
+}
