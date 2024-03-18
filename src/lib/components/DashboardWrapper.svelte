@@ -92,6 +92,9 @@
 		padding-bottom: 8rem;
 		max-width: 150rem;
 		overflow: hidden;
+		/* IOS PWA Safe Areas */
+		border-left: solid env(safe-area-inset-left) var(--background);
+		border-right: solid env(safe-area-inset-right) var(--background);
 	}
 
 	nav {
@@ -101,11 +104,9 @@
 		position: fixed;
 		bottom: 0;
 		color: var(--text);
-		box-sizing: content-box;
 		/* IOS PWA Safe Areas */
+		box-sizing: content-box;
 		border-bottom: solid env(safe-area-inset-bottom) var(--foreground);
-		padding-left: env(safe-area-inset-left);
-		padding-right: env(safe-area-inset-right);
 	}
 
 	ul {
