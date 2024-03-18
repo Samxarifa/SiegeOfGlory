@@ -101,7 +101,6 @@
 		position: fixed;
 		bottom: 0;
 		color: var(--text);
-		padding-bottom: env(safe-area-inset-bottom);
 	}
 
 	ul {
