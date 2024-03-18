@@ -55,12 +55,14 @@
 	/>
 	<div class="username_parent">
 		<div class="username_div">
-			{#if data.userId != $user?.uid}
-				<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-			{:else}
-				<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-			{/if}
-			<span class="platform">{data.username.slice(-3)}</span>
+			<div>
+				{#if data.userId != $user?.uid}
+					<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
+				{:else}
+					<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
+				{/if}
+				<span class="platform">{data.username.slice(-3)}</span>
+			</div>
 		</div>
 	</div>
 	<div class="sog_stats">
@@ -133,26 +135,15 @@
 		text-align: center;
 	}
 
-	.sog_stats {
-		grid-column: 1/-1;
-		grid-row: 2;
-		background-color: var(--foreground);
-		border-radius: 1rem;
-		color: var(--text);
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		gap: 2rem;
-		justify-content: center;
-		margin-bottom: 1rem;
-	}
-
 	.username_div {
 		height: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 0.5rem;
+	}
+
+	.username_div div {
+		width: 100%;
 	}
 
 	.username {
@@ -175,8 +166,20 @@
 		font-size: 1.2rem;
 		color: gray;
 		font-style: italic;
-		align-self: flex-end;
-		margin-bottom: 0.5rem;
+	}
+
+	.sog_stats {
+		grid-column: 1/-1;
+		grid-row: 2;
+		background-color: var(--foreground);
+		border-radius: 1rem;
+		color: var(--text);
+		display: flex;
+		flex-direction: column;
+		padding: 1rem;
+		gap: 2rem;
+		justify-content: center;
+		margin-bottom: 1rem;
 	}
 
 	table,
