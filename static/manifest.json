@@ -4,7 +4,7 @@
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#121212",
-	"theme_color": "#2A2A2A",
+	"theme_color": "rgb(18,18,18)",
 	"description": "Stat Battle app for Rainbow Six",
 	"icons": [
 		{
