@@ -294,6 +294,7 @@
 		font-size: 1.6rem;
 		font-weight: bold;
 		cursor: pointer;
+		height: 4.5rem;
 	}
 
 	dialog form button {

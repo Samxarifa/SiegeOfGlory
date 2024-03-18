@@ -122,6 +122,7 @@
 
 	header img {
 		border-radius: 1rem;
+		width: 100%;
 	}
 
 	.username_parent {
