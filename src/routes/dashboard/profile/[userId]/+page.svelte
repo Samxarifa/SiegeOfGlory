@@ -51,6 +51,7 @@
 				seed: data.username
 			})}
 		alt="Profile Pic"
+		class="profile_pic"
 	/>
 	<div class="username_parent">
 		<div>
@@ -120,7 +121,7 @@
 		gap: 1rem;
 	}
 
-	header img {
+	.profile_pic {
 		border-radius: 1rem;
 		width: 100%;
 	}
