@@ -101,6 +101,11 @@
 		position: fixed;
 		bottom: 0;
 		color: var(--text);
+		box-sizing: content-box;
+		/* IOS PWA Safe Areas */
+		border-bottom: solid env(safe-area-inset-bottom) var(--foreground);
+		padding-left: env(safe-area-inset-left);
+		padding-right: env(safe-area-inset-right);
 	}
 
 	ul {
