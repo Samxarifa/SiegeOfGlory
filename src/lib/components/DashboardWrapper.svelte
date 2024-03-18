@@ -89,7 +89,7 @@
 	.content {
 		margin: 0 auto;
 		padding: 1rem;
-		padding-bottom: 8rem;
+		padding-bottom: calc(8rem + env(safe-area-inset-bottom));
 		max-width: 150rem;
 		overflow: hidden;
 		/* IOS PWA Safe Areas */

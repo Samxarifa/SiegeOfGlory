@@ -54,7 +54,7 @@
 		class="profile_pic"
 	/>
 	<div class="username_parent">
-		<div>
+		<div class="username_div">
 			{#if data.userId != $user?.uid}
 				<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
 			{:else}
@@ -116,7 +116,7 @@
 <style>
 	header {
 		display: grid;
-		grid-template-columns: 5rem 1fr;
+		grid-template-columns: 5rem calc(100% - 6rem);
 		grid-template-rows: 5rem 10rem;
 		gap: 1rem;
 	}
@@ -131,7 +131,6 @@
 		border-radius: 1rem;
 		padding: 1rem;
 		text-align: center;
-		flex: 1;
 	}
 
 	.sog_stats {
@@ -146,6 +145,14 @@
 		gap: 2rem;
 		justify-content: center;
 		margin-bottom: 1rem;
+	}
+
+	.username_div {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
 	}
 
 	.username {
@@ -168,6 +175,8 @@
 		font-size: 1.2rem;
 		color: gray;
 		font-style: italic;
+		align-self: flex-end;
+		margin-bottom: 0.5rem;
 	}
 
 	table,
@@ -258,7 +267,7 @@
 
 	@media screen and (min-width: 700px) {
 		header {
-			grid-template-columns: 15rem 1fr;
+			grid-template-columns: 15rem calc(100% - 16rem);
 		}
 
 		header img {
