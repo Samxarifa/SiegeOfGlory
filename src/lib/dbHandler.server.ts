@@ -297,12 +297,15 @@ export async function getFinishedBattles() {
 		startDate: string;
 	}
 
-	const query = 'SELECT user1, user2, statType, startDate FROM sog_battles WHERE completed = 0';
+	const date = new Date().toISOString().split('T')[0];
+
+	const query =
+		'SELECT user1, user2, statType, startDate FROM sog_battles WHERE completed = 0 AND startDate < ?';
 
 	const conn = await getConnection();
 
 	try {
-		const [results] = await conn.execute<Return[]>(query);
+		const [results] = await conn.execute<Return[]>(query, [date]);
 		if (results) {
 			return results;
 		}

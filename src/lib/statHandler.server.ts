@@ -186,17 +186,17 @@ export async function getBattleStats(
 		stats2 = { kills: 0, death: 9999, winLossRatio: 0 };
 	}
 
-	if (statType === 'K') {
+	if (statType === 'k') {
 		toBeReturned = {
 			player1: stats1.kills,
 			player2: stats2.kills
 		};
-	} else if (statType === 'D') {
+	} else if (statType === 'd') {
 		toBeReturned = {
 			player1: -stats1.death,
 			player2: -stats2.death
 		};
-	} else if (statType === 'W') {
+	} else if (statType === 'w') {
 		toBeReturned = {
 			player1: stats1.winLossRatio,
 			player2: stats2.winLossRatio
