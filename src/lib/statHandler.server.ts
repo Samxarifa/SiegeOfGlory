@@ -120,3 +120,87 @@ export async function getProfilePageStats(playerId: string) {
 	}
 	return toBeReturned;
 }
+
+export async function getBattleStats(
+	player1: string,
+	player2: string,
+	statType: string,
+	battleDate: string
+) {
+	await updateAuth();
+	const date = new Date(battleDate);
+
+	const dateString = date.toISOString().split('T')[0].replaceAll('-', '');
+
+	let toBeReturned;
+
+	let stats1;
+	let stats2;
+	try {
+		const player1Out = await fetch(
+			'https://prod.datadev.ubisoft.com/v1/users/' +
+				player1 +
+				'/playerstats?spaceId=' +
+				spaceId +
+				'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all&startDate=' +
+				dateString +
+				'&endDate=' +
+				dateString,
+			{
+				headers: {
+					'Ubi-SessionId': sessionId,
+					Authorization: `ubi_v1 t=${ticket}`,
+					expiration: expire,
+					'Ubi-AppId': appId
+				}
+			}
+		);
+		const json1Out = await player1Out.json();
+		stats1 = json1Out.profileData[player1].platforms.all.gameModes.ranked.teamRoles.all[0];
+	} catch {
+		stats1 = { kills: 0, death: 9999, winLossRatio: 0 };
+	}
+
+	try {
+		const player2Out = await fetch(
+			'https://prod.datadev.ubisoft.com/v1/users/' +
+				player2 +
+				'/playerstats?spaceId=' +
+				spaceId +
+				'&view=current&aggregation=summary&gameMode=all,ranked,casual,unranked&platformGroup=all&startDate=' +
+				dateString +
+				'&endDate=' +
+				dateString,
+			{
+				headers: {
+					'Ubi-SessionId': sessionId,
+					Authorization: `ubi_v1 t=${ticket}`,
+					expiration: expire,
+					'Ubi-AppId': appId
+				}
+			}
+		);
+		const json2Out = await player2Out.json();
+		stats2 = json2Out.profileData[player2].platforms.all.gameModes.ranked.teamRoles.all[0];
+	} catch {
+		stats2 = { kills: 0, death: 9999, winLossRatio: 0 };
+	}
+
+	if (statType === 'K') {
+		toBeReturned = {
+			player1: stats1.kills,
+			player2: stats2.kills
+		};
+	} else if (statType === 'D') {
+		toBeReturned = {
+			player1: -stats1.death,
+			player2: -stats2.death
+		};
+	} else if (statType === 'W') {
+		toBeReturned = {
+			player1: stats1.winLossRatio,
+			player2: stats2.winLossRatio
+		};
+	}
+	return toBeReturned;
+}

@@ -288,3 +288,41 @@ export async function getLeaderboard(uid: string) {
 		await conn.release();
 	}
 }
+
+export async function getFinishedBattles() {
+	interface Return extends RowDataPacket {
+		user1: string;
+		user2: string;
+		statType: string;
+		startDate: string;
+	}
+
+	const query = 'SELECT user1, user2, statType, startDate FROM sog_battles WHERE completed = 0';
+
+	const conn = await getConnection();
+
+	try {
+		const [results] = await conn.execute<Return[]>(query);
+		if (results) {
+			return results;
+		}
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.release();
+	}
+}
+
+export async function completeBattle(user1: string, user2: string, winner: number) {
+	const query = 'CALL sog_completeBattle(?,?,?)';
+
+	const conn = await getConnection();
+
+	try {
+		await conn.execute(query, [user1, user2, winner]);
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.release();
+	}
+}
