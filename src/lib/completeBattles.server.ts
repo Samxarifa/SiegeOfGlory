@@ -17,14 +17,22 @@ export default async function checkAllBattles() {
 				const { player1: user1Stat, player2: user2Stat } = stats;
 
 				if (user1Stat > user2Stat) {
-					completeBattle(battle.user1, battle.user2, 1);
+					if (battle.statType === 'd') {
+						completeBattle(battle.user1, battle.user2, 2, user1Stat, user2Stat);
+					} else {
+						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
+					}
 				} else if (user1Stat < user2Stat) {
-					completeBattle(battle.user1, battle.user2, 2);
+					if (battle.statType === 'd') {
+						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
+					} else {
+						completeBattle(battle.user1, battle.user2, 2, user1Stat, user2Stat);
+					}
 				} else {
-					completeBattle(battle.user1, battle.user2, 0);
+					completeBattle(battle.user1, battle.user2, 0, user1Stat, user2Stat);
 				}
 			} else if (Date.now() - new Date(battle.startDate).getTime() >= 48 * 60 * 60 * 1000) {
-				completeBattle(battle.user1, battle.user2, 0);
+				completeBattle(battle.user1, battle.user2, 0, 0, 0);
 			}
 		});
 }

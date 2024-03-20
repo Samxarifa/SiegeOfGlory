@@ -158,7 +158,7 @@ export async function getBattleStats(
 		const json1Out = await player1Out.json();
 		stats1 = json1Out.profileData[player1].platforms.all.gameModes.ranked.teamRoles.all[0];
 	} catch {
-		stats1 = { kills: 0, death: 9999, winLossRatio: 0 };
+		stats1 = { kills: undefined, death: undefined, winLossRatio: undefined };
 	}
 
 	try {
@@ -183,7 +183,7 @@ export async function getBattleStats(
 		const json2Out = await player2Out.json();
 		stats2 = json2Out.profileData[player2].platforms.all.gameModes.ranked.teamRoles.all[0];
 	} catch {
-		stats2 = { kills: 0, death: 9999, winLossRatio: 0 };
+		stats2 = { kills: undefined, death: undefined, winLossRatio: undefined };
 	}
 
 	if (statType === 'k') {
@@ -193,8 +193,8 @@ export async function getBattleStats(
 		};
 	} else if (statType === 'd') {
 		toBeReturned = {
-			player1: -stats1.death,
-			player2: -stats2.death
+			player1: stats1.death,
+			player2: stats2.death
 		};
 	} else if (statType === 'w') {
 		toBeReturned = {

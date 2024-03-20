@@ -38,7 +38,13 @@
 	>
 </header>
 
-<h1>Ongoing Battles</h1>
+<div class="battle_header">
+	<h1>Ongoing Battles</h1>
+	<a class="history" href="/dashboard/history">
+		History
+		<img src="/icons/history.svg" alt="History Icon" class="svg_icon" />
+	</a>
+</div>
 
 <section class="battles">
 	{#if data.battles && data.battles?.length > 0}
@@ -137,6 +143,33 @@
 		margin-left: auto;
 	}
 
+	.battle_header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 2rem 0;
+	}
+
+	.history {
+		background-color: var(--foreground);
+		border: solid 0.2rem var(--text);
+		cursor: pointer;
+		border-radius: 1rem;
+		padding: 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		text-decoration: none;
+		position: relative;
+		color: var(--text);
+	}
+
+	.history img {
+		width: 3rem;
+		height: 3rem;
+	}
+
 	.noBattles {
 		color: var(--text);
 		text-align: center;
@@ -145,8 +178,7 @@
 	}
 
 	h1 {
-		color: white;
-		margin: 2rem 0;
+		color: var(--text);
 	}
 
 	.battles {

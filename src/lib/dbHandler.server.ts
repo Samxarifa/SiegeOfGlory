@@ -321,13 +321,44 @@ export async function getFinishedBattles() {
 	}
 }
 
-export async function completeBattle(user1: string, user2: string, winner: number) {
-	const query = 'CALL sog_completeBattle(?,?,?)';
+export async function completeBattle(
+	user1: string,
+	user2: string,
+	winner: number,
+	stat1: number,
+	stat2: number
+) {
+	const query = 'CALL sog_completeBattle(?,?,?,?,?)';
 
 	const conn = await getConnection();
 
 	try {
-		await conn.execute(query, [user1, user2, winner]);
+		await conn.execute(query, [user1, user2, winner, stat1, stat2]);
+	} catch (e) {
+		console.log(e);
+	} finally {
+		await conn.release();
+	}
+}
+
+export async function getHistory(uid: string) {
+	interface Return extends RowDataPacket {
+		opponentName: string;
+		statType: string;
+		startDate: string;
+		stat1: number;
+		stat2: number;
+	}
+
+	const query = 'CALL sog_battleHistory(?)';
+
+	const conn = await getConnection();
+
+	try {
+		const [results] = await conn.execute<[Return[]]>(query, [uid]);
+		if (results) {
+			return results[0];
+		}
 	} catch (e) {
 		console.log(e);
 	} finally {

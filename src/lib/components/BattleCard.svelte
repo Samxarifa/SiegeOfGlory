@@ -6,6 +6,11 @@
 	export let stat: string;
 	export let time: string;
 
+	export let winner = false;
+	export let loser = false;
+	export let stat1 = 0;
+	export let stat2 = 0;
+
 	// Vars for time calculations
 	let timeLeft: number;
 	let timeMetric: string;
@@ -23,23 +28,31 @@
 
 	// Calculate time left and time metric from new current time
 	$: {
-		// timeLeft = ((time + 1 day) - now) in Hours
-		timeLeft = (new Date(time).getTime() + 1000 * 60 * 60 * 24 - now) / 1000 / 60 / 60;
-		// If less than 1 hour left
-		if (Math.floor(timeLeft) < 1) {
-			// Change time to minutes
-			timeLeft = Math.floor(timeLeft * 60);
-			timeMetric = 'Minutes';
-		} else {
-			// Else, Keep time in hours
-			timeLeft = Math.floor(timeLeft);
-			timeMetric = 'Hours';
+		if (time) {
+			// timeLeft = ((time + 1 day) - now) in Hours
+			timeLeft = (new Date(time).getTime() + 1000 * 60 * 60 * 24 - now) / 1000 / 60 / 60;
+			// If less than 1 hour left
+			if (Math.floor(timeLeft) < 1) {
+				// Change time to minutes
+				timeLeft = Math.floor(timeLeft * 60);
+				timeMetric = 'Minutes';
+			} else {
+				// Else, Keep time in hours
+				timeLeft = Math.floor(timeLeft);
+				timeMetric = 'Hours';
+			}
 		}
 	}
 </script>
 
-<div class="card">
-	<img class="svg_icon" src="icons/battle.svg" alt="Battle Icon" />
+<div class="card {winner && 'winner'} {loser && 'loser'}">
+	{#if winner}
+		<img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />
+	{:else if loser}
+		<img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />
+	{:else}
+		<img class="svg_icon" src="/icons/battle.svg" alt="Battle Icon" />
+	{/if}
 	<img
 		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 			new URLSearchParams({
@@ -63,15 +76,28 @@
 			{/if}
 		</span>
 		<span>
-			{#if new Date(time).getTime() > now}
-				Starts <b>Tommorow...</b>
-			{:else if new Date(time).getTime() + 1000 * 60 * 60 * 24 - now < 1}
-				Completed: Waiting to be Counted
+			{#if !winner && !loser}
+				{#if new Date(time).getTime() > now}
+					Starts <b>Tommorow...</b>
+				{:else if new Date(time).getTime() + 1000 * 60 * 60 * 24 - now < 1}
+					Completed: Waiting to be Counted
+				{:else}
+					Ends In: <b>{timeLeft} {timeMetric}</b>
+				{/if}
 			{:else}
-				Ends In: <b>{timeLeft} {timeMetric}</b>
+				{new Date(time).toDateString()}
 			{/if}
 		</span>
 	</div>
+	{#if winner || loser}
+		<div class="final_stats">
+			{#if winner}
+				<span><b>{stat1}</b> - {stat2}</span>
+			{:else if loser}
+				<span>{stat1} - <b>{stat2}</b></span>
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -86,6 +112,15 @@
 		font-size: 2rem;
 		gap: 1rem;
 		align-items: center;
+		position: relative;
+	}
+
+	.winner {
+		background: linear-gradient(to right, var(--foreground) 50%, var(--blue) 150%);
+	}
+
+	.loser {
+		background: linear-gradient(to right, var(--foreground) 50%, var(--orange) 150%);
 	}
 
 	.svg_icon {
@@ -123,6 +158,14 @@
 		font-size: 1.2rem;
 		color: gray;
 		font-style: italic;
+	}
+
+	.final_stats {
+		margin-left: auto;
+	}
+
+	.final_stats span {
+		font-size: 2.4rem;
 	}
 
 	@media screen and (min-width: 450px) {
