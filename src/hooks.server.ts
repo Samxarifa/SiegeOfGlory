@@ -1,13 +1,25 @@
 // File runs on server start
 
 import { dev } from '$app/environment';
+import checkAllBattles from '$lib/completeBattles.server';
 import { closePool } from '$lib/dbHandler.server';
 import { adminAuth } from '$lib/firebase/firebase-admin.server';
 import { redirect } from '@sveltejs/kit';
+import { gracefulShutdown, scheduleJob } from 'node-schedule';
 
 // Event Listener: Close database pool on server exit
-process.on('SIGINT', closePool);
-process.on('SIGTERM', closePool);
+process.on('SIGINT', async () => {
+	await gracefulShutdown();
+	closePool();
+});
+process.on('SIGTERM', async () => {
+	await gracefulShutdown();
+	closePool();
+});
+
+scheduleJob('30 */3 * * *', async () => {
+	checkAllBattles();
+});
 
 // Function runs with every request to server
 export async function handle({ event, resolve }) {
