@@ -16,13 +16,13 @@ export default async function checkAllBattles() {
 			if (stats && (stats.player1 || stats.player2)) {
 				const { player1: user1Stat, player2: user2Stat } = stats;
 
-				if (user1Stat > user2Stat) {
+				if (!user2Stat || user1Stat > user2Stat) {
 					if (battle.statType === 'd') {
 						completeBattle(battle.user1, battle.user2, 2, user1Stat, user2Stat);
 					} else {
 						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
 					}
-				} else if (user1Stat < user2Stat) {
+				} else if (!user1Stat || user1Stat < user2Stat) {
 					if (battle.statType === 'd') {
 						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
 					} else {
