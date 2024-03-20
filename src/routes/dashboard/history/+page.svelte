@@ -9,15 +9,27 @@
 <div class="battles">
 	{#if data.battles && data.battles?.length > 0}
 		{#each data.battles as battle}
-			<BattleCard
-				opponent={battle.opponentName}
-				stat={battle.statType}
-				time={battle.startDate}
-				stat1={battle.stat1}
-				stat2={battle.stat2}
-				winner={battle.stat1 > battle.stat2}
-				loser={battle.stat1 <= battle.stat2}
-			/>
+			{#if battle.statType === 'd'}
+				<BattleCard
+					opponent={battle.opponentName}
+					stat={battle.statType}
+					time={battle.startDate}
+					stat1={battle.stat1}
+					stat2={battle.stat2}
+					winner={battle.stat1 < battle.stat2}
+					loser={battle.stat1 >= battle.stat2}
+				/>
+			{:else}
+				<BattleCard
+					opponent={battle.opponentName}
+					stat={battle.statType}
+					time={battle.startDate}
+					stat1={battle.stat1}
+					stat2={battle.stat2}
+					winner={battle.stat1 > battle.stat2}
+					loser={battle.stat1 <= battle.stat2}
+				/>
+			{/if}
 		{/each}
 	{:else}
 		<span class="noBattles">No Completed Battles</span>
