@@ -7,18 +7,18 @@ export default async function checkAllBattles() {
 	battles &&
 		battles.forEach(async (battle) => {
 			const stats = await getBattleStats(
-				battle.user1,
-				battle.user2,
+				battle.user1R,
+				battle.user2R,
 				battle.statType,
 				battle.startDate
 			);
 
-			if (stats) {
+			if (stats && (stats.player1 || stats.player2)) {
 				const { player1: user1Stat, player2: user2Stat } = stats;
 
-				if (user1Stat > user2Stat || !user2Stat) {
+				if (user1Stat > user2Stat) {
 					completeBattle(battle.user1, battle.user2, 1);
-				} else if (user1Stat < user2Stat || !user1Stat) {
+				} else if (user1Stat < user2Stat) {
 					completeBattle(battle.user1, battle.user2, 2);
 				} else {
 					completeBattle(battle.user1, battle.user2, 0);

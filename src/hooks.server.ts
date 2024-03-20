@@ -17,7 +17,7 @@ process.on('SIGTERM', async () => {
 	closePool();
 });
 
-scheduleJob('30 */3 * * *', async () => {
+scheduleJob('30 1-23/3 * * *', async () => {
 	checkAllBattles();
 });
 

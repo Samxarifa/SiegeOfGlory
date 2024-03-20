@@ -293,6 +293,8 @@ export async function getFinishedBattles() {
 	interface Return extends RowDataPacket {
 		user1: string;
 		user2: string;
+		user1R: string;
+		user2R: string;
 		statType: string;
 		startDate: string;
 	}
@@ -300,7 +302,10 @@ export async function getFinishedBattles() {
 	const date = new Date().toISOString().split('T')[0];
 
 	const query =
-		'SELECT user1, user2, statType, startDate FROM sog_battles WHERE completed = 0 AND startDate < ?';
+		'SELECT user1, user2, \
+		(SELECT rainbowId FROM sog_users WHERE userId = user1) AS user1R, \
+		(SELECT rainbowId FROM sog_users WHERE userId = user2) AS user2R, \
+		 statType, startDate FROM sog_battles WHERE completed = 0 AND startDate < ?';
 
 	const conn = await getConnection();
 
