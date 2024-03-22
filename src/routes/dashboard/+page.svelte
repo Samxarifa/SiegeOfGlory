@@ -84,7 +84,7 @@
 		padding-top: 7rem;
 		color: var(--text);
 		border-radius: 0 0 4rem 4rem;
-		box-shadow: inset 0 -10px 20px -10px black;
+		box-shadow: inset 0 -10px 10px -10px black;
 		width: 100%;
 	}
 
