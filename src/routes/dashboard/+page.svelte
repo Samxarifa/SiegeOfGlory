@@ -4,7 +4,6 @@
 	import { signOut } from 'firebase/auth';
 	import fitty from 'fitty';
 	import { onMount } from 'svelte';
-	import LogoutIcon from '$lib/icons/logout.svelte';
 
 	// Gets Data from server function (+page.server.ts)
 	export let data;
@@ -33,7 +32,9 @@
 <header>
 	<div class="top">
 		<span class="hello">{hello}</span>
-		<button class="btn_signout" on:click={() => signOut(auth)}><LogoutIcon /></button>
+		<button class="btn_signout" on:click={() => signOut(auth)}
+			><div class="logoutIcon"></div></button
+		>
 	</div>
 	<div class="div_username">
 		<span class="username" bind:this={usernameSpan}>{data.stats?.username.slice(0, -4)}</span>
@@ -162,7 +163,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		background-color: var(--foreground);
-		color: var(--text);
+		color: var(--orange);
 		border: none;
 		border-radius: 50%;
 		padding: 1rem;
@@ -171,6 +172,14 @@
 		box-shadow: 0 1px 10px -1px var(--background);
 		color: var(--orange);
 		cursor: pointer;
+	}
+
+	.logoutIcon {
+		background-color: var(--orange);
+		width: 2.4rem;
+		height: 2.4rem;
+		mask: url('/icons/logout.svg') no-repeat center / contain;
+		-webkit-mask: url('/icons/logout.svg') no-repeat center / contain;
 	}
 
 	.battle_header {
