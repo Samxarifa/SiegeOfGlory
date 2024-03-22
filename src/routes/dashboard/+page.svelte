@@ -179,7 +179,6 @@
 		width: 2.4rem;
 		height: 2.4rem;
 		mask: url('/icons/logout.svg') no-repeat center / contain;
-		-webkit-mask: url('/icons/logout.svg') no-repeat center / contain;
 	}
 
 	.battle_header {
