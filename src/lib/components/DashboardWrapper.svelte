@@ -84,6 +84,7 @@
 		font-size: 3rem;
 		width: fit-content;
 		position: relative;
+		z-index: 10;
 	}
 
 	.content {

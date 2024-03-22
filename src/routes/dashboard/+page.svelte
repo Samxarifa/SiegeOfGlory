@@ -4,22 +4,38 @@
 	import { signOut } from 'firebase/auth';
 	import fitty from 'fitty';
 	import { onMount } from 'svelte';
+	import LogoutIcon from '$lib/icons/logout.svelte';
 
 	// Gets Data from server function (+page.server.ts)
 	export let data;
 
 	// Gets binded to HTML username span (used to fit text with fitty)
 	let usernameSpan: HTMLSpanElement;
+	let hello: string;
+
+	if (new Date().getHours() < 12) {
+		hello = 'Good Morning,';
+	} else if (new Date().getHours() < 18) {
+		hello = 'Good Afternoon,';
+	} else {
+		hello = 'Good Evening,';
+	}
 
 	onMount(() => {
-		fitty(usernameSpan, { maxSize: 24 });
+		fitty(usernameSpan, { maxSize: 30 });
 	});
 </script>
 
+<svelte:head>
+	<meta name="theme-color" content="#2A2A2A" />
+</svelte:head>
+
 <header>
-	<div class="div_hello">
-		<span class="hello">Hello,</span>
-		<br />
+	<div class="top">
+		<span class="hello">{hello}</span>
+		<button class="btn_signout" on:click={() => signOut(auth)}><LogoutIcon /></button>
+	</div>
+	<div class="div_username">
 		<span class="username" bind:this={usernameSpan}>{data.stats?.username.slice(0, -4)}</span>
 		<span class="platform">{data.stats?.username.slice(-3)}</span>
 	</div>
@@ -33,9 +49,6 @@
 			<td>{data.stats?.losses}</td>
 		</tr>
 	</table>
-	<button class="btn_signout" on:click={() => signOut(auth)}
-		>Sign Out <img class="svg_icon" src="/icons/logout.svg" alt="Logout Icon" /></button
-	>
 </header>
 
 <div class="battle_header">
@@ -61,26 +74,40 @@
 <style>
 	header {
 		background-color: var(--foreground);
-		border-radius: 1rem;
-		color: var(--text);
+		position: absolute;
+		top: 0;
+		right: 0;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
-		gap: 2rem;
-		justify-content: center;
-		margin-bottom: 1rem;
-	}
-
-	.div_hello {
+		gap: 5rem;
+		padding: 2rem;
+		padding-top: 7rem;
+		color: var(--text);
+		border-radius: 0 0 4rem 4rem;
+		box-shadow: inset 0 -10px 20px -10px black;
 		width: 100%;
 	}
 
+	.top {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
 	.hello {
-		font-size: 1.6rem;
+		font-size: 2rem;
+	}
+
+	.div_username {
+		text-align: center;
+		height: 5rem;
 	}
 
 	.username {
-		font-size: 2.4rem;
+		align-self: center;
+		font-size: 3rem;
+		margin-top: auto;
 		font-weight: bold;
 		color: var(--blue);
 		text-shadow:
@@ -92,6 +119,7 @@
 		font-size: 1.2rem;
 		color: gray;
 		font-style: italic;
+		display: block;
 	}
 
 	table,
@@ -130,24 +158,27 @@
 	}
 
 	.btn_signout {
-		width: fit-content;
-		padding: 1rem;
-		background-color: var(--foreground);
-		border: solid 0.2rem var(--text);
-		border-radius: 1rem;
-		color: var(--text);
-		cursor: pointer;
 		display: flex;
 		align-items: center;
-		gap: 1rem;
-		margin-left: auto;
+		gap: 0.5rem;
+		background-color: var(--foreground);
+		color: var(--text);
+		border: none;
+		border-radius: 50%;
+		padding: 1rem;
+		right: 2rem;
+		top: 6rem;
+		box-shadow: 0 1px 10px -1px var(--background);
+		color: var(--orange);
+		cursor: pointer;
 	}
 
 	.battle_header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin: 2rem 0;
+		margin-top: 31rem;
+		margin-bottom: 2rem;
 	}
 
 	.history {
@@ -188,6 +219,17 @@
 	}
 
 	@media screen and (min-width: 900px) {
+		header {
+			position: relative;
+			border-radius: 2rem;
+			padding-top: 2rem;
+			box-shadow: none;
+		}
+
+		.battle_header {
+			margin-top: 2rem;
+		}
+
 		.btn_signout {
 			display: none;
 		}
