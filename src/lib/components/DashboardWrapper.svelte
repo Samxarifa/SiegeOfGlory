@@ -61,6 +61,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
 	}
 
 	header button {
@@ -90,6 +94,7 @@
 	.content {
 		margin: 0 auto;
 		padding: 1rem;
+		padding-top: 7rem;
 		padding-bottom: calc(8rem + env(safe-area-inset-bottom));
 		max-width: 150rem;
 		overflow: hidden;
@@ -162,7 +167,6 @@
 		.content {
 			padding-bottom: 1rem;
 			padding-left: 32rem;
-			padding-top: 7rem;
 		}
 
 		nav {
