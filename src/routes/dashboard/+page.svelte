@@ -179,7 +179,8 @@
 
 	.battle_header {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 		gap: 1rem;
 		margin-top: -5rem;
@@ -187,14 +188,14 @@
 		margin-inline: -1rem;
 		padding: 2rem;
 		background-color: var(--background);
-		box-shadow: 0 -10px 30px -10px black;
+		box-shadow: 0 -20px 20px -20px black;
 	}
 
 	.history {
 		background-color: var(--foreground);
 		border: solid 0.2rem var(--text);
 		cursor: pointer;
-		border-radius: 50%;
+		border-radius: 1rem;
 		padding: 0.5rem;
 		display: flex;
 		align-items: center;
@@ -203,9 +204,10 @@
 		text-decoration: none;
 		position: relative;
 		color: var(--text);
+		width: fit-content;
 
 		& span {
-			display: none;
+			margin-left: 0.5rem;
 		}
 
 		& img {
@@ -243,6 +245,8 @@
 			margin-block: 2rem;
 			padding: 0;
 			box-shadow: none;
+			justify-content: space-between;
+			flex-direction: row;
 		}
 
 		.history span {
