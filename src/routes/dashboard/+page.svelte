@@ -55,7 +55,7 @@
 <div class="battle_header">
 	<h1>Ongoing Battles</h1>
 	<a class="history" href="/dashboard/history">
-		History
+		<span>History</span>
 		<img src="/icons/history.svg" alt="History Icon" class="svg_icon" />
 	</a>
 </div>
@@ -75,18 +75,14 @@
 <style>
 	header {
 		background-color: var(--foreground);
-		position: absolute;
-		top: 0;
-		right: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 5rem;
-		padding: 2rem;
-		padding-top: 7rem;
+		gap: 3rem;
+		padding-inline: 2rem;
+		padding-block: 7rem;
+		margin-top: -7rem;
+		margin-inline: -1rem;
 		color: var(--text);
-		border-radius: 0 0 4rem 4rem;
-		box-shadow: inset 0 -10px 10px -10px black;
-		width: 100%;
 	}
 
 	.top {
@@ -185,15 +181,20 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-top: 31rem;
-		margin-bottom: 2rem;
+		gap: 1rem;
+		margin-top: -5rem;
+		border-radius: 5rem 5rem 0 0;
+		margin-inline: -1rem;
+		padding: 2rem;
+		background-color: var(--background);
+		box-shadow: 0 -10px 30px -10px black;
 	}
 
 	.history {
 		background-color: var(--foreground);
 		border: solid 0.2rem var(--text);
 		cursor: pointer;
-		border-radius: 1rem;
+		border-radius: 50%;
 		padding: 0.5rem;
 		display: flex;
 		align-items: center;
@@ -202,11 +203,15 @@
 		text-decoration: none;
 		position: relative;
 		color: var(--text);
-	}
 
-	.history img {
-		width: 3rem;
-		height: 3rem;
+		& span {
+			display: none;
+		}
+
+		& img {
+			width: 3rem;
+			height: 3rem;
+		}
 	}
 
 	.noBattles {
@@ -228,14 +233,20 @@
 
 	@media screen and (min-width: 900px) {
 		header {
-			position: relative;
 			border-radius: 2rem;
-			padding-top: 2rem;
-			box-shadow: none;
+			padding: 2rem;
+			margin: 0;
 		}
 
 		.battle_header {
-			margin-top: 2rem;
+			margin: 0;
+			margin-block: 2rem;
+			padding: 0;
+			box-shadow: none;
+		}
+
+		.history span {
+			display: block;
 		}
 
 		.btn_signout {
