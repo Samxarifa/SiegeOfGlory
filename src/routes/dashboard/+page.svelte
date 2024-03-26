@@ -54,10 +54,6 @@
 
 <div class="battle_header">
 	<h1>Ongoing Battles</h1>
-	<a class="history" href="/dashboard/history">
-		<span>History</span>
-		<img src="/icons/history.svg" alt="History Icon" class="svg_icon" />
-	</a>
 </div>
 
 <section class="battles">
@@ -191,31 +187,6 @@
 		box-shadow: 0 -20px 20px -20px black;
 	}
 
-	.history {
-		background-color: var(--foreground);
-		border: solid 0.2rem var(--text);
-		cursor: pointer;
-		border-radius: 1rem;
-		padding: 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		text-decoration: none;
-		position: relative;
-		color: var(--text);
-		width: fit-content;
-
-		& span {
-			margin-left: 0.5rem;
-		}
-
-		& img {
-			width: 3rem;
-			height: 3rem;
-		}
-	}
-
 	.noBattles {
 		color: var(--text);
 		text-align: center;
@@ -247,10 +218,6 @@
 			box-shadow: none;
 			justify-content: space-between;
 			flex-direction: row;
-		}
-
-		.history span {
-			display: block;
 		}
 
 		.btn_signout {

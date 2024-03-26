@@ -6,7 +6,7 @@
 	export let data;
 </script>
 
-<h1>Lineup</h1>
+<h1>Leaderboard</h1>
 {#if data.lb && data.lb.length > 2}
 	<section class="podium">
 		<PodiumCard

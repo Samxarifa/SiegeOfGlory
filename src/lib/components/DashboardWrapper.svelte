@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	// Component Used to show header and nav on all dashboard pages, also is content wrapped
 
 	import { auth } from '$lib/firebase/firebase';
@@ -11,6 +13,21 @@
 
 	// Gets firebase user
 	const user = userStore(auth);
+
+	// Used to stop navigation if already on the page
+	async function navigateTo(to: string) {
+		if (url !== to) {
+			await goto(to);
+		}
+	}
+
+	// Array of destinations for nav
+	const destinations = [
+		{ name: 'Home', icon: 'home.svg', url: '/dashboard' },
+		{ name: 'History', icon: 'history.svg', url: '/dashboard/history' },
+		{ name: 'Friends', icon: 'friends.svg', url: '/dashboard/friends' },
+		{ name: 'Leaderboard', icon: 'leaderboard.svg', url: '/dashboard/leaderboard' }
+	];
 </script>
 
 <header>
@@ -26,29 +43,29 @@
 {/key}
 <nav>
 	<ul>
+		{#each destinations as destination}
+			<li>
+				<a href={destination.url} on:click|preventDefault={() => navigateTo(destination.url)}
+					><img
+						class="svg_icon"
+						src="/icons/{url === destination.url ? '' : 'outlined/'}{destination.icon}"
+						alt={destination.name + ' Icon'}
+					/><span>{destination.name}</span></a
+				>
+			</li>
+		{/each}
 		<li>
-			<a href="/dashboard"><img class="svg_icon" src="/icons/home.svg" alt="Home Icon" />Home</a>
-		</li>
-		<li>
-			<a href="/dashboard/friends"
-				><img class="svg_icon" src="/icons/friends.svg" alt="Friends Icon" />Friends</a
-			>
-		</li>
-		<li>
-			<a href="/dashboard/leaderboard"
-				><img class="svg_icon" src="/icons/list.svg" alt="List Icon" />Lineup</a
-			>
-		</li>
-		<li>
-			<a href="/dashboard/profile/{$user?.uid}"
+			<a
+				href="/dashboard/profile/{$user?.uid}"
+				on:click|preventDefault={() => navigateTo(`/dashboard/profile/${$user?.uid}`)}
 				><img
 					src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 						new URLSearchParams({
 							seed: $user?.displayName || ''
 						})}
 					alt="Profile Pic"
-					class="profile_pic"
-				/>Profile</a
+					class="profile_pic {url === '/dashboard/profile/' + $user?.uid ? 'profile_selected' : ''}"
+				/><span>Profile</span></a
 			>
 		</li>
 	</ul>
@@ -139,13 +156,26 @@
 		color: inherit;
 		text-decoration: none;
 		flex-direction: column;
+
+		& span {
+			display: none;
+		}
+
+		& img {
+			width: 3rem;
+			height: 3rem;
+		}
 	}
 
 	.profile_pic {
-		width: 2rem;
-		height: 2rem;
+		width: 2.6rem;
+		height: 2.6rem;
 		margin-block: 0.2rem;
-		border-radius: 20%;
+		border-radius: 50%;
+	}
+
+	.profile_selected {
+		outline: solid 0.3rem var(--text);
 	}
 
 	@media screen and (min-width: 900px) {
@@ -198,6 +228,20 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			gap: 4rem;
+		}
+
+		a span {
+			display: block;
+		}
+
+		a img {
+			width: 2.4rem;
+			height: 2.4rem;
+		}
+
+		.profile_pic {
+			width: 2rem;
+			height: 2rem;
 		}
 	}
 </style>
