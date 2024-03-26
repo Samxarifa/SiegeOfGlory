@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-
 	// Component Used to show header and nav on all dashboard pages, also is content wrapped
-
+	import { goto } from '$app/navigation';
 	import { auth } from '$lib/firebase/firebase';
 	import { signOut } from 'firebase/auth';
 	import { fade } from 'svelte/transition';
