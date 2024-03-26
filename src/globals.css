@@ -37,3 +37,9 @@ body {
 #nprogress .bar {
 	background: var(--orange) !important;
 }
+
+a,
+select,
+button {
+	-webkit-tap-highlight-color: transparent;
+}
