@@ -26,7 +26,18 @@
 		{#if form && !form?.success}
 			<span class="error">Error: {form.message}</span>
 		{/if}
-		<form action="?/register" method="POST" on:submit={() => (submitted = true)} use:enhance>
+		<form
+			action="?/register"
+			method="POST"
+			use:enhance={(e) => {
+				if (!e.formData.get('username')) {
+					e.cancel();
+					form = { success: false, message: 'Username is required' };
+				} else {
+					submitted = true;
+				}
+			}}
+		>
 			<div class="div_username">
 				<input
 					on:focus={() => (form = null)}
@@ -59,7 +70,8 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		background-color: var(--background);
+		background-color: rgba(18, 18, 18, 0.5);
+		backdrop-filter: blur(0.5rem);
 	}
 
 	@keyframes slide-in {
@@ -87,8 +99,11 @@
 
 	.error {
 		text-align: center;
-		width: 100%;
 		display: block;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		top: -5rem;
 		color: red;
 	}
 
@@ -146,6 +161,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
+		position: relative;
 	}
 
 	.div_username {

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { auth } from '$lib/firebase/firebase.js';
 	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
@@ -38,7 +39,7 @@
 
 	// Get the rainbow six r6Id change
 	$: {
-		if (data.rainbowId) {
+		if (browser && data.rainbowId) {
 			getR6Data();
 		}
 	}
@@ -56,11 +57,12 @@
 	<div class="username_parent">
 		<div class="username_div">
 			<div>
-				{#if data.userId != $user?.uid}
-					<h1 class="username opponent" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-				{:else}
-					<h1 class="username" bind:this={usernameSpan}>{data.username.slice(0, -4)}</h1>
-				{/if}
+				<h1
+					class="username {$user?.uid === data.userId ? 'you' : $user?.uid ? 'opponent' : ''}"
+					bind:this={usernameSpan}
+				>
+					{data.username.slice(0, -4)}
+				</h1>
 				<span class="platform">{data.username.slice(-3)}</span>
 			</div>
 		</div>
@@ -148,7 +150,12 @@
 
 	.username {
 		font-size: 2.4rem;
+		display: inline;
 		font-weight: bold;
+		color: var(--text);
+	}
+
+	.you {
 		color: var(--blue);
 		text-shadow:
 			0 0 5rem var(--blue),

@@ -4,12 +4,28 @@
 	import { auth } from '$lib/firebase/firebase';
 	import { FirebaseApp } from 'sveltefire';
 	import { onMount } from 'svelte';
-	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import NProgress from 'nprogress';
+	import { navigating } from '$app/stores';
+	import 'nprogress/nprogress.css';
 
-	// Shows Loading Spinner on page load
-	let loading = true;
+	// Sets config for NProgress (Navigation Progress Bar at Top of Page)
+	NProgress.configure({
+		// https://github.com/rstacruz/nprogress#configuration
+		minimum: 0.2,
+		showSpinner: false
+	});
+
+	// Watches for navigating changes and starts/stops NProgress
+	$: {
+		if ($navigating) {
+			NProgress.start();
+		}
+		if (!$navigating) {
+			NProgress.done();
+		}
+	}
 
 	onMount(() => {
 		detectSWUpdate();
@@ -21,8 +37,6 @@
 
 		// Checks if logged in when first loaded and whenever auth status changes after
 		const authListener = auth.onAuthStateChanged(async (user) => {
-			// Shows Loading Spinner
-			loading = true;
 			let token;
 			let location = $page.url.pathname + $page.url.search;
 			// If logged in, send the jwt to server api endpoint and navigate from login page
@@ -46,8 +60,6 @@
 			});
 
 			await goto(location);
-			// Hide Loading Spinner
-			loading = false;
 		});
 
 		// Unsubscribes from auth listener when component is destroyed
@@ -76,11 +88,5 @@
 </script>
 
 <FirebaseApp {auth}>
-	{#if loading}
-		<div class="spinner-parent">
-			<LoadingSpinner />
-		</div>
-	{:else}
-		<slot />
-	{/if}
+	<slot />
 </FirebaseApp>
