@@ -29,19 +29,19 @@
 			"src": "/PWA/pwa-64x64-mask.png",
 			"type": "image/png",
 			"sizes": "64x64",
-			"purpose": "maskable"
+			"purpose": "any maskable"
 		},
 		{
 			"src": "/PWA/pwa-192x192-mask.png",
 			"type": "image/png",
 			"sizes": "192x192",
-			"purpose": "maskable"
+			"purpose": "any maskable"
 		},
 		{
 			"src": "/PWA/pwa-512x512-mask.png",
 			"type": "image/png",
 			"sizes": "512x512",
-			"purpose": "maskable"
+			"purpose": "any maskable"
 		}
 	]
 }
