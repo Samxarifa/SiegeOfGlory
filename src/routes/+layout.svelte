@@ -19,7 +19,7 @@
 
 	// Watches for navigating changes and starts/stops NProgress
 	$: {
-		if ($navigating) {
+		if ($navigating && $navigating.from?.url.pathname !== $navigating.to?.url.pathname) {
 			NProgress.start();
 		}
 		if (!$navigating) {
