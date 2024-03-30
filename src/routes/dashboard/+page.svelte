@@ -12,6 +12,8 @@
 	let usernameSpan: HTMLSpanElement;
 	let hello: string;
 
+	let battleWidth: number;
+
 	if (new Date().getHours() < 12) {
 		hello = 'Good Morning,';
 	} else if (new Date().getHours() < 18) {
@@ -56,17 +58,21 @@
 	<h1>Ongoing Battles</h1>
 </div>
 
-<section class="battles">
-	{#if data.battles && data.battles?.length > 0}
+{#if data.battles && data.battles?.length > 0}
+	<section
+		class="battles"
+		bind:clientWidth={battleWidth}
+		data-columns={battleWidth > 800 ? '2' : '1'}
+	>
 		{#each data.battles as battle}
 			<BattleCard opponent={battle.opponentName} stat={battle.statType} time={battle.startDate} />
 		{/each}
-	{:else}
-		<span class="noBattles">
-			No Ongoing Battles <br />(To start a battle, go to the friends tab)
-		</span>
-	{/if}
-</section>
+	</section>
+{:else}
+	<span class="noBattles">
+		No Ongoing Battles <br />(To start a battle, go to the friends tab)
+	</span>
+{/if}
 
 <style>
 	header {
@@ -199,9 +205,13 @@
 	}
 
 	.battles {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
 		gap: 1rem;
+	}
+
+	.battles[data-columns='2'] {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	@media screen and (min-width: 900px) {

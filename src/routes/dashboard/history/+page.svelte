@@ -2,12 +2,14 @@
 	import BattleCard from '$lib/components/BattleCard.svelte';
 
 	export let data;
+
+	let battleWidth: number;
 </script>
 
 <h1>History</h1>
 
-<div class="battles">
-	{#if data.battles && data.battles?.length > 0}
+{#if data.battles && data.battles?.length > 0}
+	<div class="battles" bind:clientWidth={battleWidth} data-columns={battleWidth > 800 ? '2' : '1'}>
 		{#each data.battles as battle}
 			{#if battle.statType === 'd'}
 				<BattleCard
@@ -31,10 +33,10 @@
 				/>
 			{/if}
 		{/each}
-	{:else}
-		<span class="noBattles">No Completed Battles</span>
-	{/if}
-</div>
+	</div>
+{:else}
+	<span class="noBattles">No Completed Battles</span>
+{/if}
 
 <style>
 	h1 {
@@ -43,9 +45,13 @@
 	}
 
 	.battles {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 1rem;
+	}
+
+	.battles[data-columns='2'] {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.noBattles {

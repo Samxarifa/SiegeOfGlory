@@ -3,13 +3,15 @@
 	import { fly } from 'svelte/transition';
 
 	export let data;
+
+	let friendWidth: number;
 </script>
 
 <h1>Requests</h1>
 
 <main in:fly={{ x: 100 }}>
 	{#if data.users?.requests && data.users.requests.length > 0}
-		<div class="cards">
+		<div class="cards" bind:clientWidth={friendWidth} data-columns={friendWidth > 800 ? '2' : '1'}>
 			{#each data.users.requests as request}
 				<FriendCard username={request.username} id={request.userId} showRequestButtons />
 			{/each}
@@ -36,9 +38,13 @@
 	}
 
 	.cards {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 1rem;
+	}
+
+	.cards[data-columns='2'] {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.noRequests {

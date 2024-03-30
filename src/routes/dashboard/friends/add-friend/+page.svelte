@@ -9,6 +9,7 @@
 	let noFound = false;
 	let loading = false;
 	let timer: NodeJS.Timeout;
+	let friendWidth: number;
 
 	async function handleChange() {
 		clearTimeout(timer);
@@ -45,7 +46,7 @@
 		</form>
 	</div>
 	{#if !loading}
-		<div class="cards">
+		<div class="cards" bind:clientWidth={friendWidth} data-columns={friendWidth > 800 ? '2' : '1'}>
 			{#each results as user}
 				<FriendCard username={user.item.username} id={user.item.userId} showAddButton />
 			{/each}
@@ -111,9 +112,13 @@
 	}
 
 	.cards {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 1rem;
+	}
+
+	.cards[data-columns='2'] {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.noFound {

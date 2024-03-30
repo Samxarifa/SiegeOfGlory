@@ -103,7 +103,7 @@
 <style>
 	.card {
 		background-color: var(--foreground);
-		flex: 1;
+		width: 100%;
 		height: 10rem;
 		border-radius: 1rem;
 		display: flex;
@@ -166,17 +166,5 @@
 
 	.final_stats span {
 		font-size: 2.4rem;
-	}
-
-	@media screen and (min-width: 450px) {
-		.card {
-			min-width: 40rem;
-		}
-	}
-
-	@media screen and (min-width: 1400px) {
-		.card {
-			max-width: 50%;
-		}
 	}
 </style>

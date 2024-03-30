@@ -88,8 +88,7 @@
 		justify-content: space-between;
 		align-items: center;
 		color: var(--text);
-		flex: 1;
-		max-width: 100%;
+		width: 100%;
 	}
 
 	a {
@@ -149,17 +148,5 @@
 	.request img {
 		width: 4rem;
 		height: 4rem;
-	}
-
-	@media screen and (min-width: 450px) {
-		.card {
-			min-width: 40rem;
-		}
-	}
-
-	@media screen and (min-width: 1400px) {
-		.card {
-			max-width: 50%;
-		}
 	}
 </style>
