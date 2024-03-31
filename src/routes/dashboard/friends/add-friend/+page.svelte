@@ -46,7 +46,11 @@
 		</form>
 	</div>
 	{#if !loading}
-		<div class="cards" bind:clientWidth={friendWidth} data-columns={friendWidth > 800 ? '2' : '1'}>
+		<div
+			class="cards"
+			bind:clientWidth={friendWidth}
+			data-columns={friendWidth > 800 ? '2' : friendWidth ? '1' : ''}
+		>
 			{#each results as user}
 				<FriendCard username={user.item.username} id={user.item.userId} showAddButton />
 			{/each}
@@ -117,6 +121,10 @@
 		gap: 1rem;
 	}
 
+	.cards[data-columns='1'] {
+		grid-template-columns: 1fr;
+	}
+
 	.cards[data-columns='2'] {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -133,5 +141,11 @@
 		align-items: center;
 		height: 100%;
 		margin-top: 5rem;
+	}
+
+	@media screen and (min-width: 1200px) {
+		.cards {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 </style>

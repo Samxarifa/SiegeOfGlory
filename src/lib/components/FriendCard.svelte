@@ -55,7 +55,7 @@
 			<img
 				src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 					new URLSearchParams({
-						seed: username
+						seed: id
 					})}
 				alt="Profile Pic"
 			/>

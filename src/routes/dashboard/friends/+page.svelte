@@ -77,7 +77,11 @@
 		<img src="/icons/arrowRight.svg" alt="Arrow Right" />
 	</button>
 	{#if data.friends && data.friends.length > 0}
-		<div class="cards" bind:clientWidth={friendWidth} data-columns={friendWidth > 800 ? '2' : '1'}>
+		<div
+			class="cards"
+			bind:clientWidth={friendWidth}
+			data-columns={friendWidth > 800 ? '2' : friendWidth ? '1' : ''}
+		>
 			{#each data.friends as friend}
 				<FriendCard
 					username={friend.username}
@@ -186,6 +190,10 @@
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 1rem;
+	}
+
+	.cards[data-columns='1'] {
+		grid-template-columns: 1fr;
 	}
 
 	.cards[data-columns='2'] {
@@ -336,6 +344,12 @@
 	@media screen and (min-width: 330px) {
 		dialog form .select label {
 			display: block;
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		.cards {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>

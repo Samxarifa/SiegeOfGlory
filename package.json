@@ -42,7 +42,6 @@
 		"lru-cache": "^10.2.0",
 		"mysql2": "^3.9.1",
 		"node-schedule": "^2.1.1",
-		"nprogress": "^0.2.0",
-		"sveltefire": "^0.4.5"
+		"nprogress": "^0.2.0"
 	}
 }

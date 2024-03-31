@@ -4,13 +4,11 @@
 	import { auth } from '$lib/firebase/firebase';
 	import { signOut } from 'firebase/auth';
 	import { fade } from 'svelte/transition';
-	import { userStore } from 'sveltefire';
 
 	// Gets url from parent component (Used to cause fade transition on navigation)
 	export let url: string;
 
-	// Gets firebase user
-	const user = userStore(auth);
+	export let currentUser: string;
 
 	// Used to stop navigation if already on the page
 	async function navigateTo(to: string) {
@@ -54,15 +52,17 @@
 		{/each}
 		<li>
 			<a
-				href="/dashboard/profile/{$user?.uid}"
-				on:click|preventDefault={() => navigateTo(`/dashboard/profile/${$user?.uid}`)}
+				href="/dashboard/profile/{currentUser}"
+				on:click|preventDefault={() => navigateTo(`/dashboard/profile/${currentUser}`)}
 				><img
 					src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 						new URLSearchParams({
-							seed: $user?.displayName || ''
+							seed: currentUser
 						})}
 					alt="Profile Pic"
-					class="profile_pic {url === '/dashboard/profile/' + $user?.uid ? 'profile_selected' : ''}"
+					class="profile_pic {url === '/dashboard/profile/' + currentUser
+						? 'profile_selected'
+						: ''}"
 				/><span>Profile</span></a
 			>
 		</li>

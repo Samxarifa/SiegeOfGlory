@@ -4,7 +4,7 @@
 	export let data;
 </script>
 
-<DashboardWrapper url={data.url}>
+<DashboardWrapper url={data.url || ''} currentUser={data.currentUser || ''}>
 	<slot />
 </DashboardWrapper>
 

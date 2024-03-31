@@ -2,7 +2,6 @@
 	import '../globals.css';
 
 	import { auth } from '$lib/firebase/firebase';
-	import { FirebaseApp } from 'sveltefire';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -87,6 +86,4 @@
 	}
 </script>
 
-<FirebaseApp {auth}>
-	<slot />
-</FirebaseApp>
+<slot />

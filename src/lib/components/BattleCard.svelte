@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// Get Props Passed in from component decleration
+	export let id: string;
 	export let opponent: string;
 	export let stat: string;
 	export let time: string;
@@ -56,7 +57,7 @@
 	<img
 		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 			new URLSearchParams({
-				seed: opponent
+				seed: id
 			})}
 		alt="Profile Pic"
 		class="profile_pic"

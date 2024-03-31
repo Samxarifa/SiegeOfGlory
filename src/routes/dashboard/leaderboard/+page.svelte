@@ -11,18 +11,21 @@
 	{#await tick() then}
 		<section class="podium">
 			<PodiumCard
+				id={data.lb[1].userId}
 				pos={2}
 				username={data.lb[1].username}
 				wins={data.lb[1].wins}
 				losses={data.lb[1].losses}
 			/>
 			<PodiumCard
+				id={data.lb[0].userId}
 				pos={1}
 				username={data.lb[0].username}
 				wins={data.lb[0].wins}
 				losses={data.lb[0].losses}
 			/>
 			<PodiumCard
+				id={data.lb[2].userId}
 				pos={3}
 				username={data.lb[2].username}
 				wins={data.lb[2].wins}
@@ -35,7 +38,13 @@
 	<section class="list">
 		{#each data.lb as row}
 			{#if row.row > 3 || data.lb.length < 3}
-				<LI pos={row.row} username={row.username} wins={row.wins} losses={row.losses} />
+				<LI
+					id={row.userId}
+					pos={row.row}
+					username={row.username}
+					wins={row.wins}
+					losses={row.losses}
+				/>
 			{/if}
 		{/each}
 	</section>

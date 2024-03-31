@@ -9,5 +9,10 @@ export const load = (async (request: RequestEvent) => {
 	if (uid && !(await checkIfUserExists(uid))) {
 		// New User = redirect to new-user page
 		redirect(303, '/new-user');
+	} else if (uid) {
+		return {
+			currentUser: uid,
+			url: request.url.pathname
+		};
 	}
 }) satisfies LayoutServerLoad;

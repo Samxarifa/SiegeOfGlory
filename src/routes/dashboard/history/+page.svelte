@@ -9,7 +9,11 @@
 <h1>History</h1>
 
 {#if data.battles && data.battles?.length > 0}
-	<div class="battles" bind:clientWidth={battleWidth} data-columns={battleWidth > 800 ? '2' : '1'}>
+	<div
+		class="battles"
+		bind:clientWidth={battleWidth}
+		data-columns={battleWidth > 800 ? '2' : battleWidth ? '1' : ''}
+	>
 		{#each data.battles as battle}
 			{#if battle.statType === 'd'}
 				<BattleCard
@@ -20,6 +24,7 @@
 					stat2={battle.stat2}
 					winner={battle.stat1 < battle.stat2}
 					loser={battle.stat1 >= battle.stat2}
+					id={battle.userId}
 				/>
 			{:else}
 				<BattleCard
@@ -30,6 +35,7 @@
 					stat2={battle.stat2}
 					winner={battle.stat1 > battle.stat2}
 					loser={battle.stat1 <= battle.stat2}
+					id={battle.userId}
 				/>
 			{/if}
 		{/each}
@@ -50,6 +56,10 @@
 		gap: 1rem;
 	}
 
+	.battles[data-columns='1'] {
+		grid-template-columns: 1fr;
+	}
+
 	.battles[data-columns='2'] {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -59,5 +69,11 @@
 		text-align: center;
 		display: block;
 		width: 100%;
+	}
+
+	@media screen and (min-width: 1200px) {
+		.battles {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 </style>

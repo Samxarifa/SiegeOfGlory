@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let id: string;
 	export let pos: number;
 	export let username: string;
 	export let wins: number;
@@ -10,7 +11,7 @@
 	<img
 		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 			new URLSearchParams({
-				seed: username
+				seed: id
 			})}
 		alt="Profile Pic"
 		class="profile_pic"

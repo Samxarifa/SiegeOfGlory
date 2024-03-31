@@ -62,10 +62,15 @@
 	<section
 		class="battles"
 		bind:clientWidth={battleWidth}
-		data-columns={battleWidth > 800 ? '2' : '1'}
+		data-columns={battleWidth > 800 ? '2' : battleWidth ? '1' : ''}
 	>
 		{#each data.battles as battle}
-			<BattleCard opponent={battle.opponentName} stat={battle.statType} time={battle.startDate} />
+			<BattleCard
+				opponent={battle.opponentName}
+				stat={battle.statType}
+				time={battle.startDate}
+				id={battle.userId}
+			/>
 		{/each}
 	</section>
 {:else}
@@ -105,7 +110,7 @@
 
 	.username {
 		align-self: center;
-		font-size: 3rem;
+		font-size: 30px; /* Pixels as Fitted by fitty */
 		margin-top: auto;
 		font-weight: bold;
 		color: var(--blue);
@@ -210,6 +215,10 @@
 		gap: 1rem;
 	}
 
+	.battles[data-columns='1'] {
+		grid-template-columns: 1fr;
+	}
+
 	.battles[data-columns='2'] {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -241,6 +250,12 @@
 		th div {
 			flex-direction: row;
 			gap: 1rem;
+		}
+	}
+
+	@media screen and (min-width: 1200px) {
+		.battles {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 </style>

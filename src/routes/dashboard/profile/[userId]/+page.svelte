@@ -1,19 +1,14 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
-	import { auth } from '$lib/firebase/firebase.js';
 	import type { ProfilePageReturn } from '$lib/statHandler.server.js';
 	import fitty from 'fitty';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-	import { userStore } from 'sveltefire';
 
 	export let data;
 	let r6Data: ProfilePageReturn;
 	let fetching = true;
-
-	// Get the user from the auth store
-	const user = userStore(auth);
 
 	// Get Username Span for auto text resize
 	let usernameSpan: HTMLSpanElement;
@@ -49,7 +44,7 @@
 	<img
 		src={'https://api.dicebear.com/7.x/thumbs/svg?' +
 			new URLSearchParams({
-				seed: data.username
+				seed: data.userId
 			})}
 		alt="Profile Pic"
 		class="profile_pic"
@@ -58,7 +53,7 @@
 		<div class="username_div">
 			<div>
 				<h1
-					class="username {$user?.uid === data.userId ? 'you' : $user?.uid ? 'opponent' : ''}"
+					class="username {data.currentUser === data.userId ? 'you' : 'opponent'}"
 					bind:this={usernameSpan}
 				>
 					{data.username.slice(0, -4)}
@@ -149,7 +144,7 @@
 	}
 
 	.username {
-		font-size: 2.4rem;
+		font-size: 24px; /* Pixels as Fitted by fitty */
 		display: inline;
 		font-weight: bold;
 		color: var(--text);

@@ -85,6 +85,7 @@ export async function getHomePageStats(uid: string) {
 	}
 
 	interface Return2 extends RowDataPacket {
+		userId: string;
 		opponentName: string;
 		statType: string;
 		startDate: string;
@@ -267,6 +268,7 @@ export async function startBattle(uid: string, friendId: string, statType: strin
 
 export async function getLeaderboard(uid: string) {
 	interface Return extends RowDataPacket {
+		userId: string;
 		row: number;
 		username: string;
 		wins: number;
@@ -343,6 +345,7 @@ export async function completeBattle(
 
 export async function getHistory(uid: string) {
 	interface Return extends RowDataPacket {
+		userId: string;
 		opponentName: string;
 		statType: string;
 		startDate: string;
