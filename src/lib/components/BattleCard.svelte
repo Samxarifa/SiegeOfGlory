@@ -6,16 +6,37 @@
 	export let opponent: string;
 	export let stat: string;
 	export let time: string;
+	export let stat1: number | undefined = undefined;
+	export let stat2: number | undefined = undefined;
 
-	export let winner = false;
-	export let loser = false;
-	export let stat1 = 0;
-	export let stat2 = 0;
+	let winner = false;
+	let loser = false;
+	let draw = false;
 
 	// Vars for time calculations
 	let timeLeft: number;
 	let timeMetric: string;
 	let now = Date.now();
+
+	if (stat1 !== undefined && stat2 !== undefined) {
+		if (stat === 'd') {
+			if (stat1 < stat2) {
+				winner = true;
+			} else if (stat1 > stat2) {
+				loser = true;
+			} else {
+				draw = true;
+			}
+		} else {
+			if (stat1 > stat2) {
+				winner = true;
+			} else if (stat1 < stat2) {
+				loser = true;
+			} else {
+				draw = true;
+			}
+		}
+	}
 
 	// Update current time every minute
 	onMount(() => {
@@ -77,7 +98,7 @@
 			{/if}
 		</span>
 		<span>
-			{#if !winner && !loser}
+			{#if !winner && !loser && !draw}
 				{#if new Date(time).getTime() > now}
 					Starts <b>Tommorow...</b>
 				{:else if new Date(time).getTime() + 1000 * 60 * 60 * 24 - now < 1}
@@ -90,12 +111,14 @@
 			{/if}
 		</span>
 	</div>
-	{#if winner || loser}
+	{#if winner || loser || draw}
 		<div class="final_stats">
 			{#if winner}
 				<span><b>{stat1}</b> - {stat2}</span>
 			{:else if loser}
 				<span>{stat1} - <b>{stat2}</b></span>
+			{:else}
+				<span>{stat1} - {stat2}</span>
 			{/if}
 		</div>
 	{/if}

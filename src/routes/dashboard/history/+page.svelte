@@ -15,29 +15,14 @@
 		data-columns={battleWidth > 800 ? '2' : battleWidth ? '1' : ''}
 	>
 		{#each data.battles as battle}
-			{#if battle.statType === 'd'}
-				<BattleCard
-					opponent={battle.opponentName}
-					stat={battle.statType}
-					time={battle.startDate}
-					stat1={battle.stat1}
-					stat2={battle.stat2}
-					winner={battle.stat1 < battle.stat2}
-					loser={battle.stat1 >= battle.stat2}
-					id={battle.userId}
-				/>
-			{:else}
-				<BattleCard
-					opponent={battle.opponentName}
-					stat={battle.statType}
-					time={battle.startDate}
-					stat1={battle.stat1}
-					stat2={battle.stat2}
-					winner={battle.stat1 > battle.stat2}
-					loser={battle.stat1 <= battle.stat2}
-					id={battle.userId}
-				/>
-			{/if}
+			<BattleCard
+				opponent={battle.opponentName}
+				stat={battle.statType}
+				time={battle.startDate}
+				stat1={battle.stat1}
+				stat2={battle.stat2}
+				id={battle.userId}
+			/>
 		{/each}
 	</div>
 {:else}
