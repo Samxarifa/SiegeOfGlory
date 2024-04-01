@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 import { env } from '$env/dynamic/public';
 
 let app: FirebaseApp;
@@ -16,3 +16,4 @@ if (getApps().length === 0) {
 // Returns auth section of app and googleAuth for login with google prompt
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+export const microsoftProvider = new OAuthProvider('microsoft.com');

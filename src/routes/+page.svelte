@@ -1,10 +1,21 @@
 <script lang="ts">
-	import { auth, googleProvider } from '$lib/firebase/firebase';
+	import { auth, googleProvider, microsoftProvider } from '$lib/firebase/firebase';
 	import { signInWithPopup } from 'firebase/auth';
+
+	let error: { [key: string]: string } = {};
 
 	function handleGoogleSignIn() {
 		// Shows Google Sign In Page
-		signInWithPopup(auth, googleProvider);
+		signInWithPopup(auth, googleProvider).catch((e) => {
+			error = e;
+		});
+	}
+
+	function handleMicrosoftSignIn() {
+		// Shows Microsoft Sign In Page
+		signInWithPopup(auth, microsoftProvider).catch((e) => {
+			error = e;
+		});
 	}
 </script>
 
@@ -13,9 +24,17 @@
 		<span class="welcome">Welcome to</span>
 		<h1>Siege of Glory</h1>
 	</header>
+	{#if error.code === 'auth/account-exists-with-different-credential'}
+		<p class="error">Error: Email Registered With Different Provider</p>
+	{:else if error.code}
+		<p class="error">Error: {error.message}</p>
+	{/if}
 	<main>
 		<button on:click={handleGoogleSignIn}>
 			<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
+		</button>
+		<button on:click={handleMicrosoftSignIn}>
+			<img src="icons/microsoft.webp" alt="Microsoft Logo" /><span>Continue With Microsoft</span>
 		</button>
 	</main>
 </div>
@@ -54,6 +73,7 @@
 		gap: 1rem;
 		color: var(--text);
 		padding: 2.5rem;
+		position: relative;
 	}
 
 	header {
@@ -95,6 +115,9 @@
 	main {
 		flex: 1;
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
 	}
 
 	button {
@@ -122,6 +145,15 @@
 		justify-content: center;
 		flex: 1;
 		font-size: 2rem;
+	}
+
+	.error {
+		color: red;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-200%);
+		width: 100%;
+		text-align: center;
 	}
 
 	@media screen and (max-width: 370px) {
