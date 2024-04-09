@@ -17,6 +17,7 @@ process.on('SIGTERM', async () => {
 	closePool();
 });
 
+// Runs every 3 hours from 1:30 to 23:30
 scheduleJob('30 1-23/3 * * *', async () => {
 	checkAllBattles();
 });

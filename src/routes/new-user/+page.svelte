@@ -59,13 +59,18 @@
 	</main>
 </div>
 {#if submitted}
-	<div class="spinner-parent spinner-infront">
+	<div class="spinner-infront">
 		<LoadingSpinner />
 	</div>
 {/if}
 
 <style>
 	.spinner-infront {
+		width: 100%;
+		height: 100dvh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		z-index: 10;
 		position: fixed;
 		top: 0;
