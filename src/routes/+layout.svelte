@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../globals.css';
 
-	import { auth } from '$lib/firebase/firebase';
+	import { auth, loading } from '$lib/firebase/firebase';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -36,6 +36,8 @@
 
 		// Checks if logged in when first loaded and whenever auth status changes after
 		const authListener = auth.onAuthStateChanged(async (user) => {
+			loading.loading();
+
 			let token;
 			let location = $page.url.pathname + $page.url.search;
 			// If logged in, send the jwt to server api endpoint and navigate from login page
@@ -59,6 +61,7 @@
 			});
 
 			await goto(location);
+			loading.loaded();
 		});
 
 		// Unsubscribes from auth listener when component is destroyed

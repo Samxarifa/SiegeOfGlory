@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { auth, googleProvider, microsoftProvider } from '$lib/firebase/firebase';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import { auth, googleProvider, microsoftProvider, loading } from '$lib/firebase/firebase';
 	import { signInWithPopup } from 'firebase/auth';
 
 	let error: { [key: string]: string } = {};
@@ -30,12 +31,16 @@
 		<p class="error">Error: {error.message}</p>
 	{/if}
 	<main>
-		<button on:click={handleGoogleSignIn}>
-			<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
-		</button>
-		<button on:click={handleMicrosoftSignIn}>
-			<img src="icons/microsoft.webp" alt="Microsoft Logo" /><span>Continue With Microsoft</span>
-		</button>
+		{#if $loading}
+			<LoadingSpinner />
+		{:else}
+			<button on:click={handleGoogleSignIn}>
+				<img src="icons/google.webp" alt="Google Logo" /><span>Continue With Google</span>
+			</button>
+			<button on:click={handleMicrosoftSignIn}>
+				<img src="icons/microsoft.webp" alt="Microsoft Logo" /><span>Continue With Microsoft</span>
+			</button>
+		{/if}
 	</main>
 </div>
 
@@ -117,6 +122,7 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 2rem;
 	}
 
@@ -133,7 +139,6 @@
 		gap: 2rem;
 		cursor: pointer;
 		max-width: 50rem;
-		margin: 0 auto;
 	}
 
 	button img {
