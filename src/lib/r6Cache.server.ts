@@ -1,4 +1,4 @@
-// Creates New Cache Object
+// Creates New Cache Object for Rainbow Six Siege API fetch chaching
 import { LRUCache } from 'lru-cache';
 
 const options = {

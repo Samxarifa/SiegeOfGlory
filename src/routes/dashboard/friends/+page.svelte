@@ -56,6 +56,7 @@
 	}
 
 	$: {
+		// If there is an error message, remove it after 1 second
 		if (modalData.error === 'ST') {
 			setTimeout(() => {
 				modalData.error = '';

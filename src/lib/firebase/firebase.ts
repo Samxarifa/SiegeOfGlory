@@ -14,6 +14,7 @@ if (getApps().length === 0) {
 	app = getApp();
 }
 
+// Creates svelte store for firebase loading state
 function createLoadingStore() {
 	const { subscribe, set } = writable(true);
 
@@ -24,8 +25,9 @@ function createLoadingStore() {
 	};
 }
 
-// Returns auth section of app and googleAuth for login with google prompt
+// Returns auth section of app and auth providers for login with prompt
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const microsoftProvider = new OAuthProvider('microsoft.com');
+// Returns loading store
 export const loading = createLoadingStore();

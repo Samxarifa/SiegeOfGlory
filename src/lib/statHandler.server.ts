@@ -65,16 +65,19 @@ export async function getPlayerIdByUsername(username: string, platform: string) 
 	}
 }
 
+// Gets R6 stats for profile page using player ID
 export async function getProfilePageStats(playerId: string) {
 	await updateAuth();
+	// Gets start and end date for stats (Last 7 Days)
 	const endDate = new Date();
 	const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-
+	// Converts dates to format needed for API
 	const start = startDate.toISOString().split('T')[0].replaceAll('-', '');
 	const end = endDate.toISOString().split('T')[0].replaceAll('-', '');
 
 	let toBeReturned: ProfilePageReturn;
 
+	// Gets stats from R6 API
 	try {
 		const out = await fetch(
 			'https://prod.datadev.ubisoft.com/v1/users/' +
@@ -109,6 +112,7 @@ export async function getProfilePageStats(playerId: string) {
 			wl: stats.winLossRatio
 		};
 	} catch {
+		// If stats can't be found, return 0 for all stats
 		toBeReturned = {
 			wins: 0,
 			losses: 0,
@@ -121,6 +125,7 @@ export async function getProfilePageStats(playerId: string) {
 	return toBeReturned;
 }
 
+// Gets R6 stats for completed Battle
 export async function getBattleStats(
 	player1: string,
 	player2: string,
@@ -136,6 +141,7 @@ export async function getBattleStats(
 
 	let stats1;
 	let stats2;
+	// Gets Player 1 and Player 2 stats from R6 API
 	try {
 		const player1Out = await fetch(
 			'https://prod.datadev.ubisoft.com/v1/users/' +
@@ -158,6 +164,7 @@ export async function getBattleStats(
 		const json1Out = await player1Out.json();
 		stats1 = json1Out.profileData[player1].platforms.all.gameModes.ranked.teamRoles.all[0];
 	} catch {
+		// If player 1 stats not found, set stats to undefined
 		stats1 = { kills: undefined, death: undefined, winLossRatio: undefined };
 	}
 
@@ -183,9 +190,11 @@ export async function getBattleStats(
 		const json2Out = await player2Out.json();
 		stats2 = json2Out.profileData[player2].platforms.all.gameModes.ranked.teamRoles.all[0];
 	} catch {
+		// If player 2 stats not found, set stats to undefined
 		stats2 = { kills: undefined, death: undefined, winLossRatio: undefined };
 	}
 
+	// Returns stats based on statType provided
 	if (statType === 'k') {
 		toBeReturned = {
 			player1: stats1.kills,

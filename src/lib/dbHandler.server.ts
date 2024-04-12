@@ -3,6 +3,7 @@ import { env } from '$env/dynamic/private';
 
 let pool: Pool;
 
+// Returns connection to database. Creates pool if not already created
 async function getConnection() {
 	if (!pool) {
 		pool = createPool(env.DATABASE_CREDENTAILS);
@@ -12,6 +13,7 @@ async function getConnection() {
 	return conn;
 }
 
+// Closes pool if it exists
 export function closePool() {
 	if (pool) {
 		console.log('Closing DB Pool');
@@ -107,6 +109,7 @@ export async function getHomePageStats(uid: string) {
 	}
 }
 
+// Gets all users for search page
 export async function getAllUsers(uid: string) {
 	interface Return extends RowDataPacket {
 		userId: string;
@@ -132,6 +135,7 @@ export async function getAllUsers(uid: string) {
 	}
 }
 
+// Gets all friends for friends page
 export async function getFriends(uid: string) {
 	interface Return extends RowDataPacket {
 		username: string;
@@ -155,6 +159,7 @@ export async function getFriends(uid: string) {
 	}
 }
 
+// Gets all requests received and sent for requests page
 export async function getRequests(uid: string) {
 	interface Return extends RowDataPacket {
 		username: string;
@@ -177,6 +182,7 @@ export async function getRequests(uid: string) {
 	}
 }
 
+// Sends/Accepts friend request
 export async function sendFriendRequest(uid: string, friendId: string) {
 	interface Return extends RowDataPacket {
 		friendType?: string;
@@ -204,6 +210,7 @@ export async function sendFriendRequest(uid: string, friendId: string) {
 	}
 }
 
+// Denies friend request
 export async function denyFriendRequest(uid: string, friendId: string) {
 	const query = 'DELETE FROM sog_friendships WHERE user1 = ? AND user2 = ?';
 	const conn = await getConnection();
@@ -217,6 +224,7 @@ export async function denyFriendRequest(uid: string, friendId: string) {
 	}
 }
 
+// Gets user stats for profile page (Non R6 Stats)
 export async function getProfilePageStats(uid: string) {
 	interface Return extends RowDataPacket {
 		userId: string;
@@ -243,6 +251,7 @@ export async function getProfilePageStats(uid: string) {
 	}
 }
 
+// Creates battle between two users
 export async function startBattle(uid: string, friendId: string, statType: string) {
 	interface Return extends RowDataPacket {
 		inserted: number;
@@ -266,6 +275,7 @@ export async function startBattle(uid: string, friendId: string, statType: strin
 	}
 }
 
+// Gets Personal Leaderboard
 export async function getLeaderboard(uid: string) {
 	interface Return extends RowDataPacket {
 		userId: string;
@@ -291,6 +301,7 @@ export async function getLeaderboard(uid: string) {
 	}
 }
 
+// Gets all completed battles for checking
 export async function getFinishedBattles() {
 	interface Return extends RowDataPacket {
 		user1: string;
@@ -323,6 +334,7 @@ export async function getFinishedBattles() {
 	}
 }
 
+// Completes battle and updates user stats
 export async function completeBattle(
 	user1: string,
 	user2: string,
@@ -343,6 +355,7 @@ export async function completeBattle(
 	}
 }
 
+// Gets all previous battles for history page
 export async function getHistory(uid: string) {
 	interface Return extends RowDataPacket {
 		userId: string;

@@ -3,6 +3,7 @@
 	import { auth, googleProvider, microsoftProvider, loading } from '$lib/firebase/firebase';
 	import { signInWithPopup } from 'firebase/auth';
 
+	// Var to hold error returned by Firebase
 	let error: { [key: string]: string } = {};
 
 	function handleGoogleSignIn() {

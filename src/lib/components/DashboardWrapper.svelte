@@ -8,6 +8,7 @@
 	// Gets url from parent component (Used to cause fade transition on navigation)
 	export let url: string;
 
+	// Gets user ID from parent component (Used to generate profile pic)
 	export let currentUser: string;
 
 	// Used to stop navigation if already on the page

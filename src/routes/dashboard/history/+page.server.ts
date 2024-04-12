@@ -5,6 +5,7 @@ export const load = (async (request) => {
 	const uid = request.locals.userSession?.uid;
 
 	if (uid) {
+		// Get battle history for the user
 		const battles = await getHistory(uid);
 		return { battles };
 	}

@@ -1,6 +1,7 @@
 import { denyFriendRequest } from '$lib/dbHandler.server';
 import { error, type RequestEvent, json } from '@sveltejs/kit';
 
+// API route for denying friend requests
 export async function POST(request: RequestEvent) {
 	const { friendId } = await request.request.json();
 	const uid = request.locals.userSession?.uid;

@@ -12,10 +12,14 @@
 	let friendWidth: number;
 
 	async function handleChange() {
-		clearTimeout(timer);
+		// Run the search after 1 second of no input change (Buffer to prevent request spamming)
 
+		// Clear the previous timer if any
+		clearTimeout(timer);
+		// Runs Code after 1 second of no input change
 		timer = setTimeout(async () => {
 			if (input) {
+				// Fetches all users that match the search query if there is an input
 				let data = await fetch(
 					'/api/searchUsers?' +
 						new URLSearchParams({
@@ -25,11 +29,14 @@
 				results = await data.json();
 				results.length > 0 ? (noFound = false) : (noFound = true);
 			} else {
+				// Resets the results if there is no input
 				results = [];
 				noFound = false;
 			}
+			// Hides Loading Spinner
 			loading = false;
 		}, 1000);
+		// Shows Loading Spinner as soon as input changes
 		loading = true;
 	}
 </script>

@@ -14,6 +14,7 @@
 
 	let battleWidth: number;
 
+	// Greeting based on time of day
 	if (new Date().getHours() < 12) {
 		hello = 'Good Morning,';
 	} else if (new Date().getHours() < 18) {

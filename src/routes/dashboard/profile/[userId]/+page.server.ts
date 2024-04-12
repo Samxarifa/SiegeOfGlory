@@ -11,6 +11,7 @@ export const load = (async (request) => {
 		if (data) {
 			return data;
 		} else {
+			// Error 404 if user not found
 			error(404, 'Not Found');
 		}
 	} else {

@@ -9,6 +9,7 @@
 	export let stat1: number | undefined = undefined;
 	export let stat2: number | undefined = undefined;
 
+	// Vars for changing card UI based on stats
 	let winner = false;
 	let loser = false;
 	let draw = false;
@@ -18,6 +19,7 @@
 	let timeMetric: string;
 	let now = Date.now();
 
+	// Calcs if the card is a winner, loser, draw or none for UI
 	if (stat1 !== undefined && stat2 !== undefined) {
 		if (stat === 'd') {
 			if (stat1 < stat2) {

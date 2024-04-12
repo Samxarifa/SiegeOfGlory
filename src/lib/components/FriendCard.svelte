@@ -8,6 +8,7 @@
 	export let showAddButton = false;
 	export let showBattleButton = false;
 
+	// Vars for modal data (Used to edit and show modal on friends page)
 	export let modalData:
 		| {
 				modal: HTMLDialogElement | undefined;
@@ -18,8 +19,10 @@
 		  }
 		| undefined = undefined;
 
+	// Var to hold if card should be shown or hidden
 	let showCard = true;
 
+	// Function to send/accept friend request
 	async function sendFriendRequest() {
 		showCard = false;
 		await fetch('/api/friends/add', {
@@ -30,6 +33,7 @@
 		});
 	}
 
+	// Function to deny friend request
 	async function denyFriendRequest() {
 		showCard = false;
 		await fetch('/api/friends/deny', {
@@ -40,6 +44,7 @@
 		});
 	}
 
+	// Function to show modal for battle start
 	async function startBattle() {
 		if (modalData) {
 			modalData.id = id;
