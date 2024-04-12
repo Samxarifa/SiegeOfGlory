@@ -112,7 +112,7 @@
 		padding-top: 7rem;
 		padding-bottom: calc(8rem + env(safe-area-inset-bottom));
 		max-width: 150rem;
-		overflow: hidden;
+		overflow-x: hidden;
 		/* IOS PWA Safe Areas */
 		border-left: solid env(safe-area-inset-left) var(--background);
 		border-right: solid env(safe-area-inset-right) var(--background);

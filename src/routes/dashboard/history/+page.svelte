@@ -38,6 +38,7 @@
 	.battles {
 		display: grid;
 		grid-template-columns: 1fr;
+		grid-auto-rows: max-content;
 		gap: 1rem;
 	}
 

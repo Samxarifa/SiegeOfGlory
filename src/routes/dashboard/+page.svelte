@@ -212,6 +212,7 @@
 	.battles {
 		display: grid;
 		grid-template-columns: repeat(1, 1fr);
+		grid-auto-rows: max-content;
 		gap: 1rem;
 	}
 

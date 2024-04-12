@@ -82,7 +82,7 @@
 <style>
 	.card {
 		background-color: var(--foreground);
-		min-height: 7rem;
+		height: 7rem;
 		border-radius: 1rem;
 		display: flex;
 		justify-content: space-between;
