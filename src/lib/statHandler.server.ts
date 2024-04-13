@@ -207,8 +207,8 @@ export async function getBattleStats(
 		};
 	} else if (statType === 'w') {
 		toBeReturned = {
-			player1: stats1.winLossRatio,
-			player2: stats2.winLossRatio
+			player1: stats1.winLossRatio === 0.0 ? stats1.matchesWon : stats1.winLossRatio,
+			player2: stats2.winLossRatio === 0.0 ? stats2.matchesWon : stats2.winLossRatio
 		};
 	}
 	return toBeReturned;
