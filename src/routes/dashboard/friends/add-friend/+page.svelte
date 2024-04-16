@@ -149,6 +149,7 @@
 		align-items: center;
 		height: 100%;
 		margin-top: 5rem;
+		overflow: hidden;
 	}
 
 	@media screen and (min-width: 1200px) {

@@ -55,7 +55,7 @@
 <style>
 	h1 {
 		color: var(--text);
-		margin-block: 2rem;
+		margin-top: 2rem;
 	}
 
 	.podium {
@@ -63,9 +63,11 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 1rem;
 		align-items: center;
-		margin-bottom: 3rem;
+		padding-bottom: 3rem;
+		padding-top: 2rem;
 		max-width: 50rem;
 		margin-inline: auto;
+		overflow: hidden;
 	}
 
 	.list {

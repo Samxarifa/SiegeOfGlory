@@ -262,6 +262,7 @@
 	.spinner {
 		display: flex;
 		justify-content: center;
+		overflow: hidden;
 	}
 
 	@media screen and (min-width: 375px) {
