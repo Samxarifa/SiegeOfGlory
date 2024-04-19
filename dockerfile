@@ -18,4 +18,5 @@ RUN pnpm add dotenv
 COPY --from=build-stage /code/build build
 EXPOSE 3000
 ENV NODE_ENV=production
+ENV TZ=Europe/London
 CMD [ "node", "-r", "dotenv/config", "build" ]
