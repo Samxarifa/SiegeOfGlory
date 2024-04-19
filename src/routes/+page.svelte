@@ -7,6 +7,7 @@
 	let error: { [key: string]: string } = {};
 
 	function handleGoogleSignIn() {
+		error = {};
 		// Shows Google Sign In Page
 		signInWithPopup(auth, googleProvider).catch((e) => {
 			error = e;
@@ -14,6 +15,7 @@
 	}
 
 	function handleMicrosoftSignIn() {
+		error = {};
 		// Shows Microsoft Sign In Page
 		signInWithPopup(auth, microsoftProvider).catch((e) => {
 			error = e;
@@ -28,7 +30,7 @@
 	</header>
 	{#if error.code === 'auth/account-exists-with-different-credential'}
 		<p class="error">Error: Email Registered With Different Provider</p>
-	{:else if error.code}
+	{:else if error.code && error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request'}
 		<p class="error">Error: {error.message}</p>
 	{/if}
 	<main>
