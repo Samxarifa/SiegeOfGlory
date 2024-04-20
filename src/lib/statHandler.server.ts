@@ -71,9 +71,16 @@ export async function getProfilePageStats(playerId: string) {
 	// Gets start and end date for stats (Last 7 Days)
 	const endDate = new Date();
 	const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+	const offset = endDate.getTimezoneOffset();
 	// Converts dates to format needed for API
-	const start = startDate.toISOString().split('T')[0].replaceAll('-', '');
-	const end = endDate.toISOString().split('T')[0].replaceAll('-', '');
+	const start = new Date(startDate.getTime() - offset * 60 * 1000)
+		.toISOString()
+		.split('T')[0]
+		.replaceAll('-', '');
+	const end = new Date(endDate.getTime() - offset * 60 * 1000)
+		.toISOString()
+		.split('T')[0]
+		.replaceAll('-', '');
 
 	let toBeReturned: ProfilePageReturn;
 
@@ -134,8 +141,11 @@ export async function getBattleStats(
 ) {
 	await updateAuth();
 	const date = new Date(battleDate);
-
-	const dateString = date.toISOString().split('T')[0].replaceAll('-', '');
+	const offset = date.getTimezoneOffset();
+	const dateString = new Date(date.getTime() - offset * 60 * 1000)
+		.toISOString()
+		.split('T')[0]
+		.replaceAll('-', '');
 
 	let toBeReturned;
 

@@ -256,8 +256,10 @@ export async function startBattle(uid: string, friendId: string, statType: strin
 	interface Return extends RowDataPacket {
 		inserted: number;
 	}
-
-	const startDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+	const offset = new Date().getTimezoneOffset();
+	const startDate = new Date(Date.now() + 24 * 60 * 60 * 1000 - offset * 60 * 1000)
+		.toISOString()
+		.split('T')[0];
 
 	const query = 'CALL sog_startBattle(?,?,?,?)';
 
@@ -312,7 +314,9 @@ export async function getFinishedBattles() {
 		startDate: string;
 	}
 
-	const date = new Date().toISOString().split('T')[0];
+	const date = new Date(Date.now() - new Date().getTimezoneOffset() * 60 * 1000)
+		.toISOString()
+		.split('T')[0];
 
 	const query =
 		'SELECT user1, user2, \
