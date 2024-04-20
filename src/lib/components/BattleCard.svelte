@@ -8,37 +8,14 @@
 	export let time: string;
 	export let stat1: number | undefined = undefined;
 	export let stat2: number | undefined = undefined;
+	export let winner: number | undefined = undefined;
 
-	// Vars for changing card UI based on stats
-	let winner = false;
-	let loser = false;
-	let draw = false;
+	const nullSymbol = 'Ø';
 
 	// Vars for time calculations
 	let timeLeft: number;
 	let timeMetric: string;
 	let now = Date.now();
-
-	// Calcs if the card is a winner, loser, draw or none for UI
-	if (stat1 !== undefined && stat2 !== undefined) {
-		if (stat === 'd') {
-			if (stat1 < stat2) {
-				winner = true;
-			} else if (stat1 > stat2) {
-				loser = true;
-			} else {
-				draw = true;
-			}
-		} else {
-			if (stat1 > stat2) {
-				winner = true;
-			} else if (stat1 < stat2) {
-				loser = true;
-			} else {
-				draw = true;
-			}
-		}
-	}
 
 	// Update current time every minute
 	onMount(() => {
@@ -69,10 +46,10 @@
 	}
 </script>
 
-<div class="card {winner && 'winner'} {loser && 'loser'}">
-	{#if winner}
+<div class="card {winner == 1 && 'winner'} {winner == 2 && 'loser'}">
+	{#if winner == 1}
 		<img class="svg_icon" src="/icons/trophy.svg" alt="Trophy Icon" />
-	{:else if loser}
+	{:else if winner == 2}
 		<img class="svg_icon" src="/icons/skull.svg" alt="Skull Icon" />
 	{:else}
 		<img class="svg_icon" src="/icons/battle.svg" alt="Battle Icon" />
@@ -100,7 +77,7 @@
 			{/if}
 		</span>
 		<span>
-			{#if !winner && !loser && !draw}
+			{#if winner === undefined}
 				{#if new Date(time).getTime() > now}
 					Starts <b>Tommorow...</b>
 				{:else if new Date(time).getTime() + 1000 * 60 * 60 * 24 - now < 1}
@@ -113,14 +90,14 @@
 			{/if}
 		</span>
 	</div>
-	{#if winner || loser || draw}
+	{#if winner !== undefined}
 		<div class="final_stats">
-			{#if winner}
-				<span><b>{stat1}</b> - {stat2}</span>
-			{:else if loser}
-				<span>{stat1} - <b>{stat2}</b></span>
+			{#if winner == 1}
+				<span><b>{stat1 || nullSymbol}</b> - {stat2 || nullSymbol}</span>
+			{:else if winner == 2}
+				<span>{stat1 || nullSymbol} - <b>{stat2 || nullSymbol}</b></span>
 			{:else}
-				<span>{stat1} - {stat2}</span>
+				<span>{stat1 || nullSymbol} - {stat2 || nullSymbol}</span>
 			{/if}
 		</div>
 	{/if}

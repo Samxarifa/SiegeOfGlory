@@ -21,6 +21,7 @@
 				time={battle.startDate}
 				stat1={battle.stat1}
 				stat2={battle.stat2}
+				winner={battle.winner}
 				id={battle.userId}
 			/>
 		{/each}

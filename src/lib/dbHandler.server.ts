@@ -342,16 +342,17 @@ export async function getFinishedBattles() {
 export async function completeBattle(
 	user1: string,
 	user2: string,
+	date: string,
 	winner: number,
-	stat1: number,
-	stat2: number
+	stat1: string,
+	stat2: string
 ) {
-	const query = 'CALL sog_completeBattle(?,?,?,?,?)';
+	const query = 'CALL sog_completeBattle(?,?,?,?,?,?)';
 
 	const conn = await getConnection();
 
 	try {
-		await conn.execute(query, [user1, user2, winner, stat1, stat2]);
+		await conn.execute(query, [user1, user2, date, winner, stat1, stat2]);
 	} catch (e) {
 		console.log(e);
 	} finally {
@@ -368,6 +369,7 @@ export async function getHistory(uid: string) {
 		startDate: string;
 		stat1: number;
 		stat2: number;
+		winner: number;
 	}
 
 	const query = 'CALL sog_battleHistory(?)';
