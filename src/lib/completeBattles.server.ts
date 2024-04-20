@@ -19,23 +19,25 @@ export default async function checkAllBattles() {
 			// Check if stats api is updated
 			if (stats && (stats.player1 || stats.player2)) {
 				const { player1: user1Stat, player2: user2Stat } = stats;
+
+				const statType = battle.statType === 'd' ? 2 : 1;
+
+				// Check if one player didn't play
+				if (!user2Stat) {
+					completeBattle(battle.user1, battle.user2, 1, user1Stat, 0);
+				} else if (!user1Stat) {
+					completeBattle(battle.user1, battle.user2, 2, 0, user2Stat);
+				}
+
 				// Check if player 1 won
-				if (!user2Stat || user1Stat > user2Stat) {
-					// Check if winner should be lower number (inverts winner & loser)
-					if (battle.statType === 'd') {
-						completeBattle(battle.user1, battle.user2, 2, user1Stat, user2Stat);
-					} else {
-						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
-					}
+				else if (user1Stat > user2Stat) {
+					// Inverts Winner if Stat Type is Deaths (2)
+					completeBattle(battle.user1, battle.user2, statType, user1Stat, user2Stat);
 				}
 				// Check if player 2 won
-				else if (!user1Stat || user1Stat < user2Stat) {
-					// Check if winner should be lower number (inverts winner & loser)
-					if (battle.statType === 'd') {
-						completeBattle(battle.user1, battle.user2, 1, user1Stat, user2Stat);
-					} else {
-						completeBattle(battle.user1, battle.user2, 2, user1Stat, user2Stat);
-					}
+				else if (user1Stat < user2Stat) {
+					// Inverts Winner if Stat Type is Deaths (2)
+					completeBattle(battle.user1, battle.user2, Math.abs(statType - 3), user1Stat, user2Stat);
 				}
 				// Else, it's a draw
 				else {
