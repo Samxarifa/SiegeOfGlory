@@ -44,7 +44,7 @@ export default async function checkAllBattles() {
 					completeBattle(battle.user1, battle.user2, 0, user1Stat, user2Stat);
 				}
 			}
-			// Assumes that after 24 hours from completion, if no stats have updated, then bother players didn't play
+			// Assumes that after 24 hours from completion, if no stats have updated, then both players didn't play
 			else if (Date.now() - new Date(battle.startDate).getTime() >= 48 * 60 * 60 * 1000) {
 				completeBattle(battle.user1, battle.user2, 0, 0, 0);
 			}
