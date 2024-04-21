@@ -367,8 +367,8 @@ export async function getHistory(uid: string) {
 		opponentName: string;
 		statType: string;
 		startDate: string;
-		stat1: number;
-		stat2: number;
+		stat1: string;
+		stat2: string;
 		winner: number;
 	}
 

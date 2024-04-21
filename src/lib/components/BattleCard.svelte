@@ -6,8 +6,8 @@
 	export let opponent: string;
 	export let stat: string;
 	export let time: string;
-	export let stat1: number | undefined = undefined;
-	export let stat2: number | undefined = undefined;
+	export let stat1: string | undefined = undefined;
+	export let stat2: string | undefined = undefined;
 	export let winner: number | undefined = undefined;
 
 	const nullSymbol = 'Ø';
