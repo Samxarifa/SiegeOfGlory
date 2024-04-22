@@ -63,7 +63,7 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 1rem;
 		align-items: center;
-		padding-bottom: 3rem;
+		padding-bottom: 1rem;
 		padding-top: 2rem;
 		max-width: 50rem;
 		margin-inline: auto;
@@ -76,6 +76,7 @@
 		gap: 1rem;
 		max-width: 1000px;
 		margin-inline: auto;
+		margin-top: 2rem;
 	}
 
 	.noFriends {
