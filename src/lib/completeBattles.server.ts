@@ -17,15 +17,15 @@ export default async function checkAllBattles() {
 			);
 
 			// Check if stats api is updated
-			if (stats && (stats.player1 || stats.player2)) {
+			if (stats && (stats.player1 !== undefined || stats.player2 !== undefined)) {
 				const { player1: user1Stat, player2: user2Stat } = stats;
 
 				const statType = battle.statType === 'd' ? 2 : 1;
 
 				// Check if one player didn't play
-				if (!user2Stat) {
+				if (user2Stat === undefined) {
 					completeBattle(battle.user1, battle.user2, battle.startDate, 1, user1Stat, '');
-				} else if (!user1Stat) {
+				} else if (user1Stat === undefined) {
 					completeBattle(battle.user1, battle.user2, battle.startDate, 2, '', user2Stat);
 				}
 
