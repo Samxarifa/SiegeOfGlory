@@ -1,5 +1,5 @@
 import { type RequestEvent } from '@sveltejs/kit';
-import webpush from 'web-push';
+import webpush, { WebPushError } from 'web-push';
 import { env as envPrivate } from '$env/dynamic/private';
 import { env as envPublic } from '$env/dynamic/public';
 
@@ -13,7 +13,6 @@ const subscriptions: webpush.PushSubscription[] = [];
 
 export async function POST(request: RequestEvent) {
 	const subscription: webpush.PushSubscription = await request.request.json();
-	console.log(subscription);
 	// Save Subscription
 	subscriptions.push(subscription);
 
@@ -21,12 +20,14 @@ export async function POST(request: RequestEvent) {
 }
 
 export async function GET() {
-	console.log(subscriptions);
-	subscriptions.forEach(async (subscription) => {
+	subscriptions.forEach(async (subscription, index) => {
 		try {
 			await webpush.sendNotification(subscription, 'Hello World');
 		} catch (error) {
-			console.error('Error sending notification', error);
+			console.error('Deleting Stale Sub');
+			if (error instanceof WebPushError && error.statusCode === 410) {
+				subscriptions.splice(index, 1);
+			}
 		}
 	});
 	return new Response('Notifications sent');

@@ -81,7 +81,6 @@
 					if (confirm('New Update Available! Reload to update?')) {
 						// Send message to SW to skip waiting and activate new SW
 						newSW.postMessage({ type: 'SKIP_WAITING' });
-						window.location.reload();
 					}
 				}
 			});
