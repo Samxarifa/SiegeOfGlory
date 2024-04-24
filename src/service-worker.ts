@@ -75,3 +75,11 @@ self.addEventListener('message', (event) => {
 		self.skipWaiting();
 	}
 });
+
+// Push Notification
+self.addEventListener('push', (event) => {
+	self.registration.showNotification('SOG Notification', {
+		body: event.data?.text(),
+		icon: '/favicon.ico'
+	});
+});
